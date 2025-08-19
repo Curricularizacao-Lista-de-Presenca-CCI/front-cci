@@ -1,0 +1,20 @@
+.form-container {
+  background-color: #f1f5f9;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-sm {
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-custom {
+  background-color: #0044d6f4;
+  color: white;
+}
+
+.btn-custom:hover {
+  background-color: #147BE3;
+  color: white;
+}
