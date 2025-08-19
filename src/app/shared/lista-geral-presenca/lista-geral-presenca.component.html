@@ -1,0 +1,125 @@
+<body>
+
+<div class="d-flex vh-100">
+
+  <app-navbar></app-navbar>
+
+  <div class="flex-fill p-5" style="overflow-y: auto; max-height: 100vh;">
+  
+  <div class="content container-fluid p-0">
+    <h2 class="text-primary fw-bold mb-5">Lista Geral de Presença</h2>
+
+    <div class="caixa-lista shadow p-4 rounded">
+      <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
+        <div>
+          <h5 class="titulo-lista mb-0">Lista Membros</h5>
+          <small class="text-muted">Membros Ativos/Inativos</small>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <div class="input-group busca">
+            <span class="input-group-text bg-white border-end-0">
+              <i class="bi bi-search text-muted"></i>
+            </span>
+            <input type="text" class="form-control border-start-0" placeholder="Buscar" />
+          </div>
+          <select class="form-select filtro">
+            <option>Filtrar por: A-Z</option>
+            <option>Ativo</option>
+            <option>Inativo</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table tabela-membros">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>CPF</th>
+              <th>Nascimento</th>
+              <th>Nome da Mãe</th>
+              <th>Inscrição</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+    
+            <tr>
+              <td>00000</td>
+              <td>Nome</td>
+              <td>123.123.123-00</td>
+              <td>DD/MM/AAAA</td>
+              <td>Nome</td>
+              <td>DD/MM/AAAA</td>
+              <td><span class="badge status ativo">Ativo</span></td>
+            </tr>
+            <tr>
+              <td>00000</td>
+              <td>Nome</td>
+              <td>123.123.123-00</td>
+              <td>DD/MM/AAAA</td>
+              <td>Nome</td>
+              <td>DD/MM/AAAA</td>
+              <td><span class="badge status inativo">Inativo</span></td>
+            </tr>
+            <tr>
+              <td>00000</td>
+              <td>Nome</td>
+              <td>123.123.123-00</td>
+              <td>DD/MM/AAAA</td>
+              <td>Nome</td>
+              <td>DD/MM/AAAA</td>
+              <td><span class="badge status inativo">Inativo</span></td>
+            </tr>
+            <tr>
+              <td>00000</td>
+              <td>Nome</td>
+              <td>123.123.123-00</td>
+              <td>DD/MM/AAAA</td>
+              <td>Nome</td>
+              <td>DD/MM/AAAA</td>
+              <td><span class="badge status ativo">Ativo</span></td>
+            </tr>
+            <tr>
+              <td>00000</td>
+              <td>Nome</td>
+              <td>123.123.123-00</td>
+              <td>DD/MM/AAAA</td>
+              <td>Nome</td>
+              <td>DD/MM/AAAA</td>
+              <td><span class="badge status ativo">Ativo</span></td>
+            </tr>
+            <tr>
+              <td>00000</td>
+              <td>Nome</td>
+              <td>123.123.123-00</td>
+              <td>DD/MM/AAAA</td>
+              <td>Nome</td>
+              <td>DD/MM/AAAA</td>
+              <td><span class="badge status inativo">Inativo</span></td>
+            </tr>
+        
+          </tbody>
+        </table>
+      </div>
+
+      
+      <nav class="d-flex justify-content-end mt-3">
+        <ul class="pagination pagination-sm mb-0">
+          <li class="page-item disabled"><a class="page-link">‹</a></li>
+          <li class="page-item active"><a class="page-link">1</a></li>
+          <li class="page-item"><a class="page-link">2</a></li>
+          <li class="page-item"><a class="page-link">3</a></li>
+          <li class="page-item"><a class="page-link">4</a></li>
+          <li class="page-item"><a class="page-link">…</a></li>
+          <li class="page-item"><a class="page-link">40</a></li>
+          <li class="page-item"><a class="page-link">›</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+</div>
+
+</body>
