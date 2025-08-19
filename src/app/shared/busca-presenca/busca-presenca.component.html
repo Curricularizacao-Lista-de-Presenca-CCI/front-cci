@@ -1,0 +1,48 @@
+<body>
+
+  <div class="container-fluid vh-100 d-flex flex-column justify-content-center align-items-center fundo">
+
+
+    <a href="#" class="btn btn-primary rounded-4 voltar">
+      <i class="bi bi-arrow-left text-light fs-1"></i>
+    </a>
+
+    <div class="d-flex flex-column align-items-center mt-5">
+      <img src="assets/Perfil.png" alt="Ícone usuário" class="icone-usuario mb-4">
+    </div>
+
+    <div class="input-group mb-5 campo-busca ">
+      <input type="text" class="form-control input-nome" placeholder="Buscar nome" />
+      <span class="input-group-text bg-white borda-busca">
+        <i class="bi bi-search text-primary"></i>
+      </span>
+    </div>
+
+
+    <button type="button" class="btn btn-success fs-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      Confirmar Presença
+    </button>
+
+  </div>
+
+</body>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmar Presença</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">  
+        <p class="fw-bold">Deseja confirmar presença do(a) aluno(a) XXXXXX?</p> 
+        <p class="text-secondary">A confirmação de presença é necessária para o controle de acesso ao evento.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-success">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</div>

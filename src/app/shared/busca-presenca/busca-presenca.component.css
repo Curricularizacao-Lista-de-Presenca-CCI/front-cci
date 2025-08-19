@@ -1,0 +1,45 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.fundo {
+  background-color: #ddeafb;
+  position: relative;
+}
+
+.voltar {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  border-radius: 10px;
+  padding: 6px 12px;
+}
+
+.icone-usuario {
+  width: 200px;
+  margin-top: -200px;
+}
+
+.campo-busca {
+  max-width: 450px;
+  border: 2px solid #0d6efd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.input-nome {
+  border: none;
+  font-size: 2rem;
+  outline: none;
+}
+
+.borda-busca {
+  border: none;
+}
+
+.btn-presenca:hover {
+  background-color: #317734;
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
