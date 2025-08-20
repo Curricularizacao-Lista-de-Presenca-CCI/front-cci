@@ -1,0 +1,40 @@
+<body class="bg-light-blue">
+
+  <div class="d-flex vh-100">
+    <app-navbar></app-navbar>
+
+    <div class="d-flex flex-column flex-fill p-5">
+      
+      <h2 class="text-primary fw-bold">Olá, Josi!</h2>
+
+      <div class="flex-fill d-flex justify-content-center align-items-center">
+        <div class="d-flex justify-content-around aling-itens-around flex-wrap gap-4 w-100">
+          
+          <div class="text-center">
+              <button class="btn btn-primary rounded-3 py-4 px-5" routerLink="/importe-chamada">
+                <i class="bi bi-cloud-upload-fill" style="font-size: 56px;"></i>
+              </button>
+            <h5 class="fw-bold mt-2">IMPORTAR</h5>
+          </div>
+
+          <div class="text-center">
+              <button class="btn btn-primary rounded-3 py-4 px-5" routerLink="/relacao-servidores">
+                <i class="bi bi-people-fill" style="font-size: 56px;"></i>
+              </button>
+            <h5 class="fw-bold mt-2">SERVIDORES</h5>
+          </div>
+          
+          <div class="text-center">
+              <button class="btn btn-primary rounded-3 py-4 px-5" routerLink="/lista-chamada">
+                <i class="bi bi-search" style="font-size: 56px;"></i>
+              </button>
+            <h5 class="fw-bold mt-2">CONSULTAR</h5>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
