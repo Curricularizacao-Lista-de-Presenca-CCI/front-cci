@@ -6,21 +6,29 @@
                 <img src="assets/Perfil.png" alt="Logo Perfil" width="180">
             </div>
 
-            <form>
-                <div class="mb-3 text-start">
-                    <label for="usuario" class="form-label text-primary fw-semibold">Usuário</label>
-                    <input type="text" class="form-control custom-input" placeholder="Entre com seu usuário">
-                </div>
-                <div class="mb-3 text-start">
-                    <label for="senha" class="form-label text-primary fw-semibold">Senha</label>
-                    <div class="input-group">
-                        <input type="password" class="form-control custom-input" placeholder="Digite sua senha">
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary w-100 mt-3 custom-btn">Entrar</button>
+            <form [formGroup]="formLogin" (ngSubmit)="login()">
+  <div class="mb-3 text-start">
+    <label for="usuario" class="form-label text-primary fw-semibold">Usuário</label>
+    <input type="email" class="form-control" placeholder="exemplo@email.com" formControlName="email">
+    
+    <div *ngIf="enviado && email?.invalid" class="text-danger mt-1">
+      <small *ngIf="email?.errors?.['required']">Email é obrigatório.</small>
+      <small *ngIf="email?.errors?.['email']">Formato de email inválido.</small>
+    </div>
+  </div>
+  
+  <div class="mb-3 text-start">
+    <label for="senha" class="form-label text-primary fw-semibold">Senha</label>
+    <input type="password" class="form-control" placeholder="Digite sua Senha" formControlName="senha">
 
-                <a routerLink="/registro" class="d-block mt-3 text-decoration-none text-primary fw-semibold"><u>Registrar-se</u></a>
-            </form>
+    <div *ngIf="enviado && senha?.invalid" class="text-danger mt-1">
+      <small *ngIf="senha?.errors?.['required']">Senha é obrigatória.</small>
+    </div>
+  </div>
+  
+  <button type="submit" class="btn btn-primary w-100 mt-3 custom-btn">Entrar</button>
+  <a routerLink="/registro" class="d-block mt-3 text-decoration-none text-primary fw-semibold"><u>Registrar-se</u></a>
+</form>
 
         </div>
 
