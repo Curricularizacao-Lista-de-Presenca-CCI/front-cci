@@ -14,51 +14,51 @@
           </div>
 
           <div class="card form-card shadow p-4 m-0">
-            <form>
-              <div class="mb-4">
-                <label class="form-label text-primary fs-5">Nome Completo<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control underline-input" placeholder="Informe o nome completo">
-              </div>
+            <form [formGroup]="cadastroForm" (ngSubmit)="cadastrar()">
+    <div class="mb-4">
+        <label class="form-label text-primary fs-5">Nome Completo<span class="text-danger"> *</span></label>
+        <input type="text" class="form-control underline-input" placeholder="Informe o nome completo" formControlName="nome">
+    </div>
 
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label class="form-label text-primary fs-5">E-mail<span class="text-danger"> *</span></label>
-                  <input type="email" class="form-control underline-input" placeholder="Informe o e-mail">
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label text-primary fs-5">Digite a Senha<span class="text-danger"> *</span></label>
-                  <input type="text" class="form-control underline-input" placeholder="Informe a senha">
-                </div>
-              </div>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label text-primary fs-5">E-mail<span class="text-danger"> *</span></label>
+            <input type="email" class="form-control underline-input" placeholder="Informe o e-mail" formControlName="email">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label text-primary fs-5">Digite a Senha<span class="text-danger"> *</span></label>
+            <input type="password" class="form-control underline-input" placeholder="Informe a senha" formControlName="senha">
+        </div>
+    </div>
 
-              <div class="row g-3 mt-3">
-              <div class="col-md-6 ">
-                <label class="form-label text-primary fs-5">Telefone<span class="text-danger"> *</span></label>
-                <input type="password" class="form-control underline-input" placeholder="Informe o telefone">
-              </div>
+    <!-- <div class="row g-3 mt-3">
+        <div class="col-md-6 ">
+            <label class="form-label text-primary fs-5">Telefone<span class="text-danger"> *</span></label>
+            <input type="tel" class="form-control underline-input" placeholder="Informe o telefone" formControlName="telefone">
+        </div>
 
-              <div class="col-md-6">
-                <label class="form-label text-primary fs-5">Confirmar Senha<span class="text-danger"> *</span></label>
-                <input type="password" class="form-control underline-input" placeholder="Confirme a senha">
-              </div>
-          </div>
+        <div class="col-md-6">
+            <label class="form-label text-primary fs-5">Confirmar Senha<span class="text-danger"> *</span></label>
+            <input type="password" class="form-control underline-input" placeholder="Confirme a senha" formControlName="confirmarSenha">
+        </div>
+    </div> -->
 
-          <div class="row g-3 mt-1">
-            <div class="col-md-4">
-              <label class="form-label text-primary mb-4 fs-5">Área de Atuação</label>
-              <select class="form-select" aria-label="Default select example">
-                    <option selected>Selecione a Área de Atuação</option>
-                    <option value="1">Coordenador</option>
-                    <option value="2">Servidor</option>
-                  </select>
-            </div>
-          </div>
+    <div class="row g-3 mt-1">
+        <div class="col-md-4">
+  <label class="form-label text-primary mb-4 fs-5">Área de Atuação<span class="text-danger"> *</span></label>
+  <select class="form-select" formControlName="areaAtuacao">
+    <option [ngValue]="null" disabled>Selecione a Área de Atuação</option>
+    <option *ngFor="let area of areasDeAtuacao" [value]="area">
+      {{ area | titlecase }} </option>
+  </select>
+</div>
+    </div>
 
-          <div class="d-flex justify-content-center gap-3 mt-4">
-                        <button type="button" class="btn btn-danger px-4">Cancelar</button>
-            <button type="submit" class="btn btn-success px-4" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Cadastrar</button>
-          </div>
-          </form>
+    <div class="d-flex justify-content-center gap-3 mt-4">
+        <button type="button" class="btn btn-danger px-4">Cancelar</button>
+        <button type="submit" class="btn btn-success px-4" >Cadastrar</button>
+    </div>
+</form>
         </div>
     </div>
     </main>
