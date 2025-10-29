@@ -1,34 +1,81 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
-import { FormsModule, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, FormControl, FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { SelectModule } from 'primeng/select';
-
-interface AreaAtuacao {
-  name: string;
-  code: string;
-}
+import { Funcionario } from '../../shared/models/funcionario';
+import { RegistroServiceService } from './service/registro-service.service';
+import { Atuacao } from '../../shared/models/atuacao';
+import { Router } from '@angular/router';
+import { FuncionarioForm } from '../../shared/models/funcionario-form';
 
 @Component({
   selector: 'app-registro',
-  imports: [NavbarComponent, FormsModule, ReactiveFormsModule, DropdownModule, SelectModule],
+  imports: [CommonModule, NavbarComponent, FormsModule, ReactiveFormsModule, DropdownModule, SelectModule],
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.css']
 })
 export class RegistroComponent implements OnInit {
 
-  formGroup!: FormGroup;
-  areaAtuacao: AreaAtuacao[] = [];
-  selectedCity: any;
-      
-  ngOnInit() {
-    this.areaAtuacao = [
-      { name: 'Coordenacao', code: 'C' },
-      { name: 'Servidor', code: 'S' }
-    ];
+  cadastroForm!: FormGroup;
+  cadastrou: boolean = false;
 
-    this.formGroup = new FormGroup({
-      selectedCity: new FormControl<AreaAtuacao | null>(null)
+  areasDeAtuacao = Object.keys(Atuacao).filter(key => isNaN(Number(key)));
+
+  constructor(
+    private registro: RegistroServiceService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+  ) { }
+
+  ngOnInit() {
+    this.cadastroForm = this.formBuilder.group({
+      nome: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      senha: ['', [Validators.required]],
+      areaAtuacao: [null, [Validators.required]]
     });
+  }
+
+
+cadastrar() {
+  if (this.cadastroForm.invalid) {
+    console.error("Formulário inválido. Preencha todos os campos obrigatórios.");
+    this.cadastroForm.markAllAsTouched();
+    return;
+  }
+
+  const funcionarioParaEnviar: Funcionario = new FuncionarioForm();
+  funcionarioParaEnviar.nome = this.cadastroForm.get("nome")?.value;
+  funcionarioParaEnviar.email = this.cadastroForm.get("email")?.value;
+  funcionarioParaEnviar.senha = this.cadastroForm.get("senha")?.value;
+  funcionarioParaEnviar.atuacao = this.cadastroForm.get("areaAtuacao")?.value;;
+
+  this.registro.cadastrarFuncionario(funcionarioParaEnviar).subscribe({
+    next: () => {
+      alert('CADASTRO REALIZADO COM SUCESSO!');
+      this.cadastroForm.reset();
+    },
+    error: (erro) => {
+      console.error('ERRO:', erro);
+    }
+  });
+} 
+
+  get nome() {
+    return this.cadastroForm.get('nome');
+  }
+
+  get email() {
+    return this.cadastroForm.get('email');
+  }
+
+  get senha() {
+    return this.cadastroForm.get('senha');
+  }
+
+  get atuacao() {
+    return this.cadastroForm.get('areaAtuacao');
   }
 }
