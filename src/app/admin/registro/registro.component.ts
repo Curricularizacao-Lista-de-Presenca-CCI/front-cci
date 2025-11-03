@@ -18,6 +18,8 @@ import { FuncionarioForm } from '../../shared/models/funcionario-form';
 })
 export class RegistroComponent implements OnInit {
 
+  dialogCadastrar: boolean = false;
+  dialogSucesso: boolean = false;
   cadastroForm!: FormGroup;
   cadastrou: boolean = false;
 
@@ -54,7 +56,7 @@ cadastrar() {
 
   this.registro.cadastrarFuncionario(funcionarioParaEnviar).subscribe({
     next: () => {
-      alert('CADASTRO REALIZADO COM SUCESSO!');
+      this.dialogSucesso = true;
       this.cadastroForm.reset();
     },
     error: (erro) => {
@@ -77,5 +79,9 @@ cadastrar() {
 
   get atuacao() {
     return this.cadastroForm.get('areaAtuacao');
+  }
+
+  mostrarDialog() {
+    this.dialogCadastrar = true;
   }
 }

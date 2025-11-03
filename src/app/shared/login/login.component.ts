@@ -45,9 +45,9 @@ export class LoginComponent {
       localStorage.setItem("funcionario", JSON.stringify(funcionarioLogado));
       alert('Login bem-sucedido!');
       
-      if (funcionarioLogado.atuacao == Atuacao.COORDENADOR) {
+      if (funcionarioLogado.atuacao == Atuacao.C) {
         this.router.navigate(['/admin']);
-      } else if (funcionarioLogado.atuacao == Atuacao.PROFESSOR) {
+      } else if (funcionarioLogado.atuacao == Atuacao.P) {
         this.router.navigate(['/lista-chamada']);
       }
     },

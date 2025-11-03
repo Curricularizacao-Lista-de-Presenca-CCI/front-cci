@@ -15,23 +15,26 @@
 
           <div class="card form-card shadow p-4 m-0">
             <form [formGroup]="cadastroForm" (ngSubmit)="cadastrar()">
-    <div class="mb-4">
-        <label class="form-label text-primary fs-5">Nome Completo<span class="text-danger"> *</span></label>
-        <input type="text" class="form-control underline-input" placeholder="Informe o nome completo" formControlName="nome">
-    </div>
+              <div class="mb-4">
+                <label class="form-label text-primary fs-5">Nome Completo<span class="text-danger"> *</span></label>
+                <input type="text" class="form-control underline-input" placeholder="Informe o nome completo"
+                  formControlName="nome">
+              </div>
 
-    <div class="row g-3">
-        <div class="col-md-6">
-            <label class="form-label text-primary fs-5">E-mail<span class="text-danger"> *</span></label>
-            <input type="email" class="form-control underline-input" placeholder="Informe o e-mail" formControlName="email">
-        </div>
-        <div class="col-md-6">
-            <label class="form-label text-primary fs-5">Digite a Senha<span class="text-danger"> *</span></label>
-            <input type="password" class="form-control underline-input" placeholder="Informe a senha" formControlName="senha">
-        </div>
-    </div>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label text-primary fs-5">E-mail<span class="text-danger"> *</span></label>
+                  <input type="email" class="form-control underline-input" placeholder="Informe o e-mail"
+                    formControlName="email">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label text-primary fs-5">Digite a Senha<span class="text-danger"> *</span></label>
+                  <input type="password" class="form-control underline-input" placeholder="Informe a senha"
+                    formControlName="senha">
+                </div>
+              </div>
 
-    <!-- <div class="row g-3 mt-3">
+              <!-- <div class="row g-3 mt-3">
         <div class="col-md-6 ">
             <label class="form-label text-primary fs-5">Telefone<span class="text-danger"> *</span></label>
             <input type="tel" class="form-control underline-input" placeholder="Informe o telefone" formControlName="telefone">
@@ -43,42 +46,74 @@
         </div>
     </div> -->
 
-    <div class="row g-3 mt-1">
-        <div class="col-md-4">
-  <label class="form-label text-primary mb-4 fs-5">Área de Atuação<span class="text-danger"> *</span></label>
-  <select class="form-select" formControlName="areaAtuacao">
-    <option [ngValue]="null" disabled>Selecione a Área de Atuação</option>
-    <option *ngFor="let area of areasDeAtuacao" [value]="area">
-      {{ area | titlecase }} </option>
-  </select>
-</div>
-    </div>
+              <div class="row g-3 mt-1">
+                <div class="col-md-4">
+                  <label class="form-label text-primary mb-4 fs-5">Área de Atuação<span class="text-danger">
+                      *</span></label>
+                  <select class="form-select" formControlName="areaAtuacao">
+                    <option [ngValue]="null" disabled>Selecione a Área de Atuação</option>
+                    <option *ngFor="let area of areasDeAtuacao" [value]="area">
+                      {{ area | titlecase }} </option>
+                  </select>
+                </div>
+              </div>
 
-    <div class="d-flex justify-content-center gap-3 mt-4">
-        <button type="button" class="btn btn-danger px-4">Cancelar</button>
-        <button type="submit" class="btn btn-success px-4" >Cadastrar</button>
-    </div>
-</form>
+              <div class="d-flex justify-content-center gap-3 mt-4">
+                <button type="button" class="btn btn-danger px-4">Cancelar</button>
+                <button type="button" class="btn btn-success px-4" data-bs-toggle="modal"
+                  data-bs-target="#dialogConfirmacao" [disabled]="cadastroForm.invalid">
+                  Cadastrar
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
+      </main>
     </div>
-    </main>
-  </div>
   </div>
 </body>
 
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
+
+<!-- Dialog de Confirmação de Registro -->
+<div class="modal fade" id="dialogConfirmacao" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmar Registro</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">  
-        <p class="fw-bold">Deseja confirmar o registro de XXXXXX?</p> 
+      <div class="modal-body">
+        <p class="fw-bold">Deseja confirmar o registro de {{ cadastroForm.value.nome }}?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-success">Confirmar</button>
+        <button type="button" (click)="cadastrar()" data-bs-dismiss="modal" class="btn btn-success">
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Dialog de Sucesso -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmar Registro</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="fw-bold">Cadastro realizado com sucesso!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" (click)="cadastrar()" data-bs-dismiss="modal" class="btn btn-success">
+          Confirmar
+        </button>
       </div>
     </div>
   </div>
