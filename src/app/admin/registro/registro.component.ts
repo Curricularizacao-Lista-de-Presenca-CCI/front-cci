@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { FormsModule, FormControl, FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
@@ -9,6 +9,8 @@ import { RegistroServiceService } from './service/registro-service.service';
 import { Atuacao } from '../../shared/models/atuacao';
 import { Router } from '@angular/router';
 import { FuncionarioForm } from '../../shared/models/funcionario-form';
+import Modal from 'bootstrap/js/dist/modal';
+import Toast from 'bootstrap/js/dist/toast';
 
 @Component({
   selector: 'app-registro',
@@ -18,26 +20,77 @@ import { FuncionarioForm } from '../../shared/models/funcionario-form';
 })
 export class RegistroComponent implements OnInit {
 
-  dialogCadastrar: boolean = false;
-  dialogSucesso: boolean = false;
+  @ViewChild('dialogConfirmacaoRef') modalConfirmacaoEl!: ElementRef;
+  @ViewChild('dialogSucessoRef') modalSucessoEl!: ElementRef;
+  @ViewChild('liveToast') liveToastRef!: ElementRef;
+
+  mensagemErro: string = 'Ocorreu um erro inesperado. Tente novamente.';
   cadastroForm!: FormGroup;
   cadastrou: boolean = false;
 
-  areasDeAtuacao = Object.keys(Atuacao).filter(key => isNaN(Number(key)));
+  private modalConfirmacao: Modal | undefined;
+  private modalSucesso: Modal | undefined;
+
+  private _dialogConfirmacao: boolean = false;
+  private _dialogSucesso: boolean = false;
+  public opcoesAtuacao = [
+    { label: 'Coordenador', value: Atuacao.C },
+    { label: 'Professor',   value: Atuacao.P }
+  ];
 
   constructor(
     private registro: RegistroServiceService,
     private formBuilder: FormBuilder,
-    private router: Router,
   ) { }
 
   ngOnInit() {
     this.cadastroForm = this.formBuilder.group({
-      nome: ['', [Validators.required]],
+      nome: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required]],
+      senha: ['', [Validators.required, Validators.minLength(6)]],
       areaAtuacao: [null, [Validators.required]]
     });
+  }
+
+  ngAfterViewInit(): void {
+    if (this.modalConfirmacaoEl) {
+      this.modalConfirmacao = new Modal(this.modalConfirmacaoEl.nativeElement);
+    }
+    if (this.modalSucessoEl) {
+      this.modalSucesso = new Modal(this.modalSucessoEl.nativeElement);
+    }
+  }
+
+  set dialogConfirmacao(value: boolean) {
+    this._dialogConfirmacao = value;
+    if (value) {
+      this.modalConfirmacao?.show();
+    } else {
+      this.modalConfirmacao?.hide();
+    }
+  }
+  get dialogConfirmacao(): boolean {
+    return this._dialogConfirmacao;
+  }
+
+  set dialogSucesso(value: boolean) {
+    this._dialogSucesso = value;
+    if (value) {
+      this.modalSucesso?.show();
+    } else {
+      this.modalSucesso?.hide();
+    }
+  }
+  get dialogSucesso(): boolean {
+    return this._dialogSucesso;
+  }
+
+  abrirModalConfirmacao() {
+    if (this.cadastroForm.invalid) {
+      this.cadastroForm.markAllAsTouched();
+      return;
+    }
+    this.dialogConfirmacao = true;
   }
 
 
@@ -54,13 +107,23 @@ cadastrar() {
   funcionarioParaEnviar.senha = this.cadastroForm.get("senha")?.value;
   funcionarioParaEnviar.atuacao = this.cadastroForm.get("areaAtuacao")?.value;;
 
+  this.dialogConfirmacao = false;
+
   this.registro.cadastrarFuncionario(funcionarioParaEnviar).subscribe({
     next: () => {
       this.dialogSucesso = true;
       this.cadastroForm.reset();
     },
     error: (erro) => {
-      console.error('ERRO:', erro);
+      if (erro.error && erro.error.message) {
+          this.mensagemErro = erro.error.message;
+        } else {
+          this.mensagemErro = 'Ocorreu um erro ao processar sua solicitação.';
+        }
+
+        const toastElement = this.liveToastRef.nativeElement;
+        const toast = new Toast(toastElement);
+        toast.show();
     }
   });
 } 
@@ -79,9 +142,5 @@ cadastrar() {
 
   get atuacao() {
     return this.cadastroForm.get('areaAtuacao');
-  }
-
-  mostrarDialog() {
-    this.dialogCadastrar = true;
   }
 }

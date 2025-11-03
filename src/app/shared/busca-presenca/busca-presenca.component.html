@@ -11,38 +11,75 @@
       <img src="assets/Perfil.png" alt="Ícone usuário" class="icone-usuario mb-4">
     </div>
 
-    <div class="input-group mb-5 campo-busca ">
-      <input type="text" class="form-control input-nome" placeholder="Buscar nome" />
+    <form [formGroup]="presencaForm" class="input-group mb-5 campo-busca">
+      <input type="text" class="form-control input-nome" placeholder="Buscar nome" formControlName="nomeAluno" />
       <span class="input-group-text bg-white borda-busca">
         <i class="bi bi-search text-primary"></i>
       </span>
-    </div>
+    </form>
 
 
-    <button type="button" class="btn btn-success fs-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-      Confirmar Presença
-    </button>
+    <button type="button" class="btn btn-success fs-1" 
+  (click)="abrirModalConfirmacao()"
+  [disabled]="presencaForm.invalid"> Confirmar Presença
+</button>
 
   </div>
 
 </body>
 
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="dialogConfirmarPresenca" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" #dialogConfirmarPresenca  aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmar Presença</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" (click)="dialogConfirmacao = false" aria-label="Close"></button>
       </div>
-      <div class="modal-body">  
-        <p class="fw-bold">Deseja confirmar presença do(a) aluno(a) XXXXXX?</p> 
+      <div class="modal-body">
+        <p class="fw-bold">Deseja confirmar presença do(a) aluno(a) {{ presencaForm.get('nomeAluno')?.value }}?</p>
         <p class="text-secondary">A confirmação de presença é necessária para o controle de acesso ao evento.</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-success">Confirmar</button>
+        <button type="button" class="btn btn-danger" (click)="dialogConfirmacao = false">Cancelar</button>
+        <button type="button" (click)="confirmarPresenca()" class="btn btn-success">Confirmar</button>
       </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Toast de Sucesso -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast" #liveToastSuccess class="toast text-bg-success border-0" role="alert" aria-live="assertive"
+    aria-atomic="true">
+
+    <div class="toast-header text-bg-success border-0">
+      <strong class="me-auto">Sucesso ao registrar Presença</strong>
+
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+
+    <div class="toast-body">
+      {{ mensagemSucesso }}
+    </div>
+  </div>
+</div>
+
+<!-- Toast de Erro -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast" #liveToastError class="toast text-bg-danger border-0" role="alert" aria-live="assertive"
+    aria-atomic="true">
+
+    <div class="toast-header text-bg-danger border-0">
+      <strong class="me-auto">Erro ao realizar Login</strong>
+
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+
+    <div class="toast-body">
+      {{ mensagemErro }}
     </div>
   </div>
 </div>

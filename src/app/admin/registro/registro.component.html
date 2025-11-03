@@ -19,6 +19,10 @@
                 <label class="form-label text-primary fs-5">Nome Completo<span class="text-danger"> *</span></label>
                 <input type="text" class="form-control underline-input" placeholder="Informe o nome completo"
                   formControlName="nome">
+                <p class="mt-1 mb-0" *ngIf="cadastroForm.get('nome')?.touched || cadastroForm.get('nome')?.dirty">
+                  <small class="text-danger" *ngIf="cadastroForm.get('nome')?.errors?.['required']">*O Nome é
+                    obrigatório e deve conter pelo menos 3 digitos.</small>
+                </p>
               </div>
 
               <div class="row g-3">
@@ -26,11 +30,19 @@
                   <label class="form-label text-primary fs-5">E-mail<span class="text-danger"> *</span></label>
                   <input type="email" class="form-control underline-input" placeholder="Informe o e-mail"
                     formControlName="email">
+                  <p class="mt-1 mb-0" *ngIf="cadastroForm.get('email')?.touched || cadastroForm.get('email')?.dirty">
+                    <small class="text-danger" *ngIf="cadastroForm.get('email')?.errors?.['required']">*O E-mail é
+                      obrigatório.</small>
+                  </p>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label text-primary fs-5">Digite a Senha<span class="text-danger"> *</span></label>
                   <input type="password" class="form-control underline-input" placeholder="Informe a senha"
                     formControlName="senha">
+                  <p class="mt-1 mb-0" *ngIf="cadastroForm.get('senha')?.touched || cadastroForm.get('senha')?.dirty">
+                    <small class="text-danger" *ngIf="cadastroForm.get('senha')?.errors?.['required']">*A Senha é
+                      obrigatória e deve conter pelo menos 8 digitos.</small>
+                  </p>
                 </div>
               </div>
 
@@ -52,16 +64,17 @@
                       *</span></label>
                   <select class="form-select" formControlName="areaAtuacao">
                     <option [ngValue]="null" disabled>Selecione a Área de Atuação</option>
-                    <option *ngFor="let area of areasDeAtuacao" [value]="area">
-                      {{ area | titlecase }} </option>
+
+                    <option *ngFor="let area of opcoesAtuacao" [value]="area.value">
+                      {{ area.label }}
+                    </option>
                   </select>
                 </div>
               </div>
 
               <div class="d-flex justify-content-center gap-3 mt-4">
-                <button type="button" class="btn btn-danger px-4">Cancelar</button>
-                <button type="button" class="btn btn-success px-4" data-bs-toggle="modal"
-                  data-bs-target="#dialogConfirmacao" [disabled]="cadastroForm.invalid">
+                <button type="button" class="btn btn-success px-4" (click)="abrirModalConfirmacao()"
+                  [disabled]="cadastroForm.invalid">
                   Cadastrar
                 </button>
               </div>
@@ -75,20 +88,21 @@
 
 
 <!-- Dialog de Confirmação de Registro -->
-<div class="modal fade" id="dialogConfirmacao" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="dialogConfirmacao" #dialogConfirmacaoRef tabindex="-1" aria-labelledby="staticBackdropLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmar Registro</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" (click)="dialogConfirmacao = false" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <p class="fw-bold">Deseja confirmar o registro de {{ cadastroForm.value.nome }}?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" (click)="cadastrar()" data-bs-dismiss="modal" class="btn btn-success">
+        <button type="button" class="btn btn-danger" (click)="dialogConfirmacao = false">Cancelar</button>
+
+        <button type="button" (click)="cadastrar()" class="btn btn-success">
           Confirmar
         </button>
       </div>
@@ -98,23 +112,43 @@
 
 
 <!-- Dialog de Sucesso -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="dialogSucesso" #dialogSucessoRef tabindex="-1" aria-labelledby="staticBackdropLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmar Registro</h1>
+    <div class="modal-content rounded-3 shadow">
+      <div class="modal-header border-bottom-0">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Sucesso!</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <p class="fw-bold">Cadastro realizado com sucesso!</p>
+      <div class="modal-body corpo-modal">
+        <div class="success-icon-wrapper">
+          <i class="bi bi-check-lg"></i>
+        </div>
+        <p class="p-modal fw-bold fs-5 mt-3">Cadastro realizado com sucesso!</p>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" (click)="cadastrar()" data-bs-dismiss="modal" class="btn btn-success">
-          Confirmar
+
+      <div class="modal-footer border-top-0">
+        <button type="button" class="btn btn-success btn-lg rounded-pill px-5" data-bs-dismiss="modal">
+          OK
         </button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast de Erro -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast" #liveToast class="toast text-bg-danger border-0" role="alert" aria-live="assertive"
+    aria-atomic="true">
+
+    <div class="toast-header text-bg-danger border-0">
+      <strong class="me-auto">Erro ao tentar cadastrar</strong>
+
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+
+    <div class="toast-body">
+      {{ mensagemErro }}
     </div>
   </div>
 </div>

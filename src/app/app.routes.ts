@@ -19,6 +19,6 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent},
     { path: 'registro', component: RegistroComponent},
     { path: 'relacao-servidores', component: RelacaoServidoresComponent},
-    { path: 'nav', component: NavbarComponent}, // Assuming NavComponent is defined elsewhere
+    { path: 'nav', component: NavbarComponent},
     { path: '', redirectTo: 'login', pathMatch: 'full'},
 ];

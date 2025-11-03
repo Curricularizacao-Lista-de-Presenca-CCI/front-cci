@@ -40,3 +40,35 @@
     </div>
   </div>
 </body>
+
+<!-- Toast de Erro -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast" #liveToastError class="toast text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    
+    <div class="toast-header text-bg-danger border-0">
+      <strong class="me-auto">Erro ao realizar Login</strong>
+      
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+
+    <div class="toast-body">
+      {{ mensagemErro }}
+    </div>
+  </div>
+</div>
+
+<!-- Toast de Sucesso -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast" #liveToastSuccess class="toast text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+
+    <div class="toast-header text-bg-success border-0">
+      <strong class="me-auto">Sucesso ao realizar Login</strong>
+
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+
+    <div class="toast-body">
+      {{ mensagemSucesso }}
+    </div>
+  </div>
+</div>
