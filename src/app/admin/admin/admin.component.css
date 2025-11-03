@@ -81,3 +81,52 @@
 .rounded-3 {
   border-radius: 0.5rem !important;
 }
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.buttons-container button {
+  width: 180px;
+  height: 180px;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  font-size: 56px;
+}
+
+.buttons-container h5 {
+  margin-top: 0.8rem;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .buttons-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    margin-top: 2rem;
+  }
+
+  .buttons-container button {
+    width: 100px;
+    height: 100px;
+    padding: 1rem;
+    font-size: 42px;
+  }
+
+  .buttons-container h5 {
+    font-size: 0.9rem;
+  }
+
+  .p-5 {
+    padding: 1.5rem !important;
+  }
+
+  .d-flex.vh-100 {
+    flex-direction: column;
+  }
+}

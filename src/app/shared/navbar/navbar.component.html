@@ -1,13 +1,24 @@
-<div class="bg-primary d-flex flex-column align-items-center justify-content-between p-3"
-  style="width: 120px; height: 100vh; position: sticky; top: 0; border-top-right-radius: 20px;">
+<button *ngIf="!menuAtivo"
+  class="btn btn-primary d-lg-none menu-toggle position-fixed"
+  (click)="toggleMenu()">
+  <i class="bi bi-list fs-3"></i>
+</button>
+
+<nav class="sidebar bg-primary d-flex flex-column align-items-center justify-content-between p-3"
+     [class.active]="menuAtivo">
+  
   <div class="mt-3">
     <a href="#" class="text-decoration-none mb-3">
-        <img src="assets/perfil2.png" alt="Perfil" width="80" />
+      <img src="assets/perfil2.png" alt="Perfil" width="80" />
     </a>
   </div>
+
   <div class="mb-3">
-    <a href="#" class="btn btn-light rounded-4">
+    <button class="btn btn-light rounded-4" (click)="toggleMenu()">
       <i class="bi bi-arrow-left text-primary fs-1"></i>
-    </a>
+    </button>
   </div>
-</div>
+</nav>
+
+<!-- Terminar de configurar o menu da Josi, está faltando a lógica de saída do usuário, botão do menu com a seta não leva a lugar nenhum, veficar lógica do botão servidores do usuário da Josi-->
+
