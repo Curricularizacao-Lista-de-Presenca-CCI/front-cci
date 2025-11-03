@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { RouterOutlet, RouterModule, Router } from '@angular/router';
 import { Funcionario } from '../models/funcionario';
 import { LoginService } from './service/login.service';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Atuacao } from '../models/atuacao';
+import Toast from 'bootstrap/js/dist/toast';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,11 @@ export class LoginComponent {
 
   formLogin!: FormGroup;
   enviado: boolean = false;
+  mensagemErro: string = 'Ocorreu um erro inesperado. Tente novamente.';
+  mensagemSucesso: string = 'Login realizado com sucesso!';
+
+  @ViewChild('liveToastError') liveToastRefError!: ElementRef;
+  @ViewChild('liveToastSuccess') liveToastRefSuccess!: ElementRef;
 
   constructor(
     private loginService: LoginService,
@@ -32,41 +38,53 @@ export class LoginComponent {
 
   login() {
 
-  this.enviado = true;
+    this.enviado = true;
 
-  if (this.formLogin.invalid) {
-    return;
+    if (this.formLogin.invalid) {
+      return;
+    }
+
+    const dadosLogin = this.formLogin.value;
+
+    this.loginService.login(dadosLogin).subscribe({
+      next: (funcionarioLogado) => {
+        localStorage.setItem("funcionario", JSON.stringify(funcionarioLogado));
+        console.log(funcionarioLogado);
+
+        const toastElement = this.liveToastRefSuccess.nativeElement;
+        const toast = new Toast(toastElement);
+        toast.show();
+
+        if (funcionarioLogado.atuacao == Atuacao.C) {
+          this.router.navigate(['/admin']);
+        } else if (funcionarioLogado.atuacao == Atuacao.P) {
+          this.router.navigate(['/lista-chamada']);
+        }
+      },
+      error: (erro) => {
+        console.log(erro);
+        if (erro.error && erro.error.message) {
+          this.mensagemErro = erro.error.message;
+        } else {
+          this.mensagemErro = 'Ocorreu um erro ao processar sua solicitação.';
+        }
+
+        const toastElement = this.liveToastRefError.nativeElement;
+        const toast = new Toast(toastElement);
+        toast.show();
+      }
+    });
   }
 
-  const dadosLogin = this.formLogin.value;
-
-  this.loginService.login(dadosLogin).subscribe({
-    next: (funcionarioLogado) => {
-      localStorage.setItem("funcionario", JSON.stringify(funcionarioLogado));
-      alert('Login bem-sucedido!');
-      
-      if (funcionarioLogado.atuacao == Atuacao.C) {
-        this.router.navigate(['/admin']);
-      } else if (funcionarioLogado.atuacao == Atuacao.P) {
-        this.router.navigate(['/lista-chamada']);
-      }
-    },
-    error: (err) => {
-      console.error("Erro no login:", err);
-      alert("Login falhou. Verifique seu email e senha.");
-    }
-  });
-}
-
-  get email () {
+  get email() {
     return this.formLogin.get("email");
   }
 
-  get senha () {
+  get senha() {
     return this.formLogin.get("senha");
   }
 
-  get areaAtuacao () {
+  get areaAtuacao() {
     return this.formLogin.get("areaAtuacao");
   }
 
