@@ -1,4 +1,4 @@
 export enum Atuacao {
-  COORDENADOR = 'COORDENADOR',
-  PROFESSOR = 'PROFESSOR'
+  C = 'COORDENADOR',
+  P = 'PROFESSOR'
 }
