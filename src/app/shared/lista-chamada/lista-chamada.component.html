@@ -22,9 +22,15 @@
           <div class="card-lista d-flex justify-content-between align-items-center">
             <div class="card-nome">Manhã especial de dia das mães</div>
             <div class="d-flex gap-4">
-              <button routerLink="/busca-presenca" class="btn btn-primary" ><i class="bi bi-journal-check"></i> Realizar Chamada</button>
-              <button class="btn btn-primary"><i class="bi bi-search"></i> Consultar</button>
-              <button class="btn btn-primary"><i class="bi bi-download"></i> Baixar relatótio</button>
+              <button routerLink="/busca-presenca" class="btn btn-primary">
+                <i class="bi bi-journal-check"></i> Realizar Chamada
+              </button>
+              <button routerLink="/lista-geral" class="btn btn-primary">
+                <i class="bi bi-search"></i> Consultar
+              </button>
+              <button class="btn btn-primary" (click)="baixarRelatorio(1)">
+                <i class="bi bi-download"></i> Baixar relatótio
+              </button>
             </div>
           </div>
 
@@ -34,5 +40,39 @@
   </div>
 
 </body>
+
+<!-- Toast de Erro -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast" #liveToastError class="toast text-bg-danger border-0" role="alert" aria-live="assertive"
+    aria-atomic="true">
+
+    <div class="toast-header text-bg-danger border-0">
+      <strong class="me-auto">Erro ao baixar relatório</strong>
+
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+
+    <div class="toast-body">
+      {{ mensagemErro }}
+    </div>
+  </div>
+</div>
+
+<!-- Toast de Sucesso -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast" #liveToastSuccess class="toast text-bg-success border-0" role="alert" aria-live="assertive"
+    aria-atomic="true">
+
+    <div class="toast-header text-bg-success border-0">
+      <strong class="me-auto">Relatório gerado com sucesso</strong>
+
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+
+    <div class="toast-body">
+      {{ mensagemSucesso }}
+    </div>
+  </div>
+</div>
 
 <app-dialog-importe-chamada></app-dialog-importe-chamada>
