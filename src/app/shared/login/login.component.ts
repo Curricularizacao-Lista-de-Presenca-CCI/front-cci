@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { RouterOutlet, RouterModule, Router } from '@angular/router';
-import { Funcionario } from '../models/funcionario';
+import { RouterModule, Router } from '@angular/router';
 import { LoginService } from './service/login.service';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -54,12 +53,7 @@ export class LoginComponent {
         const toastElement = this.liveToastRefSuccess.nativeElement;
         const toast = new Toast(toastElement);
         toast.show();
-
-        if (funcionarioLogado.atuacao == Atuacao.C) {
-          this.router.navigate(['/admin']);
-        } else if (funcionarioLogado.atuacao == Atuacao.P) {
-          this.router.navigate(['/lista-chamada']);
-        }
+        this.router.navigate(['/lista-chamada']);
       },
       error: (erro) => {
         console.log(erro);

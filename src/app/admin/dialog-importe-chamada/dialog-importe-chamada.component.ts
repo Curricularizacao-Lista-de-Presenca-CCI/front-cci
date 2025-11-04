@@ -1,18 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Atuacao } from '../../shared/models/atuacao';
-import { Funcionario } from '../../shared/models/funcionario';
-import { FuncionarioForm } from '../../shared/models/funcionario-form';
-import { RegistroServiceService } from '../registro/service/registro-service.service';
 import Toast from 'bootstrap/js/dist/toast';
 import { DialogImporteChamadaService } from './service/dialog-importe-chamada.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { FuncionariosAtivosDTO } from '../../shared/models/funcionarios-ativos-dto';
 
 @Component({
   selector: 'app-dialog-importe-chamada',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgFor],
   templateUrl: './dialog-importe-chamada.component.html',
   styleUrl: './dialog-importe-chamada.component.css'
 })
