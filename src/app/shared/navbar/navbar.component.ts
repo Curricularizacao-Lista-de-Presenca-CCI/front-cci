@@ -1,17 +1,22 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, HostListener } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [RouterModule, NgIf],
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
   menuAtivo = false;
 
   toggleMenu() {
     this.menuAtivo = !this.menuAtivo;
+  }
+
+  fecharMenu() {
+    this.menuAtivo = false;
   }
 }
