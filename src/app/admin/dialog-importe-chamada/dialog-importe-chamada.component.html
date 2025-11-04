@@ -1,4 +1,4 @@
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="dialodImporteChamada" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -17,9 +17,11 @@
         <div class="mb-3">
             <label for="servidor" class="form-label">Adicionar Servidor</label>
             <select class="form-select" id="servidor" formControlName="servidor">
-              <option [ngValue]="null" selected disabled>Servidores</option>
-              <option value="1">Servidor 1</option>
-              <option value="2">Servidor 2</option>
+              <option [ngValue]="null" selected disabled>Selecione um Servidor</option>
+              
+              <option *ngFor="let func of funcionarios" [ngValue]="func.idFuncionario">
+                {{ func.nome }} 
+              </option>
             </select>
           </div>
 
@@ -57,6 +59,23 @@
 </div>
 </div>
 
+<!-- Toast de Sucesso -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast" #liveToastSuccess class="toast text-bg-success border-0" role="alert" aria-live="assertive"
+    aria-atomic="true">
+
+    <div class="toast-header text-bg-success border-0">
+      <strong class="me-auto">Sucesso ao enviar Arquivo</strong>
+
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+
+    <div class="toast-body">
+      {{ mensagemSucesso }}
+    </div>
+  </div>
+</div>
+
 <!-- Toast de Erro -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
   <div id="liveToast" #liveToastError class="toast text-bg-danger border-0" role="alert" aria-live="assertive"
@@ -73,3 +92,4 @@
     </div>
   </div>
 </div>
+
