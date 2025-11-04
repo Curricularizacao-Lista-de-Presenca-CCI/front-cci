@@ -4,7 +4,7 @@ import { RouterOutlet, RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-relacao-servidores',
-  imports: [NavbarComponent, RouterOutlet, RouterModule],
+  imports: [NavbarComponent, RouterModule],
   templateUrl: './relacao-servidores.component.html',
   styleUrl: './relacao-servidores.component.css'
 })

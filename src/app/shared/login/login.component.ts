@@ -9,7 +9,7 @@ import Toast from 'bootstrap/js/dist/toast';
 
 @Component({
   selector: 'app-login',
-  imports: [RouterOutlet, RouterModule, FormsModule, CommonModule, ReactiveFormsModule],
+  imports: [RouterModule, FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
