@@ -1,5 +1,8 @@
-body {
+html, body {
   background-color: #ddeafb;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 .sidebar {
@@ -8,51 +11,180 @@ body {
   border-top-right-radius: 20px;
 }
 
-.sidebar img {
-  width: 80px;
-  margin-top: 1rem;
+.main-content {
+  width: 100%;
+  overflow-x: hidden;
+  padding: 0.5rem 1rem;
 }
 
-.sidebar a {
-  margin-bottom: 1rem;
-}
-
-.card-lista {
-  background-color: #ffffff;
-  border-radius: 15px;
-  padding: 1.5rem;
-}
-
-.card-nome {
-  font-size: 1rem;
-  color: #0d6efd;
-  font-style: italic;
-  font-weight: 500;
-}
-
-.btn-chamada {
-  background-color: #cfe2ff;
-  color: #000;
-  font-weight: 600;
-  font-size: 0.9rem;
-  border-radius: 15px;
-  padding: 0.4rem 1rem;
-  border: none;
+.content-wrapper {
+  margin-top: 5rem;
+  padding-left: 3%;
 }
 
 .titulo {
   color: #0d6efd;
   font-weight: bold;
+  font-size: 2.1rem;
+  margin-bottom: 1.2rem;
+  text-align: left;
+  margin-left: 40px; 
 }
 
 .btn-custom {
   background-color: #0044d6f4;
   color: white;
-  padding: 0.5rem 1.5rem;
+  padding: 0.5rem 1.6rem;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  font-size: 1rem;
+  margin-left: 40px; 
 }
 
 .btn-custom:hover {
   background-color: #147BE3;
   color: white;
-  padding: 0.5rem 1.5rem;
+}
+
+.cards-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  align-items: flex-start;
+  padding-left: 3%;
+}
+
+.card-lista {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  width: 97%;
+  max-width: 1300px;
+}
+
+.card-nome {
+  font-size: 1.1rem;
+  color: #0d6efd;
+  font-style: italic;
+  font-weight: 600;
+  flex: 1;
+  min-width: 180px;
+  letter-spacing: 0.6px;
+  padding-left: 8px;
+  margin-bottom: 0.3rem;
+  line-height: 1.6;
+}
+
+.card-lista .btn {
+  background-color: #0d6efd;
+  color: white;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease;
+}
+
+.card-lista .btn:hover {
+  background-color: #147BE3;
+}
+
+@media (max-width: 991px) {
+  .content-wrapper {
+    margin-top: 4rem;
+    padding-left: 0;
+  }
+
+  .cards-container {
+    align-items: center;
+    padding-left: 0;
+  }
+
+  .titulo {
+    text-align: center;
+    font-size: 1.7rem;
+  }
+
+  .btn-custom {
+    display: block;
+    margin: 0 auto 1.2rem auto;
+    padding: 0.4rem 1rem;
+  }
+
+  .card-lista {
+    width: 90%;
+    padding: 0.7rem;
+    border-radius: 8px;
+  }
+
+  .card-nome {
+    font-size: 1rem;
+    letter-spacing: 0.6px;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 576px) {
+  .content-wrapper {
+    margin-top: 3.5rem;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .titulo {
+    text-align: center;
+    font-size: 1.8rem;
+    width: 100%;
+  }
+
+  .btn-custom {
+    width: 95%;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    margin: 0 0 1rem 0;
+  }
+
+  .cards-container {
+    align-items: center;
+    padding-left: 0;
+    width: 100%;
+  }
+
+  .card-lista {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.7rem;
+    padding: 0.9rem;
+    border-radius: 8px;
+    width: 95%;
+  }
+
+  .card-nome {
+    font-size: 1rem;
+    width: 100%;
+    letter-spacing: 0.7px;
+    margin-bottom: 0.4rem;
+    line-height: 1.6;
+  }
+
+  .card-lista .btn {
+    width: 95%;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+  }
 }
