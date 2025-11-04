@@ -14,7 +14,7 @@ html, body {
 .main-content {
   width: 100%;
   overflow-x: hidden;
-  padding: 0.5rem 1rem;
+  padding: 48px;
 }
 
 .titulo {
@@ -125,6 +125,10 @@ html, body {
     letter-spacing: 0.6px;
     line-height: 1.6;
   }
+  
+  .main-content {
+    padding: 24px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -178,5 +182,9 @@ html, body {
     width: 95%;
     font-size: 0.85rem;
     padding: 0.4rem 0.8rem;
+  }
+
+  .main-content {
+    padding: 24px;
   }
 }
