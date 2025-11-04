@@ -1,4 +1,5 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
+import { TokenService } from '../service/token.service';
 import { RouterModule } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { TokenService } from '../service/token.service';
@@ -19,6 +20,10 @@ export class NavbarComponent {
     this.menuAtivo = !this.menuAtivo;
   }
 
+  fazerLogout(): void {
+    this.tokenService.logout();
+  }
+  
   fecharMenu() {
     this.menuAtivo = false;
   }
