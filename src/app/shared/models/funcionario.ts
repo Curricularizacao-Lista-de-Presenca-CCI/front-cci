@@ -6,5 +6,5 @@ export interface Funcionario {
     email: string;
     senha: string;
     atuacao: Atuacao;
-    ativo: boolean;
+    ativo?: boolean;
 }
