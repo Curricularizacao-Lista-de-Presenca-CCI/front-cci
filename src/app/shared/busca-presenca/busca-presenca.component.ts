@@ -5,10 +5,11 @@ import { ColocarPresenca } from '../models/colocar-presenca';
 import { CommonModule } from '@angular/common';
 import Toast from 'bootstrap/js/dist/toast';
 import Modal from 'bootstrap/js/dist/modal';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-busca-presenca',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
   templateUrl: './busca-presenca.component.html',
   styleUrl: './busca-presenca.component.css'
 })
@@ -29,7 +30,6 @@ export class BuscaPresencaComponent {
   constructor(
     private fb: FormBuilder,
     private presencaService: BuscaPresencaService,
-    private zone: NgZone
   ) {
     this.presencaForm = this.fb.group({
       nomeAluno: ['', Validators.required],

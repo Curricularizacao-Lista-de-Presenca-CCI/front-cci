@@ -3,7 +3,6 @@ import { RouterModule, Router } from '@angular/router';
 import { LoginService } from './service/login.service';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Atuacao } from '../models/atuacao';
 import Toast from 'bootstrap/js/dist/toast';
 
 @Component({

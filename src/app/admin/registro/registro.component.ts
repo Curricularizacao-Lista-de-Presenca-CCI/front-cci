@@ -7,14 +7,14 @@ import { SelectModule } from 'primeng/select';
 import { Funcionario } from '../../shared/models/funcionario';
 import { RegistroServiceService } from './service/registro-service.service';
 import { Atuacao } from '../../shared/models/atuacao';
-import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { FuncionarioForm } from '../../shared/models/funcionario-form';
 import Modal from 'bootstrap/js/dist/modal';
 import Toast from 'bootstrap/js/dist/toast';
 
 @Component({
   selector: 'app-registro',
-  imports: [CommonModule, NavbarComponent, FormsModule, ReactiveFormsModule, DropdownModule, SelectModule],
+  imports: [CommonModule, NavbarComponent, FormsModule, ReactiveFormsModule, DropdownModule, SelectModule, RouterModule],
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.css']
 })
