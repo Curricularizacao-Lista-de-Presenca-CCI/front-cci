@@ -81,3 +81,65 @@ tr {
   background-color: #ff5252;
   color: white;
 }
+
+/* Tablet (768px e abaixo) */
+@media screen and (max-width: 768px) {
+  .sidebar {
+    width: 80px;
+  }
+
+  .perfil-icon {
+    width: 40px;
+  }
+
+  .content {
+    padding: 20px;
+  }
+
+  tr {
+    grid-template-columns: 1fr 3fr 2fr 2fr;
+  }
+
+  .filtro {
+    width: 120px;
+  }
+}
+
+/* Celular (480px e abaixo) */
+@media screen and (max-width: 480px) {
+  .sidebar {
+    width: 60px;
+  }
+
+  .perfil-icon {
+    width: 30px;
+  }
+
+  .content {
+    padding: 10px;
+  }
+
+  tr {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .filtro {
+    width: 100%;
+  }
+
+  .tabela-membros th,
+  .tabela-membros td {
+    font-size: 0.8rem;
+  }
+
+  .status {
+    padding: 2px 8px;
+  }
+
+  .titulo-principal {
+    margin-top: 20px;
+    margin-left: 20px; 
+  }
+}
+
