@@ -3,38 +3,117 @@
   height: 100vh;
   position: sticky;
   top: 0;
+  background-color: #0d6efd;
   border-top-right-radius: 20px;
   transition: all 0.3s ease;
-  z-index: 1000;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 0;
+}
+
+.sidebar.active {
+  width: 250px;
+}
+
+.sidebar .perfil {
+  transition: margin-top 0.3s ease;
+}
+
+.sidebar.active .perfil {
+  margin-top: 70px;
+}
+
+.nav-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 0 10px;
+}
+
+.nav-buttons button {
+  width: 90%;
+  min-width: 90px;
+  background-color: #ffffff;
+  color: #0d6efd;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 0;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.nav-buttons button:hover {
+  background-color: #bbdefb;
+  transform: scale(1.03);
+}
+
+.menu-toggle {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 2000;
+  border-radius: 8px;
+  padding: 8px 10px;
+  background-color: #0d6efd;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.menu-toggle i {
+  color: #fff;
+  font-size: 1.8rem;
+}
+
+.logout {
+  color: #0d6efd;
+  font-size: 1.8rem;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 1040;
+  opacity: 0;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.overlay.active {
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 1;
 }
 
 @media (max-width: 991px) {
-  /* Sidebar fechada */
   .sidebar {
     position: fixed;
     top: 0;
-    left: -130px;
-    transition: left 0.3s ease;
+    left: -160px;
+    width: 140px;
+    height: 100vh;
+    transition: left 0.3s ease, width 0.3s ease;
   }
 
   .sidebar.active {
     left: 0;
-    z-index: 1050;
+    width: 140px;
   }
 
-  .menu-toggle {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    z-index: 2000;
-    border-radius: 8px;
-    padding: 8px 10px;
-    background-color: #0d6efd;
-    border: none;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  }
-
-  .menu-toggle i {
-    color: #fff;
+  .nav-buttons button {
+    width: 90%;
+    font-size: 12px;
+    padding: 4px 0;
+    border-radius: 6px;
+    margin: 4px auto;
   }
 }
