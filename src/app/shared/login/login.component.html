@@ -22,7 +22,7 @@
           <input type="password" class="form-control" placeholder="Digite sua Senha" formControlName="senha">
 
           <div *ngIf="enviado && senha?.invalid" class="text-danger mt-1">
-            <small *ngIf="senha?.errors?.['required']">Senha é obrigatória.</small>
+            <small *ngIf="senha?.errors?.['required']">*A Senha é obrigatória.</small>
           </div>
         </div>
 
@@ -33,21 +33,22 @@
 
     </div>
 
-    <div class="m-4 d-flex justify-content-center gap-5">
-      <img src="assets/prefeitura.png" alt="Logo Prefeitura de Assis" width="150">
-      <img src="assets/assistencia.png" alt="Logo Secretaria de Assistência Social" width="150">
-      <img src="assets/cci.png" alt="Logo CCI" width="150">
+    <div class="footer-logos">
+      <img src="assets/prefeitura.png" alt="Logo Prefeitura de Assis">
+      <img src="assets/assistencia.png" alt="Logo Secretaria de Assistência Social">
+      <img src="assets/cci.png" alt="Logo CCI">
     </div>
   </div>
 </body>
 
 <!-- Toast de Erro -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
-  <div id="liveToast" #liveToastError class="toast text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
-    
+  <div id="liveToast" #liveToastError class="toast text-bg-danger border-0" role="alert" aria-live="assertive"
+    aria-atomic="true">
+
     <div class="toast-header text-bg-danger border-0">
       <strong class="me-auto">Erro ao realizar Login</strong>
-      
+
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
 
@@ -59,7 +60,8 @@
 
 <!-- Toast de Sucesso -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
-  <div id="liveToast" #liveToastSuccess class="toast text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+  <div id="liveToast" #liveToastSuccess class="toast text-bg-success border-0" role="alert" aria-live="assertive"
+    aria-atomic="true">
 
     <div class="toast-header text-bg-success border-0">
       <strong class="me-auto">Sucesso ao realizar Login</strong>
