@@ -7,6 +7,7 @@ import Modal from 'bootstrap/js/dist/modal';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FuncionariosAtivosDTO } from '../models/funcionarios-ativos-dto';
 import { NgFor } from '@angular/common';
+import { BuscarEventosCadastradoDTO } from '../models/buscar-eventos-cadastrado-dto';
 
 @Component({
   selector: 'app-lista-chamada',
@@ -34,6 +35,7 @@ export class ListaChamadaComponent {
   nomeArquivo: string | null = null;
 
   funcionarios: FuncionariosAtivosDTO[] = [];
+  listas: BuscarEventosCadastradoDTO[] = [];
 
   private modalImporteChamada: Modal | undefined;
   private _dialogImporteChamada: boolean = false;
@@ -68,6 +70,7 @@ export class ListaChamadaComponent {
       servidor: [null, [Validators.required]],
     });
     this.carregarFuncionarios();
+    this.carregarListas(2);
   }
 
   carregarFuncionarios() {
@@ -170,6 +173,18 @@ export class ListaChamadaComponent {
       error: (err) => {
         console.error('Erro ao baixar o relatório:', err);
         toastError.show();
+      }
+    });
+  }
+
+  carregarListas(idFuncionario: number) {
+    this.listaChamadaService.buscarListasDeChamada(idFuncionario).subscribe({
+      next: (dados: BuscarEventosCadastradoDTO[]) => {
+        this.listas = dados;
+        console.log(dados);
+      },
+      error: (err) => {
+        console.error('Erro ao buscar listas', err);
       }
     });
   }
