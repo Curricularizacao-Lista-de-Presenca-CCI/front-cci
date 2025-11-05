@@ -6,7 +6,7 @@
       <div class="content-wrapper">
         <h2 class="titulo mb-4">Listas de Chamada</h2>
 
-        <button type="button" class="btn btn-custom fw-semibold fs-6 mb-4" data-bs-toggle="modal" data-bs-target="#dialodImporteChamada">
+        <button type="button" class="btn btn-custom fw-semibold fs-6 mb-4" (click)="abrirModalConfirmacao()">
           <i class="bi bi-plus-lg me-1"></i> Importar Nova Chamada
         </button>
 
@@ -32,7 +32,8 @@
           <div class="card-lista d-flex justify-content-between align-items-center">
             <div class="card-nome">Manhã especial de dia das mães</div>
             <div class="buttons-wrapper d-flex gap-4">
-              <button routerLink="/busca-presenca" class="btn btn-primary"><i class="bi bi-journal-check"></i> Realizar Chamada</button>
+              <button routerLink="/busca-presenca" class="btn btn-primary"><i class="bi bi-journal-check"></i> Realizar
+                Chamada</button>
               <button class="btn btn-primary"><i class="bi bi-search"></i> Consultar</button>
               <button class="btn btn-primary"><i class="bi bi-download"></i> Baixar relatório</button>
             </div>
@@ -43,6 +44,105 @@
     </div>
   </div>
 </body>
+
+<!-- Dialog de Importação de Chamada -->
+<div class="modal fade" id="dialogImporteChamada" #dialogImporteChamada tabindex="-1"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Adicionar Nova Chamada</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="chamadaForm" (ngSubmit)="enviarArquivo()">
+
+          <div class="mb-3">
+            <label for="descricao" class="form-label">Local do Evento</label>
+            <input type="text" class="form-control" formControlName="local" id="descricao"
+              placeholder="Informe o Local do Evento">
+          </div>
+
+          <div class="mb-3">
+            <label for="servidor" class="form-label">Adicionar Servidor</label>
+            <select class="form-select" id="servidor" formControlName="servidor">
+              <option [ngValue]="null" selected disabled>Selecione um Servidor</option>
+
+              <option *ngFor="let func of funcionarios" [ngValue]="func.idFuncionario">
+                {{ func.nome }}
+              </option>
+            </select>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center gap-2 mb-4">
+            <div>
+              <label for="meuInputFile" class="btn btn-primary">
+                <i class="bi bi-upload"></i>
+                Importar
+              </label>
+
+              <input type="file" id="meuInputFile" class="d-none" (change)="onFileSelected($event)" #fileInputRef
+                accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+              <span class="text-muted ps-2">
+                {{ nomeArquivo || 'Nenhum arquivo selecionado' }}
+              </span>
+            </div>
+
+            <button class="btn btn-danger" (click)="removerArquivo()">
+              <i class="bi bi-x-circle"></i>
+              Remover
+            </button>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="bi bi-x"></i>
+              Cancelar</button>
+
+            <button type="submit" class="btn btn-success" [disabled]="chamadaForm.invalid">
+              <i class="bi bi-check2"></i> Salvar
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast de Sucesso -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast" #liveToastSuccess class="toast text-bg-success border-0" role="alert" aria-live="assertive"
+    aria-atomic="true">
+
+    <div class="toast-header text-bg-success border-0">
+      <strong class="me-auto">Sucesso ao enviar Arquivo</strong>
+
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+
+    <div class="toast-body">
+      {{ mensagemSucesso }}
+    </div>
+  </div>
+</div>
+
+<!-- Toast de Erro -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast" #liveToastError class="toast text-bg-danger border-0" role="alert" aria-live="assertive"
+    aria-atomic="true">
+
+    <div class="toast-header text-bg-danger border-0">
+      <strong class="me-auto">Erro ao enviar Arquivo</strong>
+
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+
+    <div class="toast-body">
+      {{ mensagemErro }}
+    </div>
+  </div>
+</div>
 
 <!-- Toast de Erro -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
@@ -77,5 +177,3 @@
     </div>
   </div>
 </div>
-
-<app-dialog-importe-chamada></app-dialog-importe-chamada>

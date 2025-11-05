@@ -31,7 +31,7 @@
           </div>
 
           <div class="input-group busca">
-            <button class="btn btn-primary justify-content-end" (click)="finalizarChamada()">
+            <button class="btn btn-primary justify-content-end" (click)="abrirModalChamada()">
               Finalizar chamada
             </button>
           </div>
@@ -82,6 +82,32 @@
 </div>
 
 </body>
+
+<!-- Dialog de Confirmação de Registro -->
+<div class="modal fade" id="dialogFinalizarChamada" #dialogFinalizarChamadaRef tabindex="-1" aria-labelledby="staticBackdropLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Finalizar Chamada</h1>
+        <button type="button" class="btn-close" 
+        (click)="dialogFinalizarChamada = false" 
+        aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="fw-bold">Deseja realmente finalizar a lista de chamada?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" 
+        (click)="dialogFinalizarChamada = false">Cancelar</button>
+
+        <button type="button" (click)="finalizarChamada()" class="btn btn-success">
+          Finalizar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Toast de Erro -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
