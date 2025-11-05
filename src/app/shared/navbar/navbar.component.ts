@@ -21,7 +21,7 @@ export class NavbarComponent {
   fecharMenu() {
     this.menuAtivo = false;
   }
+  
   fazerLogout(): void {
-    //this.tokenService.logout();
   }
 }

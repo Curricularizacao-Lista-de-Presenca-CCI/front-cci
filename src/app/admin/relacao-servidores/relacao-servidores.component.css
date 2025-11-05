@@ -1,3 +1,13 @@
+html, body { 
+  height: auto !important;
+  overflow-y: auto !important;
+}
+
+.flex-fill.p-5 {
+  max-height: none !important;
+  overflow-y: visible !important;
+}
+
 .form-container {
   background-color: #f1f5f9;
   border-radius: 20px;
@@ -25,4 +35,119 @@
   font-size: 2.1rem;
   margin-bottom: 1.2rem;
   text-align: left;
+}
+
+@media (max-width: 768px) {
+  .form-container .bg-white {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .flex-fill.p-5 {
+    padding: 1.5rem !important;
+  }
+
+  .form-container .d-flex.gap-2 {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .form-container .btn {
+    width: 45%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .controls-and-title,
+  .d-flex.justify-content-between.w-100.row,
+  .form-container,
+  .caixa-lista {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .d-flex.justify-content-between.w-100.row {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    width: 100%;
+  }
+
+  .d-flex.justify-content-between.w-100.row > .col-6 {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .titulo {
+    margin-top: 60px;
+    text-align: center;
+    font-size: 1.8rem;
+    margin-left: 20px;
+  }
+
+  .btn-custom {
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+    margin: 0.5rem auto;
+    padding: 0.9rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .form-container .btn {
+    width: 80px;
+    height: 40px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form-container .bg-white {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .form-container .d-flex.gap-2 {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-left: 0;
+  }
+
+  .form-container .bg-white .btn {
+    width: auto;
+    min-width: 75px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form-container .bg-white .btn i {
+    font-size: 1rem;
+  }
+
+  .form-container .text-primary {
+    font-size: 0.95rem;
+    text-align: center;
+  }
 }

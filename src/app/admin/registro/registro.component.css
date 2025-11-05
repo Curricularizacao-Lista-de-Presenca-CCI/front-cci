@@ -116,7 +116,6 @@ body {
   align-items: center;
   justify-content: center;
   width: 80px;
-  /* Tamanho do círculo */
   height: 80px;
   background-color: var(--bs-success, #198754);
   border-radius: 50%;
