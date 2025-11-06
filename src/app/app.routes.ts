@@ -11,9 +11,9 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 
 export const routes: Routes = [
     { path: 'admin', component: AdminComponent},
-    { path: 'busca-presenca', component: BuscaPresencaComponent},
+    { path: 'busca-presenca/:id', component: BuscaPresencaComponent},
     { path: 'lista-chamada', component: ListaChamadaComponent},
-    { path: 'lista-geral', component: ListaGeralPresencaComponent},
+    { path: 'lista-geral/:id', component: ListaGeralPresencaComponent},
     { path: 'login', component: LoginComponent},
     { path: 'registro', component: RegistroComponent},
     { path: 'relacao-servidores', component: RelacaoServidoresComponent},

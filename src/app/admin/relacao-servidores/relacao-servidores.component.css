@@ -1,8 +1,9 @@
 .form-container {
   background-color: #f1f5f9;
-  border-radius: 20px;
+  border-radius: 12px;
   padding: 2rem;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 97%;
 }
 
 .shadow-sm {

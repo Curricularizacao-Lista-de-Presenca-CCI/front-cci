@@ -15,7 +15,7 @@ export class RelacaoServidoresService {
   ) { }
 
   public buscarListaFuncionarios(): Observable<Funcionario[]> {
-    return this.http.get<Funcionario[]>(`${this.baseApiUrl}/cadastrar`);
+    return this.http.get<Funcionario[]>(`${this.baseApiUrl}/buscar-funcionarios`);
   }
 
   public buscarFuncionario(email: string): Observable<Funcionario> {

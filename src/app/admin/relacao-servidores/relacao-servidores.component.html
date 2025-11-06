@@ -8,19 +8,19 @@
       <div class="flex-fill">
         <div class="d-flex flex-column justify-content-between align-items-start mb-4">
           <h2 class="titulo text-primary fw-bold mb-4">Relação de Servidores</h2>
-          
+
           <div class="d-flex justify-content-between w-100 row">
             <div class="col-6 d-flex justify-content-start gap-2">
               <a routerLink="/registro" class="btn btn-custom fw-semibold fs-6"><i
-                class="bi bi-plus-lg me-1"></i>Registrar Novo Servidor</a>
+                  class="bi bi-plus-lg me-1"></i>Registrar Novo Servidor</a>
             </div>
 
             <div class="col-6 d-flex justify-content-start gap-2">
               <div class="input-group">
-              <span class="input-group-text" id="basic-addon1"><i class="bi bi-search text-muted"></i></span>
-              <input type="text" class="form-control" placeholder="Buscar Servidor" aria-label="Username"
-                aria-describedby="basic-addon1">
-            </div>
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-search text-muted"></i></span>
+                <input type="text" class="form-control" placeholder="Buscar Servidor" aria-label="Username"
+                  aria-describedby="basic-addon1">
+              </div>
             </div>
 
           </div>
@@ -30,14 +30,17 @@
         <div class="form-container mx-auto">
           <div class="d-flex flex-column gap-3">
 
-            <!-- <div class="bg-white rounded shadow-sm p-3 d-flex justify-content-between align-items-center" *ngFor="let servidor of servidores">
-              <div class="text-primary fw-semibold">{{ servidor.nomeCompleto }}</div>
+            <div class="bg-white rounded shadow-sm p-3 d-flex justify-content-between align-items-center"
+              *ngFor="let funcionario of listaFuncionarios">
+              <div class="text-primary fw-semibold">{{ funcionario.nome }}</div>
               <div class="d-flex gap-2">
                 <button class="btn btn-primary px-3"><i class="bi bi-pencil"></i> Alterar</button>
-                <button class="btn btn-danger px-3 mx-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i
-                    class="bi bi-x-lg"></i> Remover</button>
+                <button class="btn btn-danger px-3 mx-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                  (click)="abrirModalInativar(funcionario)">
+                  <i class="bi bi-x-lg"></i> Inativar
+                </button>
               </div>
-            </div> -->
+            </div>
 
           </div>
         </div>
@@ -49,18 +52,18 @@
 
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Remover Servidor</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Inativar Servidor</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p>Deseja realmente remover o(a) Servidor(a) XXXXXX?</p>
+        <p>Deseja realmente inativar o(a) Servidor(a) {{ funcionarioSelecionado?.nome }}?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger">Remover</button>
+        <button type="button" class="btn btn-danger">Inativar</button>
       </div>
     </div>
   </div>
