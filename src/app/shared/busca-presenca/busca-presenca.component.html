@@ -12,11 +12,23 @@
     </div>
 
     <form [formGroup]="presencaForm" class="input-group mb-5 campo-busca">
-      <input type="text" class="form-control input-nome" placeholder="Buscar nome" formControlName="nomeAluno" />
       <span class="input-group-text bg-white borda-busca">
         <i class="bi bi-search text-primary"></i>
       </span>
-    </form>
+      
+      <select class="form-select form-select" 
+              formControlName="nomeAluno" 
+              *ngIf="alunos && alunos.length > 0" 
+              aria-label="Large select example">
+        
+        <option [ngValue]="null" selected disabled>Selecione o Aluno</option>
+        
+        <option *ngFor="let aluno of alunos" [value]="aluno.nomeAluno">
+          {{ aluno.nomeAluno }}
+        </option>
+      
+      </select>
+</form>
 
 
     <button type="button" class="btn btn-success fs-1" 

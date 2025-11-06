@@ -1,20 +1,26 @@
-import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BuscaPresencaService } from './service/busca-presenca.service';
 import { ColocarPresenca } from '../models/colocar-presenca';
 import { CommonModule } from '@angular/common';
 import Toast from 'bootstrap/js/dist/toast';
 import Modal from 'bootstrap/js/dist/modal';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ListaGeralPresencaService } from '../lista-geral-presenca/service/lista-geral-presenca.service';
+import { ListaPresencaDTO } from '../models/lista-presenca-dto';
+import { SelectModule } from 'primeng/select';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-busca-presenca',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, SelectModule, DropdownModule],
   templateUrl: './busca-presenca.component.html',
   styleUrl: './busca-presenca.component.css'
 })
-export class BuscaPresencaComponent {
+export class BuscaPresencaComponent implements OnInit {
 
+  public idEvento!: number; 
+  alunos: ListaPresencaDTO [] = [];
   presencaForm: FormGroup;
   mensagemSucesso: string = 'Presença registrada com sucesso!';
   mensagemErro: string = 'Erro ao registrar Presença, confira os dados digitados!';
@@ -30,11 +36,23 @@ export class BuscaPresencaComponent {
   constructor(
     private fb: FormBuilder,
     private presencaService: BuscaPresencaService,
+    private listaGeralService: ListaGeralPresencaService,
+    private route: ActivatedRoute
   ) {
     this.presencaForm = this.fb.group({
-      nomeAluno: ['', Validators.required],
-      idEvento: [1]
+      nomeAluno: [null, Validators.required],
+      idEvento: [this.idEvento]
     });
+  }
+
+  ngOnInit(): void {
+    const idDaRota = this.route.snapshot.paramMap.get('id');
+    if (idDaRota) {
+      this.idEvento = Number(idDaRota);
+    }
+    this.carregarAlunos(this.idEvento);
+
+    console.log(this.idEvento);
   }
 
   ngAfterViewInit(): void {
@@ -72,7 +90,7 @@ export class BuscaPresencaComponent {
     }
 
     const form: ColocarPresenca = {
-      idEvento: this.idEventoControl?.value,
+      idEvento: this.idEvento,
       nomeAluno: this.nomeAlunoControl?.value
     };
 
@@ -84,7 +102,7 @@ export class BuscaPresencaComponent {
     this.presencaService.registrarPresenca(form).subscribe({
       next: () => {
         console.log('Presença registrada com sucesso!');
-        this.presencaForm.reset({ idEvento: 1 });
+        this.presencaForm.reset();
         toastSucesso.show();
       },
       error: (err) => {
@@ -101,5 +119,17 @@ export class BuscaPresencaComponent {
   get idEventoControl() {
     return this.presencaForm.get('idEvento');
   }
+
+      carregarAlunos(idEvento: number) {
+        this.listaGeralService.buscarAlunos(idEvento).subscribe({
+          next: (dados: ListaPresencaDTO[]) => {
+            this.alunos = dados;
+            console.log(this.alunos);
+          },
+          error: (err) => {
+            console.error('Erro ao buscar listas', err);
+          }
+        });
+      }
 
 }
