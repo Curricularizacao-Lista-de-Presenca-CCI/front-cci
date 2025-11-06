@@ -1,14 +1,25 @@
 <body>
-  <div class="d-flex vh-100">
+  <div class="d-flex min-vh-100">
     <app-navbar></app-navbar>
 
-    <div class="main-content flex-fill">
+    <div class="flex-fill p-5" style="overflow-y: auto; min-height: 100vh;">
       <div class="content-wrapper">
         <h2 class="titulo mb-4">Listas de Chamada</h2>
 
         <button type="button" class="btn btn-custom fw-semibold fs-6 mb-4" data-bs-toggle="modal" data-bs-target="#dialodImporteChamada">
           <i class="bi bi-plus-lg me-1"></i> Importar Nova Chamada
         </button>
+
+        <div class="mt-4 d-flex flex-column gap-3 cards-container">
+          <div class="card-lista d-flex justify-content-between align-items-center">
+            <div class="card-nome">Manhã especial de dia das mães</div>
+            <div class="buttons-wrapper d-flex gap-4">
+              <button routerLink="/busca-presenca" class="btn btn-primary"><i class="bi bi-journal-check"></i> Realizar Chamada</button>
+              <button class="btn btn-primary"><i class="bi bi-search"></i> Consultar</button>
+              <button class="btn btn-primary"><i class="bi bi-download"></i> Baixar relatório</button>
+            </div>
+          </div>
+        </div>
 
         <div class="mt-4 d-flex flex-column gap-3 cards-container">
           <div class="card-lista d-flex justify-content-between align-items-center">

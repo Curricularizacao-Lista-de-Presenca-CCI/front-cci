@@ -1,8 +1,7 @@
 html, body {
-  background-color: #ddeafb;
-  overflow-x: hidden;
-  margin: 0;
-  padding: 0;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* suaviza o scroll no iOS */
 }
 
 .sidebar {
@@ -139,6 +138,10 @@ html, body {
     flex-direction: column;
     align-items: center;
     text-align: center;
+  }
+
+  .flex-fill.p-5 {
+    padding: 1.5rem !important;
   }
 
   .titulo {
