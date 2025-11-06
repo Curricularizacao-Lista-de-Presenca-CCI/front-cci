@@ -51,11 +51,13 @@
           </thead>
           <tbody>
     
-            <tr>
-              <td>00000</td>
-              <td>Nome</td>
-              <td>DD/MM/AAAA</td>
-              <td><span class="badge status ativo">Ativo</span></td>
+            <tr *ngFor="let aluno of alunos">
+              <td>{{ aluno.idAluno }}</td>
+              <td>{{ aluno.nomeAluno }}</td>
+              <td>outra informação</td>
+              <td><span class="badge status {{ aluno.status == 'Sim' ? 'ativo' : 'inativo' }}">
+                {{ aluno.status }}
+              </span></td>
             </tr>
             
         

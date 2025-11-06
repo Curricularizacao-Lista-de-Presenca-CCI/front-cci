@@ -4,16 +4,20 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ListaGeralPresencaService } from './service/lista-geral-presenca.service';
 import Toast from 'bootstrap/js/dist/toast';
 import Modal from 'bootstrap/js/dist/modal';
+import { ListaPresencaDTO } from '../models/lista-presenca-dto';
+import { DatePipe, NgClass, NgFor, NgForOf, NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-lista-geral-presenca',
-  imports: [NavbarComponent, RouterModule],
+  imports: [NavbarComponent, RouterModule, DatePipe, NgForOf, NgFor, NgClass, NgStyle],
   templateUrl: './lista-geral-presenca.component.html',
   styleUrl: './lista-geral-presenca.component.css'
 })
 export class ListaGeralPresencaComponent implements OnInit {
 
-  public idEvento: number = 1; 
+  public idEvento!: number; 
+  public alunos: ListaPresencaDTO[] = [];
+  
 
   mensagemErro: string = 'Não foi possível finalizar a chamada. Verifique os dados';
   mensagemSucesso: string = 'Chamada finalizada com sucesso!';
@@ -35,6 +39,7 @@ export class ListaGeralPresencaComponent implements OnInit {
     if (idDaRota) {
       this.idEvento = Number(idDaRota);
     }
+    this.carregarAlunos(this.idEvento);
   }
 
     ngAfterViewInit(): void {
@@ -70,7 +75,7 @@ export class ListaGeralPresencaComponent implements OnInit {
       return;
     }
 
-    this.listaGeralService.finalizarChamada(1).subscribe({
+    this.listaGeralService.finalizarChamada(this.idEvento).subscribe({
       next: () => {
         this.dialogFinalizarChamada = false;
         toastSucess.show();
@@ -82,5 +87,17 @@ export class ListaGeralPresencaComponent implements OnInit {
       }
     });
   }
+
+    carregarAlunos(idEvento: number) {
+      this.listaGeralService.buscarAlunos(idEvento).subscribe({
+        next: (dados: ListaPresencaDTO[]) => {
+          this.alunos = dados;
+          console.log(this.alunos);
+        },
+        error: (err) => {
+          console.error('Erro ao buscar listas', err);
+        }
+      });
+    }
 
 }

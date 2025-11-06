@@ -70,7 +70,7 @@ export class ListaChamadaComponent {
       servidor: [null, [Validators.required]],
     });
     this.carregarFuncionarios();
-    this.carregarListas(2);
+    this.carregarListas(1);
   }
 
   carregarFuncionarios() {
