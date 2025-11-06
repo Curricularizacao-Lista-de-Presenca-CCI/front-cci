@@ -91,7 +91,29 @@ html, body {
   background-color: #147BE3;
 }
 
-@media (max-width: 991px) {
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 998; /* abaixo do menu, acima do conteúdo */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none; /* 🔹 impede bloqueio de cliques */
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto; /* 🔹 só habilita quando o menu está aberto */
+}
+
+
+@media (min-width: 768px) and (max-width: 991px) {
+
   .content-wrapper {
     margin-top: 4rem;
     padding-left: 0;
@@ -104,7 +126,7 @@ html, body {
 
   .titulo {
     text-align: center;
-    font-size: 1.7rem;
+    font-size: 2.2rem;
   }
 
   .btn-custom {
@@ -114,9 +136,26 @@ html, body {
   }
 
   .card-lista {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.8rem;
     width: 90%;
-    padding: 0.7rem;
-    border-radius: 8px;
+    padding: 0.9rem;
+    border-radius: 10px;
+  }
+
+  .buttons-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    width: 100%;
+  }
+
+  .card-lista .btn {
+    min-width: 180px;
+    text-align: center;
   }
 
   .card-nome {
@@ -124,7 +163,7 @@ html, body {
     letter-spacing: 0.6px;
     line-height: 1.6;
   }
-  
+
   .main-content {
     padding: 24px;
   }

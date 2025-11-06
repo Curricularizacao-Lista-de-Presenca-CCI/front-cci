@@ -3,10 +3,11 @@
   <div class="d-flex vh-100">
     <app-navbar></app-navbar>
 
-    <div class="flex-fill p-5" style="overflow-y: auto; max-height: 100vh;">
-
+    <div class="flex-fill p-5 main-container">
       <main class="flex-grow-1">
-        <h2 class="text-primary fw-bold mb-5">Registrar Novo Usuario</h2>
+        <h2 class="text-primary fw-bold mb-5 page-title">
+          Registrar Novo Usuário
+        </h2>
 
         <div class="outer-card rounded-3">
           <div class="pb-3 dados-card">
@@ -16,55 +17,53 @@
           <div class="card form-card shadow p-4 m-0">
             <form [formGroup]="cadastroForm" (ngSubmit)="cadastrar()">
               <div class="mb-4">
-                <label class="form-label text-primary fs-5">Nome Completo<span class="text-danger"> *</span></label>
+                <label class="form-label text-primary fs-5">
+                  Nome Completo<span class="text-danger"> *</span>
+                </label>
                 <input type="text" class="form-control underline-input" placeholder="Informe o nome completo"
                   formControlName="nome">
                 <p class="mt-1 mb-0" *ngIf="cadastroForm.get('nome')?.touched || cadastroForm.get('nome')?.dirty">
-                  <small class="text-danger" *ngIf="cadastroForm.get('nome')?.errors?.['required']">*O Nome é
-                    obrigatório e deve conter pelo menos 3 digitos.</small>
+                  <small class="text-danger" *ngIf="cadastroForm.get('nome')?.errors?.['required']">
+                    *O Nome é obrigatório e deve conter pelo menos 3 dígitos.
+                  </small>
                 </p>
               </div>
 
               <div class="row g-3">
                 <div class="col-md-6">
-                  <label class="form-label text-primary fs-5">E-mail<span class="text-danger"> *</span></label>
+                  <label class="form-label text-primary fs-5">
+                    E-mail<span class="text-danger"> *</span>
+                  </label>
                   <input type="email" class="form-control underline-input" placeholder="Informe o e-mail"
                     formControlName="email">
                   <p class="mt-1 mb-0" *ngIf="cadastroForm.get('email')?.touched || cadastroForm.get('email')?.dirty">
-                    <small class="text-danger" *ngIf="cadastroForm.get('email')?.errors?.['required']">*O E-mail é
-                      obrigatório.</small>
+                    <small class="text-danger" *ngIf="cadastroForm.get('email')?.errors?.['required']">
+                      *O E-mail é obrigatório.
+                    </small>
                   </p>
                 </div>
+
                 <div class="col-md-6">
-                  <label class="form-label text-primary fs-5">Digite a Senha<span class="text-danger"> *</span></label>
+                  <label class="form-label text-primary fs-5">
+                    Digite a Senha<span class="text-danger"> *</span>
+                  </label>
                   <input type="password" class="form-control underline-input" placeholder="Informe a senha"
                     formControlName="senha">
                   <p class="mt-1 mb-0" *ngIf="cadastroForm.get('senha')?.touched || cadastroForm.get('senha')?.dirty">
-                    <small class="text-danger" *ngIf="cadastroForm.get('senha')?.errors?.['required']">*A Senha é
-                      obrigatória e deve conter pelo menos 8 digitos.</small>
+                    <small class="text-danger" *ngIf="cadastroForm.get('senha')?.errors?.['required']">
+                      *A Senha é obrigatória e deve conter pelo menos 8 dígitos.
+                    </small>
                   </p>
                 </div>
               </div>
 
-              <!-- <div class="row g-3 mt-3">
-        <div class="col-md-6 ">
-            <label class="form-label text-primary fs-5">Telefone<span class="text-danger"> *</span></label>
-            <input type="tel" class="form-control underline-input" placeholder="Informe o telefone" formControlName="telefone">
-        </div>
-
-        <div class="col-md-6">
-            <label class="form-label text-primary fs-5">Confirmar Senha<span class="text-danger"> *</span></label>
-            <input type="password" class="form-control underline-input" placeholder="Confirme a senha" formControlName="confirmarSenha">
-        </div>
-    </div> -->
-
               <div class="row g-3 mt-1">
                 <div class="col-md-4">
-                  <label class="form-label text-primary mb-4 fs-5">Área de Atuação<span class="text-danger">
-                      *</span></label>
+                  <label class="form-label text-primary mb-4 fs-5">
+                    Área de Atuação<span class="text-danger"> *</span>
+                  </label>
                   <select class="form-select" formControlName="areaAtuacao">
                     <option [ngValue]="null" disabled>Selecione a Área de Atuação</option>
-
                     <option *ngFor="let area of opcoesAtuacao" [value]="area.value">
                       {{ area.label }}
                     </option>
@@ -72,7 +71,7 @@
                 </div>
               </div>
 
-              <div class="d-flex justify-content-center gap-3 mt-4">
+              <div class="d-flex justify-content-center gap-3 mt-4 pb-4">
                 <button type="button" class="btn btn-success px-4" (click)="abrirModalConfirmacao()"
                   [disabled]="cadastroForm.invalid">
                   Cadastrar
@@ -101,7 +100,6 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="dialogConfirmacao = false">Cancelar</button>
-
         <button type="button" (click)="cadastrar()" class="btn btn-success">
           Confirmar
         </button>
@@ -136,6 +134,7 @@
   </div>
 </div>
 
+
 <!-- Toast de Erro -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
   <div id="liveToast" #liveToast class="toast text-bg-danger border-0" role="alert" aria-live="assertive"
@@ -143,7 +142,6 @@
 
     <div class="toast-header text-bg-danger border-0">
       <strong class="me-auto">Erro ao tentar cadastrar</strong>
-
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
 

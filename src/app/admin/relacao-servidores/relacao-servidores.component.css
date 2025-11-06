@@ -45,6 +45,11 @@ html, body {
     width: 100%;
   }
 
+  .text-primary {
+    font-size: 1rem;
+    text-align: center;
+  }
+
   .flex-fill.p-5 {
     padding: 1.5rem !important;
   }
@@ -97,7 +102,7 @@ html, body {
     max-width: 500px;
     border-radius: 10px;
     margin: 0.5rem auto;
-    padding: 0.9rem 1rem;
+    padding: 0.6rem 0.8rem;
     font-size: 1rem;
     font-weight: 500;
     text-align: center;
@@ -151,3 +156,21 @@ html, body {
     text-align: center;
   }
 }
+
+@media (min-width: 769px) and (max-width: 991px) {
+  .d-flex.flex-column.justify-content-between.align-items-start.mb-4 {
+    align-items: center !important;
+  }
+
+  .titulo {
+    font-size: 2.1rem;
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 1.5rem;
+  }
+
+  .flex-fill.p-5 {
+    padding-top: 100px !important;
+  }
+}
+
