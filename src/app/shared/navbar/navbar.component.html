@@ -1,38 +1,31 @@
-<button
-  *ngIf="!menuAtivo"
-  class="btn btn-primary d-lg-none menu-toggle position-fixed"
-  (click)="toggleMenu()">
+<button *ngIf="!menuAtivo" class="btn btn-primary d-lg-none menu-toggle position-fixed" (click)="toggleMenu()">
   <i class="bi bi-list fs-3"></i>
 </button>
 
-<div 
-  class="overlay" 
-  [class.active]="menuAtivo"
-  (click)="fecharMenu()">
+<div class="overlay" [class.active]="menuAtivo" (click)="fecharMenu()">
 </div>
 
-<nav 
-  class="sidebar bg-primary d-flex flex-column align-items-center justify-content-between p-3"
-  [class.active]="menuAtivo"
-  (click)="$event.stopPropagation()">
+<nav class="sidebar bg-primary d-flex flex-column align-items-center justify-content-between p-3"
+  [class.active]="menuAtivo" (click)="$event.stopPropagation()">
 
   <div class="mt-3 text-center perfil">
-    <a routerLink="/admin" class="text-decoration-none mb-3 d-flex justify-content-center">
+    <div class="text-decoration-none mb-3 d-flex justify-content-center">
       <img src="assets/perfil2.png" alt="Perfil" width="80" />
-    </a>
+    </div>
+    <button class=" btn btn-light py-1 fs-5 text-danger mt-2" (click)="fazerLogout()" title="Sair do Sistema">
+      <i class="bi bi-box-arrow-left"></i> Sair
+    </button>
   </div>
 
   <div class="nav-buttons d-flex flex-column align-items-center gap-3 my-4 w-100">
     <button routerLink="/lista-chamada" class="btn btn-light w-100 
     px-2" (click)="fecharMenu()">Lista de Chamada</button>
-    <button routerLink="/lista-geral" class="btn btn-light w-100" (click)="fecharMenu()">Lista Geral</button>
-    <button routerLink="/registro" class="btn btn-light w-100" (click)="fecharMenu()">Registros</button>
     <button routerLink="/relacao-servidores" class="btn btn-light w-100" (click)="fecharMenu()">Servidores</button>
   </div>
 
   <div class="mb-3">
-    <button class="btn btn-light rounded-4" (click)="fazerLogout()" title="Sair do Sistema">
-      <i class="logout bi bi-box-arrow-left fs-2"></i>
+    <button class="btn btn-light rounded-4 fs-2" (click)="fazerLogout()" title="Sair do Sistema">
+      <i class="bi bi-arrow-left"></i>
     </button>
   </div>
 </nav>
