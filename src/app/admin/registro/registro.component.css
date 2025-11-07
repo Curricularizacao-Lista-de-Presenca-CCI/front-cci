@@ -4,11 +4,11 @@
 
 body,
 html {
-  margin: 0;
   font-family: "Poppins", "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   height: 100%;
   overflow-y: auto;
+  margin: 0 0 0 150px;
 }
 
 .btn-back {
@@ -148,6 +148,11 @@ html {
 }
 
 @media (max-width: 768px) {
+
+  body {
+    margin: 0;
+  }
+
   .main-area {
     padding: 20px;
   }
@@ -165,6 +170,7 @@ html {
 }
 
 @media (min-width: 769px) and (max-width: 1199px) {
+
   .main-container {
     overflow-y: auto;
     height: auto;

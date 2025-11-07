@@ -71,16 +71,15 @@
                 </div>
               </div>
 
-              <div class="d-flex justify-content-center gap-3 mt-4">
-                <button routerLink="/relacao-servidores" class="btn btn-danger px-4">
+              <div class="d-flex justify-content-center gap-3 mt-4 pb-4">
+                <button type="button" class="btn btn-danger px-4" routerLink="/relacao-servidores">
                   Cancelar
                 </button>
-                <div class="d-flex justify-content-center gap-3 mt-4 pb-4">
-                  <button type="button" class="btn btn-success px-4" (click)="abrirModalConfirmacao()"
-                    [disabled]="cadastroForm.invalid">
-                    Cadastrar
-                  </button>
-                </div>
+                <button type="button" class="btn btn-success px-4" (click)="abrirModalConfirmacao()"
+                  [disabled]="cadastroForm.invalid">
+                  Cadastrar
+                </button>
+              </div>
             </form>
           </div>
         </div>
