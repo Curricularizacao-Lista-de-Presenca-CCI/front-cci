@@ -3,28 +3,32 @@
     <app-navbar></app-navbar>
 
     <div class="flex-fill p-5" style="overflow-y: auto; min-height: 100vh;">
-      <div class="content-wrapper">
-        <h2 class="titulo mb-4">Listas de Chamada</h2>
+      <div class="content-wrapper ">
+        <div class="d-flex flex-column justify-content-center align-items-start mb-4 div-inicio">
+          <h2 class="titulo mb-4">Listas de Chamada</h2>
 
-        <div class="d-flex justify-content-between w-100 row">
-            <div class="col-6 d-flex justify-content-start">
-               <button type="button" class="btn btn-custom fw-semibold fs-6 mb-4" (click)="abrirModalConfirmacao()">
-          <i class="bi bi-plus-lg me-1"></i> Importar Nova Chamada
-        </button>
+          <div class="d-flex justify-content-between w-100 row">
+            <div class="col-6 d-flex justify-content-start gap-2">
+              <button type="button" class="btn btn-custom fw-semibold fs-6" (click)="abrirModalConfirmacao()">
+                <i class="bi bi-plus-lg me-1"></i> Importar Nova Chamada
+              </button>
             </div>
 
-            <div class="col-6 d-flex flex-column justify-content-center">
+            <div class="col-6 d-flex justify-content-start gap-2">
               <div class="input-group">
-              <span class="input-group-text" id="basic-addon1"><i class="bi bi-search text-muted"></i></span>
-              <input type="text" class="form-control" placeholder="Pesquisar Lista de chamada" aria-label="Username"
-                aria-describedby="basic-addon1">
-            </div>
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-search text-muted"></i></span>
+                <input type="text" class="form-control" placeholder="Pesquisar Lista de chamada" aria-label="Username"
+                  aria-describedby="basic-addon1">
+              </div>
             </div>
 
           </div>
 
+        </div>
+
         <div class="mt-4 d-flex flex-column gap-3 cards-container">
-          <div class="card-lista d-flex justify-content-between align-items-center mx-auto" *ngFor="let lista of listas">
+          <div class="card-lista d-flex justify-content-between align-items-center mx-auto"
+            *ngFor="let lista of listas">
             <div class="card-nome">{{ lista.nomeEvento }}</div>
             <div class="d-flex gap-4">
               <button [routerLink]="['/busca-presenca', lista.idEvento]" class="btn btn-primary">
@@ -36,17 +40,6 @@
               <button class="btn btn-primary" (click)="baixarRelatorio(lista.idEvento)">
                 <i class="bi bi-download"></i> Baixar relatório
               </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-4 d-flex flex-column gap-3 cards-container">
-          <div class="card-lista d-flex justify-content-between align-items-center">
-            <div class="card-nome">Manhã especial de dia das mães</div>
-            <div class="buttons-wrapper d-flex gap-4">
-              <button routerLink="/busca-presenca" class="btn btn-primary"><i class="bi bi-journal-check"></i> Realizar Chamada</button>
-              <button class="btn btn-primary"><i class="bi bi-search"></i> Consultar</button>
-              <button class="btn btn-primary"><i class="bi bi-download"></i> Baixar relatório</button>
             </div>
           </div>
         </div>

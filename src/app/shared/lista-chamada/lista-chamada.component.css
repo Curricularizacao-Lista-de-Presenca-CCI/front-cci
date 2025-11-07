@@ -1,19 +1,13 @@
 html, body {
   height: 100%;
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch; /* suaviza o scroll no iOS */
+  -webkit-overflow-scrolling: touch;
+  margin-left: 150px;
 }
 
-.sidebar {
-  width: 120px;
-  background-color: #0d6efd;
-  border-top-right-radius: 20px;
-}
-
-.main-content {
-  width: 100%;
-  overflow-x: hidden;
-  padding: 48px;
+.flex-fill.p-5 {
+  max-height: none !important;
+  overflow-y: visible !important;
 }
 
 .titulo {
@@ -30,6 +24,7 @@ html, body {
   padding: 0.5rem 1.6rem;
   border-radius: 8px;
   font-weight: 600;
+  margin: 0;
   border: none;
   font-size: 1rem;
 }
@@ -97,22 +92,26 @@ html, body {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
-  z-index: 998; /* abaixo do menu, acima do conteúdo */
+  z-index: 998;
   opacity: 0;
   visibility: hidden;
-  pointer-events: none; /* 🔹 impede bloqueio de cliques */
+  pointer-events: none;
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .menu-overlay.active {
   opacity: 1;
   visibility: visible;
-  pointer-events: auto; /* 🔹 só habilita quando o menu está aberto */
+  pointer-events: auto; 
 }
 
 
 @media (min-width: 768px) and (max-width: 991px) {
 
+  body {
+    margin-left: 0;
+  }
+  
   .content-wrapper {
     margin-top: 4rem;
     padding-left: 0;
@@ -162,13 +161,47 @@ html, body {
     letter-spacing: 0.6px;
     line-height: 1.6;
   }
-
-  .main-content {
-    padding: 24px;
-  }
 }
 
 @media (max-width: 576px) {
+
+    .div-inicio {
+    align-items: center !important;
+  }
+
+  .d-flex.justify-content-between.w-100.row > .col-6 {
+    width: 100%; 
+    justify-content: center;
+  }
+  
+
+  .btn-custom, 
+  .input-group {
+    width: 100%;
+    max-width: 500px; 
+  }
+  
+  .div-inicio .col-6 {
+      display: flex !important; 
+      justify-content: center !important;
+  }
+
+  body {
+    margin-left: 0;
+  }
+  
+  .btn-custom {
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+    margin: 0.5rem auto;
+    padding: 0.6rem 0.8rem;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+  }
+
   .content-wrapper {
     margin-top: 3.5rem;
     padding-left: 0;
@@ -225,7 +258,4 @@ html, body {
     padding: 0.4rem 0.8rem;
   }
 
-  .main-content {
-    padding: 24px;
-  }
 }
