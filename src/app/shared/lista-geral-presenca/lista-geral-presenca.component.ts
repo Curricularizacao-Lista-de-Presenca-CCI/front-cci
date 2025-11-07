@@ -9,7 +9,7 @@ import { DatePipe, NgClass, NgFor, NgForOf, NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-lista-geral-presenca',
-  imports: [NavbarComponent, RouterModule, DatePipe, NgForOf, NgFor, NgClass, NgStyle],
+  imports: [NavbarComponent, RouterModule, DatePipe, NgForOf, NgFor],
   templateUrl: './lista-geral-presenca.component.html',
   styleUrl: './lista-geral-presenca.component.css'
 })
@@ -17,6 +17,7 @@ export class ListaGeralPresencaComponent implements OnInit {
 
   public idEvento!: number; 
   public alunos: ListaPresencaDTO[] = [];
+
   
 
   mensagemErro: string = 'Não foi possível finalizar a chamada. Verifique os dados';

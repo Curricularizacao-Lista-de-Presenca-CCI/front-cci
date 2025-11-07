@@ -1,90 +1,70 @@
 <body>
 
-<div class="d-flex min-vh-100">
+  <div class="d-flex min-vh-100">
 
-  <app-navbar></app-navbar>
+    <app-navbar></app-navbar>
 
-  <div class="flex-fill p-5" style="overflow-y: visible; min-height: 100vh;">
-  
-  <div class="content container-fluid p-0">
-    <h2 class="titulo-principal text-primary fw-bold mb-5">Lista Geral de Presença</h2>
+    <div class="flex-fill p-5" style="overflow-y: visible; min-height: 100vh;">
 
-    <div class="caixa-lista shadow p-4 rounded">
-      <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
-        <div>
-          <h5 class="titulo-lista mb-0">Lista Membros</h5>
-          <small class="text-muted">Membros Ativos/Inativos</small>
-        </div>
-        <div class="d-flex align-items-center gap-2">
-          <div class="input-group busca">
-            <span class="input-group-text bg-white border-end-0">
-              <i class="bi bi-search text-muted"></i>
-            </span>
-            <input type="text" class="form-control border-start-0" placeholder="Buscar" />
+      <div class="content container-fluid p-0">
+        <h2 class="titulo-principal text-primary fw-bold mb-5">Lista Geral de Presença</h2>
+
+        <div class="caixa-lista shadow p-4 rounded">
+          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
+            <div>
+              <h5 class="titulo-lista mb-0">Lista Membros</h5>
+            </div>
+            <div class="d-flex align-items-center gap-4">
+              
+              <div class="input-group busca">
+                <span class="input-group-text bg-white border-end-0">
+                  <i class="bi bi-search text-muted"></i>
+                </span>
+                <input type="text" class="form-control border-start-0" placeholder="Buscar" />
+              </div>
+
+              <div class="d-flex justify-content-center">
+                  <button class="btn btn-primary justify-content-end" (click)="abrirModalChamada()">
+                    Editar chamada
+                  </button>
+              </div>
+
+              <div class="d-flex justify-content-center">
+                  <button class="btn btn-success justify-content-end" (click)="abrirModalChamada()">
+                    Finalizar chamada
+                  </button>
+              </div>
+
+            </div>
           </div>
-          <div >
-            <select class="form-select filtro">
-            <option>Filtrar por: A-Z</option>
-            <option>Ativo</option>
-            <option>Inativo</option>
-          </select>
+
+          <div class="table-responsive">
+            <table class="table tabela-membros">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nome</th>
+                  <th>Inscrição</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                <tr *ngFor="let aluno of alunos">
+                  <td data-label="ID">{{ aluno.idAluno }}</td>
+                  <td data-label="Nome">{{ aluno.nomeAluno }}</td>
+                  <td data-label="Inscrição">outra informação</td>
+                  <td data-label="Status"><span class="badge status {{ aluno.status == 'Sim' ? 'ativo' : 'inativo' }}">
+                      {{ aluno.status }}
+                    </span></td>
+              </tbody>
+
+            </table>
           </div>
 
-          <div class="input-group busca">
-            <button class="btn btn-primary justify-content-end" (click)="abrirModalChamada()">
-              Finalizar chamada
-            </button>
-          </div>
 
-        </div>
-      </div>
-
-      <div class="table-responsive">
-        <table class="table tabela-membros">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nome</th>
-              <th>Inscrição</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-
-          <tbody>
-    
-            <tr *ngFor="let aluno of alunos">
-              <td>{{ aluno.idAluno }}</td>
-              <td>{{ aluno.nomeAluno }}</td>
-              <td>outra informação</td>
-              <td><span class="badge status {{ aluno.status == 'Sim' ? 'ativo' : 'inativo' }}">
-                {{ aluno.status }}
-              </span></td>
-            </tr>
-          </tbody>
-
-          <tbody>
-            <tr>
-              <td data-label="ID">00000</td>
-              <td data-label="Nome">Clara Maria</td>
-              <td data-label="Inscrição">DD/MM/AAAA</td>
-              <td data-label="Status"><span class="badge status ativo">Ativo</span></td>
-            </tr>
-          </tbody>
-
-          <tbody>
-            <tr>
-              <td data-label="ID">00000</td>
-              <td data-label="Nome">Nome</td>
-              <td data-label="Inscrição">DD/MM/AAAA</td>
-              <td data-label="Status"><span class="badge status ativo">Ativo</span></td>
-            </tr>
-          </tbody>
-
-        </table>
-      </div>
-
-      
-      <nav class="d-flex justify-content-end mt-3">
+          <!-- <nav class="d-flex justify-content-end mt-3">
         <ul class="pagination pagination-sm mb-0">
           <li class="page-item disabled"><a class="page-link">‹</a></li>
           <li class="page-item active"><a class="page-link">1</a></li>
@@ -95,31 +75,28 @@
           <li class="page-item"><a class="page-link">40</a></li>
           <li class="page-item"><a class="page-link">›</a></li>
         </ul>
-      </nav>
+      </nav> -->
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
 
 </body>
 
 <!-- Dialog de Confirmação de Registro -->
-<div class="modal fade" id="dialogFinalizarChamada" #dialogFinalizarChamadaRef tabindex="-1" aria-labelledby="staticBackdropLabel"
-  aria-hidden="true">
+<div class="modal fade" id="dialogFinalizarChamada" #dialogFinalizarChamadaRef tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Finalizar Chamada</h1>
-        <button type="button" class="btn-close" 
-        (click)="dialogFinalizarChamada = false" 
-        aria-label="Close"></button>
+        <button type="button" class="btn-close" (click)="dialogFinalizarChamada = false" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <p class="fw-bold">Deseja realmente finalizar a lista de chamada?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" 
-        (click)="dialogFinalizarChamada = false">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="dialogFinalizarChamada = false">Cancelar</button>
 
         <button type="button" (click)="finalizarChamada()" class="btn btn-success">
           Finalizar

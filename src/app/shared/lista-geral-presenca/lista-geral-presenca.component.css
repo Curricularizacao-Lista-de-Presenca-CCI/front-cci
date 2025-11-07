@@ -4,12 +4,7 @@ body {
   background-color: #ddeafb;
   overflow-y: auto;
   min-height: 100vh;
-}
-
-.sidebar {
-  background-color: #0d6efd;
-  width: 110px;
-  min-height: 100vh;
+  margin-left: 150px;
 }
 
 .perfil-icon {
@@ -18,7 +13,7 @@ body {
 
 tr {
   display: grid;
-  grid-template-columns: 4fr 4fr 3fr 2.8fr;
+  grid-template-columns: 2fr 5fr 3fr 2fr;
 }
 
 .btn-voltar {
@@ -47,7 +42,7 @@ tr {
   font-weight: 600;
 }
 
-.busca input {
+.input-group input {
   border-left: none;
   border-color: #ccc;
 }
@@ -85,8 +80,13 @@ tr {
   color: white;
 }
 
+
+
 @media (min-width: 481px) and (max-width: 768px), 
        (min-width: 481px) and (max-width: 1024px) and (orientation: portrait) {
+        body {
+    margin-left: 0;
+  }
   .content, .content.container-fluid, .main-content {
     padding-left: 0 !important;
     padding-right: 0 !important;
@@ -123,6 +123,11 @@ tr {
 }
 
 @media screen and (max-width: 480px) {
+  
+  body {
+    margin-left: 0;
+  }
+
   .sidebar {
     width: 60px;
   }
@@ -164,6 +169,8 @@ tr {
 
   .busca {
     margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
   }
 
   .d-flex.align-items-center.gap-2 {
@@ -220,5 +227,12 @@ tr {
 
   nav .pagination {
     justify-content: center !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  
+  body {
+    margin-left: 0;
   }
 }
