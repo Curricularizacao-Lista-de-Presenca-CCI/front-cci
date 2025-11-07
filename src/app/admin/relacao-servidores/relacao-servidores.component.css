@@ -1,6 +1,7 @@
 html, body { 
   height: auto !important;
   overflow-y: auto !important;
+  margin-left: 150px;
 }
 
 .flex-fill.p-5 {
@@ -11,7 +12,7 @@ html, body {
 .form-container {
   background-color: #f1f5f9;
   border-radius: 12px;
-  padding: 2rem;
+  padding: 1rem;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
   width: 97%;
 }
@@ -35,10 +36,13 @@ html, body {
   font-weight: bold;
   font-size: 2.1rem;
   margin-bottom: 1.2rem;
-  text-align: left;
 }
 
 @media (max-width: 768px) {
+  body {
+    margin-left: 0;
+  }
+
   .form-container .bg-white {
     flex-direction: column;
     align-items: flex-start;
@@ -68,6 +72,11 @@ html, body {
 }
 
 @media (max-width: 576px) {
+
+  .div-inicio {
+    align-items: center !important;
+  }
+
   .controls-and-title,
   .d-flex.justify-content-between.w-100.row,
   .form-container,
@@ -94,7 +103,6 @@ html, body {
     margin-top: 60px;
     text-align: center;
     font-size: 1.8rem;
-    margin-left: 20px;
   }
 
   .btn-custom {
@@ -159,6 +167,9 @@ html, body {
 }
 
 @media (min-width: 769px) and (max-width: 991px) {
+  body{
+    margin-left: 0;
+  }
   .d-flex.flex-column.justify-content-between.align-items-start.mb-4 {
     align-items: center !important;
   }

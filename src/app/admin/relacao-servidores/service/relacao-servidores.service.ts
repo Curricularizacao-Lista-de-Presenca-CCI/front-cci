@@ -18,7 +18,7 @@ export class RelacaoServidoresService {
     return this.http.get<Funcionario[]>(`${this.baseApiUrl}/buscar-funcionarios`);
   }
 
-  public buscarFuncionario(email: string): Observable<Funcionario> {
-    return this.http.get<Funcionario>(`${this.baseApiUrl}/cadastrar/${email}`);
+  public editarFuncionario(funcionario: Funcionario, idFuncionario: number): Observable<void> {
+    return this.http.post<void>(`${this.baseApiUrl}/alterar-informacoes-servidor/${idFuncionario}`, funcionario);
   }
 }

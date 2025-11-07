@@ -6,13 +6,13 @@
 
     <div class="flex-fill p-5" style="overflow-y: auto; max-height: 100vh;">
       <div class="flex-fill">
-        <div class="d-flex flex-column justify-content-between align-items-start mb-4">
+        <div class="d-flex flex-column justify-content-center align-items-start mb-4 div-inicio">
           <h2 class="titulo text-primary fw-bold mb-4">Relação de Servidores</h2>
 
           <div class="d-flex justify-content-between w-100 row">
             <div class="col-6 d-flex justify-content-start gap-2">
               <a routerLink="/registro" class="btn btn-custom fw-semibold fs-6"><i
-                class="botao-servidores bi bi-plus-lg me-1"></i>Registrar Novo Servidor</a>
+                  class="botao-servidores bi bi-plus-lg me-1"></i>Registrar Novo Servidor</a>
             </div>
 
             <div class="col-6 d-flex justify-content-start gap-2">
@@ -34,7 +34,9 @@
               *ngFor="let funcionario of listaFuncionarios">
               <div class="text-primary fw-semibold">{{ funcionario.nome }}</div>
               <div class="d-flex gap-2">
-                <button class="btn btn-primary px-3"><i class="bi bi-pencil"></i> Alterar</button>
+                <button class="btn btn-primary px-3" (click)="abrirModalAlterarFuncionario(funcionario)">
+                  <i class="bi bi-pencil"></i> Editar
+                </button>
                 <button class="btn btn-danger px-3 mx-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                   (click)="abrirModalInativar(funcionario)">
                   <i class="bi bi-x-lg"></i> Inativar
@@ -65,6 +67,98 @@
         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
         <button type="button" class="btn btn-danger">Inativar</button>
       </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Dialog de Alterar Dados -->
+<div class="modal fade" id="dialogaAlterarDados" #dialogaAlterarDados tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Alterar dados do(a) Funcionario(a) {{
+          funcionarioSelecionado?.nome }}
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="alteracaoForm" (ngSubmit)="enviarAlteracoes()">
+
+          <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" class="form-control" formControlName="nome" id="email"
+              placeholder="Informe o Nome do Servidor" value="{{ funcionarioSelecionado?.nome }}">
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" formControlName="email" id="email"
+              placeholder="Informe o Email do Servidor" value="{{ funcionarioSelecionado?.email }}">
+          </div>
+
+          <div class="mb-3">
+            <label for="areaAtuacao" class="form-label">
+              Área de Atuação<span class="text-danger"> *</span>
+            </label>
+            <select class="form-select" formControlName="areaAtuacao">
+              <option [value]="funcionarioSelecionado?.atuacao">
+                {{ funcionarioSelecionado?.atuacao == "C" ? "Coordenador" : "Professor" }}
+              </option>
+
+              <option *ngFor="let area of opcoesAtuacaoFiltrada" [value]="area.value">
+                {{ area.label }}
+              </option>
+            </select>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+              <i class="bi bi-x"></i>
+              Cancelar</button>
+
+            <button type="submit" class="btn btn-success" [disabled]="alteracaoForm.invalid">
+              <i class="bi bi-pencil"></i> Alterar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast de Sucesso -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast" #liveToastSuccess class="toast text-bg-success border-0" role="alert" aria-live="assertive"
+    aria-atomic="true">
+
+    <div class="toast-header text-bg-success border-0">
+      <strong class="me-auto">Sucesso ao editar servidor</strong>
+
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+
+    <div class="toast-body">
+      {{ mensagemSucesso }}
+    </div>
+  </div>
+</div>
+
+<!-- Toast de Erro -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast" #liveToastError class="toast text-bg-danger border-0" role="alert" aria-live="assertive"
+    aria-atomic="true">
+
+    <div class="toast-header text-bg-danger border-0">
+      <strong class="me-auto">Erro ao realizar edição</strong>
+
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+
+    <div class="toast-body">
+      {{ mensagemErro }}
     </div>
   </div>
 </div>
