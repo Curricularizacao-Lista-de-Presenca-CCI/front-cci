@@ -12,8 +12,8 @@
     <div class="text-decoration-none mb-3 d-flex justify-content-center">
       <img src="assets/perfil2.png" alt="Perfil" width="80" />
     </div>
-    <button class=" btn btn-light py-1 fs-5 text-danger mt-2" (click)="fazerLogout()" title="Sair do Sistema">
-      <i class="bi bi-box-arrow-left"></i> Sair
+    <button class=" btn btn-light py-1 fs-5 text-danger mt-2" (click)="abrirModalConfirmacao()" title="Sair do Sistema">
+      <i class="bi bi-box-arrow-left text-danger"></i> Sair
     </button>
   </div>
 
@@ -24,8 +24,30 @@
   </div>
 
   <div class="mb-3">
-    <button class="btn btn-light rounded-4 fs-2" (click)="fazerLogout()" title="Sair do Sistema">
-      <i class="bi bi-arrow-left"></i>
+    <button routerLink="/lista-chamada" class="btn btn-light rounded-4 fs-2" title="Voltar para Lista de Chamada" (click)="fecharMenu()">
+      <i class="bi bi-arrow-left text-primary"></i>
     </button>
   </div>
 </nav>
+
+<!-- Dialog de Confirmação de Logout -->
+<div class="modal fade" id="dialogConfirmacao" #dialogConfirmacaoRef tabindex="-1" aria-labelledby="staticBackdropLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmar Logout</h1>
+        <button type="button" class="btn-close" (click)="dialogConfirmacao = false" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="fw-bold">Deseja realmente sair do sistema?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="dialogConfirmacao = false">Cancelar</button>
+        <button type="button" (click)="fazerLogout()" class="btn btn-success">
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

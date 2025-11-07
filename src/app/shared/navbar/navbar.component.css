@@ -2,6 +2,8 @@
   width: 150px;
   height: 100vh;
   top: 0;
+  left: 0;
+  position: fixed;
   background-color: #0d6efd;
   border-top-right-radius: 20px;
   transition: all 0.3s ease;
@@ -78,7 +80,6 @@
 
 @media (max-width: 991px) {
   .sidebar {
-    position: fixed;
     top: 0;
     left: -160px;
     width: 140px;
