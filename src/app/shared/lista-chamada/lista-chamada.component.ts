@@ -6,12 +6,12 @@ import Toast from 'bootstrap/js/dist/toast';
 import Modal from 'bootstrap/js/dist/modal';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FuncionariosAtivosDTO } from '../models/funcionarios-ativos-dto';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { BuscarEventosCadastradoDTO } from '../models/buscar-eventos-cadastrado-dto';
 
 @Component({
   selector: 'app-lista-chamada',
-  imports: [NavbarComponent, RouterModule, FormsModule, ReactiveFormsModule, NgFor],
+  imports: [NavbarComponent, RouterModule, FormsModule, ReactiveFormsModule, NgFor, NgIf],
   templateUrl: './lista-chamada.component.html',
   styleUrl: './lista-chamada.component.css'
 })
@@ -31,6 +31,7 @@ export class ListaChamadaComponent {
     private formBuilder: FormBuilder,
   ) { }
 
+  funcionarioLogado: any;
   chamadaForm!: FormGroup;
   nomeArquivo: string | null = null;
 
@@ -70,7 +71,25 @@ export class ListaChamadaComponent {
       servidor: [null, [Validators.required]],
     });
     this.carregarFuncionarios();
-    this.carregarListas(1);
+    this.carregarDadosLogin();
+    this.carregarListas(this.funcionarioLogado.id);
+  }
+
+  carregarDadosLogin() {
+    const funcionarioString = localStorage.getItem("funcionario");
+    
+    if (funcionarioString) {
+      try {
+        this.funcionarioLogado = JSON.parse(funcionarioString);
+        console.log('Dados do Funcionário Logado:', this.funcionarioLogado);
+        
+      } catch (e) {
+        console.error("Erro ao analisar dados do funcionário no localStorage:", e);
+        localStorage.removeItem("funcionario");
+      }
+    } else {
+      console.warn("Nenhuma informação de funcionário encontrada no localStorage.");
+    }
   }
 
   carregarFuncionarios() {

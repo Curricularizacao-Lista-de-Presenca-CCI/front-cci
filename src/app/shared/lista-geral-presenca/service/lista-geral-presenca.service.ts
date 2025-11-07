@@ -19,7 +19,16 @@ export class ListaGeralPresencaService {
     return this.http.post<void>(`${this.baseApiUrlEvento}/finalizar-chamada/${idEvento}`, null);
   }
 
-  public buscarAlunos(idEvento: number): Observable<ListaPresencaDTO[]> {
-    return this.http.get<ListaPresencaDTO[]>(`${this.baseApiUrlListaPresenca}/buscar-todos-alunos/${idEvento}`);
+  public buscarAlunos(idFuncionario: number): Observable<ListaPresencaDTO[]> {
+    return this.http.get<ListaPresencaDTO[]>(`${this.baseApiUrlListaPresenca}/buscar-todos-alunos/${idFuncionario}`);
+  }
+
+  public alterarChamada(evento: ListaPresencaDTO,idEvento: number): Observable<ListaPresencaDTO[]> {
+    return this.http.post<ListaPresencaDTO[]>(`${this.baseApiUrlEvento}/alterar-lista-chamada/${idEvento}`, evento);
+  }
+
+    
+public RemoverChamada(idEvento: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseApiUrlEvento}/remover-lista-chamada/${idEvento}`);
   }
 }

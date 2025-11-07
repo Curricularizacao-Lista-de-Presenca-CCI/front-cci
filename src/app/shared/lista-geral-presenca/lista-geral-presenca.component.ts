@@ -5,30 +5,32 @@ import { ListaGeralPresencaService } from './service/lista-geral-presenca.servic
 import Toast from 'bootstrap/js/dist/toast';
 import Modal from 'bootstrap/js/dist/modal';
 import { ListaPresencaDTO } from '../models/lista-presenca-dto';
-import { DatePipe, NgClass, NgFor, NgForOf, NgStyle } from '@angular/common';
+import { DatePipe, NgFor, NgForOf, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-lista-geral-presenca',
-  imports: [NavbarComponent, RouterModule, DatePipe, NgForOf, NgFor],
+  imports: [NavbarComponent, RouterModule, DatePipe, NgForOf, NgFor, NgIf],
   templateUrl: './lista-geral-presenca.component.html',
   styleUrl: './lista-geral-presenca.component.css'
 })
 export class ListaGeralPresencaComponent implements OnInit {
 
+  funcionarioLogado: any;
   public idEvento!: number; 
   public alunos: ListaPresencaDTO[] = [];
-
-  
 
   mensagemErro: string = 'Não foi possível finalizar a chamada. Verifique os dados';
   mensagemSucesso: string = 'Chamada finalizada com sucesso!';
 
+  @ViewChild('dialogEdicaoChamadaRef') modalEdicaoChamadaEl!: ElementRef;
   @ViewChild('dialogFinalizarChamadaRef') modalFinalizarChamadaEl!: ElementRef;
   @ViewChild('liveToastError') liveToastRefError!: ElementRef;
   @ViewChild('liveToastSuccess') liveToastRefSuccess!: ElementRef;
 
   private modalFinalizarChamada: Modal | undefined;
+  private modalEditarChamada: Modal | undefined;
   private _dialogFinalizarChamada: boolean = false;
+  private _dialogEditarChamada: boolean = false;
 
   constructor(
     private listaGeralService: ListaGeralPresencaService,
@@ -41,11 +43,16 @@ export class ListaGeralPresencaComponent implements OnInit {
       this.idEvento = Number(idDaRota);
     }
     this.carregarAlunos(this.idEvento);
+    this.carregarDadosLogin();
   }
 
     ngAfterViewInit(): void {
       if (this.modalFinalizarChamadaEl) {
         this.modalFinalizarChamada = new Modal(this.modalFinalizarChamadaEl.nativeElement);
+      }
+
+      if (this.modalEdicaoChamadaEl) {
+        this.modalEditarChamada = new Modal(this.modalEdicaoChamadaEl.nativeElement);
       }
     }
   
@@ -64,6 +71,23 @@ export class ListaGeralPresencaComponent implements OnInit {
   
     abrirModalChamada() {
       this.dialogFinalizarChamada = true;
+    }
+
+    set dialogEditarChamada(value: boolean) {
+      this._dialogEditarChamada = value;
+      if (value) {
+        this.modalEditarChamada?.show();
+      } else {
+        this.modalEditarChamada?.hide();
+      }
+    }
+  
+    get dialogEditarChamada(): boolean {
+      return this._dialogEditarChamada;
+    }
+  
+    abrirModalEditarChamada() {
+      this.dialogEditarChamada = true;
     }
 
   public finalizarChamada(): void {
@@ -100,5 +124,22 @@ export class ListaGeralPresencaComponent implements OnInit {
         }
       });
     }
+
+    carregarDadosLogin() {
+    const funcionarioString = localStorage.getItem("funcionario");
+    
+    if (funcionarioString) {
+      try {
+        this.funcionarioLogado = JSON.parse(funcionarioString);
+        console.log('Dados do Funcionário Logado:', this.funcionarioLogado);
+        
+      } catch (e) {
+        console.error("Erro ao analisar dados do funcionário no localStorage:", e);
+        localStorage.removeItem("funcionario");
+      }
+    } else {
+      console.warn("Nenhuma informação de funcionário encontrada no localStorage.");
+    }
+  }
 
 }
