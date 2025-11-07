@@ -76,6 +76,25 @@
   font-size: 1.8rem;
 }
 
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 1040;
+  opacity: 0;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.overlay.active {
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 1;
+  pointer-events: all; 
+}
+
 @media (max-width: 991px) {
   .sidebar {
     position: fixed;
@@ -98,23 +117,4 @@
     border-radius: 6px;
     margin: 4px auto;
   }
-
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0);
-  z-index: 1040;
-  opacity: 0;
-  transition: background-color 0.3s ease, opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.overlay.active {
-  background-color: rgba(0, 0, 0, 0.4);
-  opacity: 1;
-  pointer-events: all; 
-}
 }

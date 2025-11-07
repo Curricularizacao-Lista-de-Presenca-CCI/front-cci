@@ -54,16 +54,9 @@ tr {
   margin-top: 10px;
 }
 
-
-
 .input-group input {
   border-left: none;
   border-color: #ccc;
-}
-
-.filtro {
-  width: 160px;
-  font-size: 0.9rem;
 }
 
 .tabela-membros th {
@@ -109,75 +102,68 @@ tr {
 
 .input-group.busca {
   min-width: 280px;
-  width: 100%; 
+  width: 100%;
   max-width: 400px;
 }
 
 
-@media (min-width: 481px) and (max-width: 768px),
-       (min-width: 481px) and (max-width: 1024px) and (orientation: portrait) {
+@media (min-width: 481px) and (max-width: 1024px) {
   body {
-    margin-left: 0;
+    margin: 0;
   }
 
-  .content, .content.container-fluid, .main-content {
+  .flex-fill {
+    padding: 0 !important;
+  }
+
+  .content.container-fluid {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
 
   .titulo-principal {
-    text-align: center !important;
-    margin-top: 60px !important;
-    margin-bottom: 20px !important;
-    width: 100% !important;
-    display: block !important;
-    font-size: 1.9rem !important;
+    text-align: center;
+    margin-top: 70px;
+    margin-bottom: 25px;
+    font-size: 1.9rem;
   }
 
   .caixa-lista {
-    padding: 20px 15px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
-  .caixa-lista .d-flex.justify-content-between,
-  .caixa-lista .d-flex.align-items-center.gap-2 {
-    flex-direction: column !important;
-    align-items: stretch !important;
-  }
-
-  .menu-toggle, .btn.menu-toggle {
-    z-index: 3000 !important;
-  }
-
-  .titulo-principal {
-    position: relative;
-    z-index: 2500;
+    padding: 20px;
+    width: 94%;
+    max-width: 750px;
+    margin-inline: auto;
   }
 }
 
 @media screen and (max-width: 480px) {
   body {
-    margin-left: 0;
+    margin: 0;
   }
 
-  .sidebar {
-    width: 60px;
+  .flex-fill {
+    padding: 0 !important;
   }
 
-  .content {
-    padding: 10px;
+  .content.container-fluid {
+    padding: 0 !important;
   }
 
   .titulo-principal {
     font-size: 1.7rem;
     text-align: center;
-    margin-top: 60px;
+    margin-top: 70px;
     margin-bottom: 20px;
   }
 
   .caixa-lista {
-    padding: 20px 15px;
+    margin: 0 auto;
+    width: 88%; 
+    max-width: 380px; 
+    background-color: #f4f6fa;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
   }
 
   .caixa-lista .d-flex.justify-content-between {
@@ -185,36 +171,24 @@ tr {
     align-items: stretch;
   }
 
-  .caixa-lista h5.titulo-lista {
+  .titulo-lista {
     text-align: center;
-    margin-bottom: 5px;
   }
 
   .infos-lista {
-    flex-direction: column;
     align-items: center;
-    gap: 5px;
     text-align: center;
-  }
-
-  .busca, .filtro {
-    width: 100% !important;
-  }
-
-  .busca {
     margin-bottom: 10px;
-    display: flex;
-    justify-content: center;
-  }
-
-  .d-flex.align-items-center.gap-2 {
-    flex-direction: column;
-    align-items: stretch;
   }
 
   .acao-botoes {
     flex-direction: column;
     gap: 8px;
+  }
+
+  .input-group.busca {
+    width: 100% !important;
+    margin-bottom: 8px;
   }
 
   .tabela-membros thead {
@@ -237,9 +211,6 @@ tr {
     padding: 6px 0;
     border: none;
     font-size: 0.9rem;
-    white-space: normal !important;
-    overflow-wrap: anywhere;
-    word-break: break-word;
     flex-wrap: wrap;
   }
 
@@ -247,30 +218,12 @@ tr {
     content: attr(data-label);
     font-weight: 600;
     color: #0d6efd;
-    flex: 0 0 80px;
     min-width: 80px;
-    margin-right: 6px;
-    text-align: left;
-  }
-
-  .tabela-membros td > * {
-    flex: 1 1 auto;
-    min-width: 0;
   }
 
   .status {
     display: inline-block;
     padding: 3px 8px;
     font-size: 0.75rem;
-  }
-
-  nav .pagination {
-    justify-content: center !important;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  body {
-    margin-left: 0;
   }
 }
