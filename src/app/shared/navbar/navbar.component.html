@@ -20,7 +20,7 @@
   <div class="nav-buttons d-flex flex-column align-items-center gap-3 my-4 w-100">
     <button routerLink="/lista-chamada" class="btn btn-light w-100 
     px-2" (click)="fecharMenu()">Lista de Chamada</button>
-    <button routerLink="/relacao-servidores" class="btn btn-light w-100" (click)="fecharMenu()">Servidores</button>
+    <button routerLink="/relacao-servidores" class="btn btn-light w-100" (click)="fecharMenu()" *ngIf="funcionarioLogado?.atuacao === 'C'">Servidores</button>
   </div>
 
   <div class="mb-3">
