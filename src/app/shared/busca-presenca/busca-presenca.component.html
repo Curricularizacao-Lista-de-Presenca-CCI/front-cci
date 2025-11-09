@@ -15,26 +15,23 @@
       <span class="input-group-text bg-white borda-busca">
         <i class="bi bi-search text-primary"></i>
       </span>
-      
-      <select class="form-select form-select" 
-              formControlName="nomeAluno" 
-              *ngIf="alunos && alunos.length > 0" 
-              aria-label="Large select example">
-        
+
+      <select class="form-select form-select" formControlName="nomeAluno" *ngIf="alunos && alunos.length > 0"
+        aria-label="Large select example">
+
         <option [ngValue]="null" selected disabled>Selecione o Aluno</option>
-        
-        <option *ngFor="let aluno of alunos" [value]="aluno.nomeAluno">
+
+        <option *ngFor="let aluno of alunos" [ngValue]="aluno">
           {{ aluno.nomeAluno }}
         </option>
-      
       </select>
-</form>
+
+    </form>
 
 
-    <button type="button" class="btn btn-success fs-1" 
-  (click)="abrirModalConfirmacao()"
-  [disabled]="presencaForm.invalid"> Confirmar Presença
-</button>
+    <button type="button" class="btn btn-success fs-1" (click)="abrirModalConfirmacao()"
+      [disabled]="presencaForm.invalid"> Confirmar Presença
+    </button>
 
   </div>
 
@@ -42,7 +39,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="dialogConfirmarPresenca" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel" #dialogConfirmarPresenca  aria-hidden="true">
+  aria-labelledby="staticBackdropLabel" #dialogConfirmarPresenca aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -50,7 +47,7 @@
         <button type="button" class="btn-close" (click)="dialogConfirmacao = false" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p class="fw-bold">Deseja confirmar presença do(a) aluno(a) {{ presencaForm.get('nomeAluno')?.value }}?</p>
+        <p class="fw-bold">Deseja confirmar presença do(a) aluno(a) {{ presencaForm.get('nomeAluno')?.value?.nomeAluno }}?</p>
         <p class="text-secondary">A confirmação de presença é necessária para o controle de acesso ao evento.</p>
       </div>
       <div class="modal-footer">
@@ -85,7 +82,7 @@
     aria-atomic="true">
 
     <div class="toast-header text-bg-danger border-0">
-      <strong class="me-auto">Erro ao realizar Login</strong>
+      <strong class="me-auto">Erro ao registrar Presença</strong>
 
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>

@@ -2,20 +2,26 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ColocarPresenca } from '../../models/colocar-presenca';
+import { ListaPresencaDTO } from '../../models/lista-presenca-dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BuscaPresencaService {
 
-    public baseApiUrl = "http://localhost:8080/lista-de-presenca";
+  public baseApiUrl = "http://localhost:8080/lista-de-presenca";
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
   ) { }
 
   public registrarPresenca(presencaForm: ColocarPresenca): Observable<void> {
     return this.http.post<void>(`${this.baseApiUrl}/colocar-presenca`, presencaForm);
+
+  }
+
+  public buscarAlunosFaltantes(idFuncionario: number): Observable<ListaPresencaDTO[]> {
+    return this.http.get<ListaPresencaDTO[]>(`${this.baseApiUrl}/buscar-alunos-faltantes/${idFuncionario}`);
   }
 
 }

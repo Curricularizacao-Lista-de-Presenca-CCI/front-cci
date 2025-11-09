@@ -19,8 +19,9 @@ import { DropdownModule } from 'primeng/dropdown';
 })
 export class BuscaPresencaComponent implements OnInit {
 
-  public idEvento!: number; 
-  alunos: ListaPresencaDTO [] = [];
+  public idEvento!: number;
+  public idAluno!: number;
+  alunos: ListaPresencaDTO[] = [];
   presencaForm: FormGroup;
   mensagemSucesso: string = 'Presença registrada com sucesso!';
   mensagemErro: string = 'Erro ao registrar Presença, confira os dados digitados!';
@@ -32,16 +33,15 @@ export class BuscaPresencaComponent implements OnInit {
   private modalConfirmacao: Modal | undefined;
   private _dialogConfirmacao: boolean = false;
 
-
   constructor(
     private fb: FormBuilder,
     private presencaService: BuscaPresencaService,
-    private listaGeralService: ListaGeralPresencaService,
     private route: ActivatedRoute
   ) {
     this.presencaForm = this.fb.group({
       nomeAluno: [null, Validators.required],
-      idEvento: [this.idEvento]
+      idEvento: [this.idEvento],
+      idAluno: [this.idEvento]
     });
   }
 
@@ -51,23 +51,22 @@ export class BuscaPresencaComponent implements OnInit {
       this.idEvento = Number(idDaRota);
     }
     this.carregarAlunos(this.idEvento);
-
     console.log(this.idEvento);
   }
 
   ngAfterViewInit(): void {
-      if (this.dialogConfirmarPresencaEl) {
-        this.modalConfirmacao = new Modal(this.dialogConfirmarPresencaEl.nativeElement);
-      }
+    if (this.dialogConfirmarPresencaEl) {
+      this.modalConfirmacao = new Modal(this.dialogConfirmarPresencaEl.nativeElement);
+    }
   }
-  
+
   set dialogConfirmacao(value: boolean) {
-      this._dialogConfirmacao = value;
-      if (value) {
-        this.modalConfirmacao?.show();
-      } else {
-        this.modalConfirmacao?.hide();
-      }
+    this._dialogConfirmacao = value;
+    if (value) {
+      this.modalConfirmacao?.show();
+    } else {
+      this.modalConfirmacao?.hide();
+    }
   }
 
   get dialogConfirmacao(): boolean {
@@ -86,13 +85,23 @@ export class BuscaPresencaComponent implements OnInit {
     if (this.presencaForm.invalid) {
       console.error('Nome do aluno faltando.');
       this.presencaForm.markAllAsTouched();
-    return;
+      return;
     }
 
+    const alunoSelecionado = this.presencaForm.get('nomeAluno')?.value;
+    
+    if (!alunoSelecionado || !alunoSelecionado.idAluno || !alunoSelecionado.nomeAluno) {
+      console.error('Objeto aluno incompleto ou nulo.');
+      return;
+    }
+    
     const form: ColocarPresenca = {
-      idEvento: this.idEvento,
-      nomeAluno: this.nomeAlunoControl?.value
+        idEvento: this.idEvento,
+        idAluno: alunoSelecionado.idAluno, 
+        nomeAluno: alunoSelecionado.nomeAluno, 
     };
+
+    console.log(form);
 
     this.dialogConfirmacao = false;
 
@@ -102,6 +111,7 @@ export class BuscaPresencaComponent implements OnInit {
     this.presencaService.registrarPresenca(form).subscribe({
       next: () => {
         console.log('Presença registrada com sucesso!');
+        this.carregarAlunos(this.idEvento);
         this.presencaForm.reset();
         toastSucesso.show();
       },
@@ -120,16 +130,16 @@ export class BuscaPresencaComponent implements OnInit {
     return this.presencaForm.get('idEvento');
   }
 
-      carregarAlunos(idEvento: number) {
-        this.listaGeralService.buscarAlunos(idEvento).subscribe({
-          next: (dados: ListaPresencaDTO[]) => {
-            this.alunos = dados;
-            console.log(this.alunos);
-          },
-          error: (err) => {
-            console.error('Erro ao buscar listas', err);
-          }
-        });
+  carregarAlunos(idEvento: number) {
+    this.presencaService.buscarAlunosFaltantes(idEvento).subscribe({
+      next: (dados: ListaPresencaDTO[]) => {
+        this.alunos = dados;
+        console.log(this.alunos);
+      },
+      error: (err) => {
+        console.error('Erro ao buscar listas', err);
       }
+    });
+  }
 
 }
