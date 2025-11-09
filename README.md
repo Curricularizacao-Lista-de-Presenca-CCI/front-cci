@@ -1,59 +1,112 @@
-# ListaDePresenca
+# 🧓 Sistema de Controle de Presença – CCI (Front-End)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.5.
+Este repositório contém o **Front-End** do sistema desenvolvido para o **Centro de Convivência do Idoso (CCI)** de Assis/SP.  
+O sistema tem como objetivo **modernizar o controle de presença dos idosos nas atividades**, substituindo o método manual em papel por uma interface digital acessível, intuitiva e eficiente.
 
-## Development server
+---
 
-To start a local development server, run:
+## 👥 Equipe de Desenvolvimento
 
-```bash
-ng serve
-```
+| Nome 
+|------|
+| [**Clara Joaquim Plantier**](https://github.com/ClaraJoaquim) 
+| [**Gabriela Viana Cunha**](https://github.com/gvcunhadev) 
+| [**Kaique Alexandre de Souza Kubota**](https://github.com/SouzaKaique) 
+| [**Maria Vitória Alvim Nardotto**](https://github.com/VitoriaAlvim7) 
+| [**Yann Pereira Garcia**](https://github.com/YannPG) 
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## 💡 Sobre o Projeto
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+O **Sistema de Controle de Presença – CCI** foi desenvolvido para **facilitar o registro e acompanhamento da presença dos idosos** nas atividades diárias do centro.  
+Ele permite que coordenadores e funcionários **importem listas de presença e gerenciem eventos**, com foco em **acessibilidade e usabilidade**.
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 🛠️ Tecnologias Utilizadas
 
-```bash
-ng generate --help
-```
+- **Angular v19**
+- **Bootstrap**
+- **Node.js (v18+)**
+- **TypeScript**
+- **HTML5 / CSS3**
 
-## Building
+---
 
-To build the project run:
+## ⚙️ Pré-requisitos
 
-```bash
-ng build
-```
+Antes de executar o projeto, verifique se o ambiente Angular está configurado corretamente:
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- [Node.js](https://nodejs.org/) (versão 18 ou superior)
+- [Angular CLI](https://angular.io/cli) (instale com: `npm install -g @angular/cli`)
 
-## Running unit tests
+---
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## 🚀 Como Executar o Projeto
 
-```bash
-ng test
-```
+1. **Clone o repositório**
+   ```bash
+   git clone https://github.com/Curricularizacao-Lista-de-Presenca-CCI/front-cci.git
 
-## Running end-to-end tests
+2. **Acesse a pasta do projeto**
+   ```bash
+   cd FRONT-CCI
 
-For end-to-end (e2e) testing, run:
+3. **Instale as dependências**
+   ```bash
+   npm install
 
-```bash
-ng e2e
-```
+4. **Execute o servidor local**
+   ```bash
+   npx ng serve
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+5. **Acesse no navegador**
+   ```bash
+   http://localhost:4200
 
-## Additional Resources
+## 🧭 Estrutura de Navegação
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+| Caminho | Descrição |
+|----------|------------|
+| `/login` | Tela de acesso inicial dos usuários. |
+| `/registro` | Cadastro de novos servidores. |
+| `/admin` | Área administrativa do sistema. |
+| `/dialog-importe-chamada` | Modal para importação de chamadas. |
+| `/importe-chamada` | Tela principal para importação de listas de presença. |
+| `/relacao-servidores` | Exibe e gerencia os servidores cadastrados. |
+| `/busca-presenca` | Tela onde o idoso confirma sua presença. |
+| `/lista-chamada` | Exibe listas de chamada criadas ou disponíveis. |
+| `/lista-geral-presenca` | Mostra uma lista de presença consolidada. |
+
+---
+
+## 🔒 Conexão com o Back-End
+
+O **back-end** foi desenvolvido em **Java 21 / Spring Boot 3.5.5 / PostgreSQL 17**.  
+
+Antes de iniciar o front-end, garanta que o servidor do back-end esteja rodando.  
+
+---
+
+## 🧩 Funcionalidades Principais
+
+- 🔑 Login e registro de coordenadores/servidores  
+- 📥 Importação de listas de presença em formato `.xlsx`  
+- 🕓 Abertura e finalização de chamadas de presença  
+- 🙋‍♀️ Auto-registro de presença pelos idosos  
+- 🔎 Consulta de eventos e listas finalizadas  
+- 📊 Relatórios de frequência  
+
+---
+
+## 🧱 Estrutura de Pastas
+
+<img width="195" height="291" alt="image" src="https://github.com/user-attachments/assets/5bb7322a-45aa-4d69-852e-383bfee1463a" />
+
+---
+
+## 🧰 Encerrando o Servidor
+Para encerrar a execução do servidor local, pressione:
+   ```bash
+   CTRL + C
