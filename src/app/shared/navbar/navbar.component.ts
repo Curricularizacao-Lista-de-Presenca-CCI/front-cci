@@ -73,14 +73,10 @@ export class NavbarComponent implements OnInit {
     if (funcionarioString) {
       try {
         this.funcionarioLogado = JSON.parse(funcionarioString);
-        console.log('Dados do Funcionário Logado:', this.funcionarioLogado);
 
       } catch (e) {
-        console.error("Erro ao analisar dados do funcionário no localStorage:", e);
         localStorage.removeItem("funcionario");
       }
-    } else {
-      console.warn("Nenhuma informação de funcionário encontrada no localStorage.");
     }
   }
 }

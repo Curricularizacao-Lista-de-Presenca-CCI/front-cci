@@ -105,7 +105,6 @@ export class RegistroComponent implements OnInit {
   /*----------- Função Cadastrar -----------*/
   cadastrar() {
     if (this.cadastroForm.invalid) {
-      console.error("Formulário inválido. Preencha todos os campos obrigatórios.");
       this.cadastroForm.markAllAsTouched();
       return;
     }

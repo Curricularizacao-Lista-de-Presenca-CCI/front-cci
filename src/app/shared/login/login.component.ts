@@ -50,7 +50,6 @@ export class LoginComponent {
     this.loginService.login(dadosLogin).subscribe({
       next: (funcionarioLogado) => {
         localStorage.setItem("funcionario", JSON.stringify(funcionarioLogado));
-        console.log(funcionarioLogado);
 
         const toastElement = this.liveToastRefSuccess.nativeElement;
         const toast = new Toast(toastElement);
@@ -58,7 +57,6 @@ export class LoginComponent {
         this.router.navigate(['/lista-chamada']);
       },
       error: (erro) => {
-        console.log(erro);
         if (erro.error && erro.error.message) {
           this.mensagemErro = erro.error.message;
         } else {

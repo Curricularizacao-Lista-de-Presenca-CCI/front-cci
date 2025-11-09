@@ -114,7 +114,6 @@ export class TokenService {
         return response;
       })
       .catch(response => {
-        console.error('Erro ao renovar Token.', response);
         return response;
       });
   }
@@ -123,7 +122,6 @@ export class TokenService {
     localStorage.removeItem('token');
     this.jwtPayload = null;
   }
-  // No seu TokenService
 
   public logout() {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -134,11 +132,6 @@ export class TokenService {
     }
 
     this.http.delete(this.servidorService.getServidor() + '/tokens/revoke', { headers }).toPromise()
-      .then(() => {
-        console.log('Token revogado no backend.');
-      }).catch((error) => {
-        console.error('Erro ao revogar token, mas forçando logout local.', error);
-      })
       .finally(() => {
         this.limparAccessToken();
         localStorage.clear();

@@ -200,11 +200,6 @@ export class ListaChamadaComponent {
   }
 
   public deletarChamada(): void {
-    if (!this.idEvento) {
-      console.error('ID do evento não encontrado!');
-      return;
-    }
-
     this.listaChamadaService.deletarChamada(this.idEvento).subscribe({
       next: () => {
         this.dialogDeletarChamada = false;
@@ -238,14 +233,10 @@ export class ListaChamadaComponent {
     if (funcionarioString) {
       try {
         this.funcionarioLogado = JSON.parse(funcionarioString);
-        console.log('Dados do Funcionário Logado:', this.funcionarioLogado);
 
       } catch (e) {
-        console.error("Erro ao analisar dados do funcionário no localStorage:", e);
         localStorage.removeItem("funcionario");
       }
-    } else {
-      console.warn("Nenhuma informação de funcionário encontrada no localStorage.");
     }
   }
 
@@ -253,10 +244,6 @@ export class ListaChamadaComponent {
     this.listaGeralService.buscarChamada(idEvento).subscribe({
       next: (dados: BuscarEventosCadastradoDTO) => {
         this.dadosEvento = dados;
-        console.log(this.dadosEvento);
-      },
-      error: (err) => {
-        console.error('Erro ao buscar listas', err);
       }
     });
   }
@@ -265,9 +252,6 @@ export class ListaChamadaComponent {
     this.listaChamadaService.buscarFuncionariosAtivos().subscribe({
       next: (dados: FuncionariosAtivosDTO[]) => {
         this.funcionarios = dados;
-      },
-      error: (err) => {
-        console.error('Erro ao buscar funcionários', err);
       }
     });
   }
@@ -276,10 +260,6 @@ export class ListaChamadaComponent {
     this.listaChamadaService.buscarListasDeChamada(idFuncionario).subscribe({
       next: (dados: BuscarEventosCadastradoDTO[]) => {
         this.listas = dados;
-        console.log(dados);
-      },
-      error: (err) => {
-        console.error('Erro ao buscar listas', err);
       }
     });
   }

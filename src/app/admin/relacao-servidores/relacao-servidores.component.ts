@@ -124,7 +124,6 @@ export class RelacaoServidoresComponent {
   /*----------- Funções de Enviar Arquivo e Inativar Servidor -----------*/
   enviarAlteracoes() {
     if (this.alteracaoForm.invalid || !this.funcionarioSelecionado) {
-      console.error('Formulário inválido ou funcionário não selecionado.');
       return;
     }
 
@@ -153,11 +152,6 @@ export class RelacaoServidoresComponent {
   }
 
   inativarServidor() {
-    if (!this.funcionarioSelecionado) {
-      console.error('Nenhum funcionário selecionado para inativar/ativar.');
-      return;
-    }
-
     const novoStatus = !this.funcionarioSelecionado.ativo;
     const dadosInativar: InativarServidorForm = {
       idFuncionario: this.funcionarioSelecionado.id,
@@ -165,8 +159,7 @@ export class RelacaoServidoresComponent {
     };
 
     this.relacaoServidoresService.inativarFuncionario(dadosInativar).subscribe({
-      next: (resposta) => {
-        console.log(resposta);
+      next: () => {
         this.mensagemToast = novoStatus
           ? 'Servidor ativado com sucesso!'
           : 'Servidor inativado com sucesso!';
@@ -189,10 +182,6 @@ export class RelacaoServidoresComponent {
     this.relacaoServidoresService.buscarListaFuncionarios().subscribe({
       next: (dados: Funcionario[]) => {
         this.listaFuncionarios = dados;
-        console.log(this.listaFuncionarios);
-      },
-      error: (err) => {
-        console.error('Erro ao buscar funcionários', err);
       }
     });
   }

@@ -52,7 +52,6 @@ export class BuscaPresencaComponent implements OnInit {
       this.idEvento = Number(idDaRota);
     }
     this.carregarAlunos(this.idEvento);
-    console.log(this.idEvento);
   }
 
   /*----------- Configurações dos Dialogs -----------*/
@@ -90,7 +89,6 @@ export class BuscaPresencaComponent implements OnInit {
   /*----------- Função de Confirmar Presença -----------*/
   confirmarPresenca() {
     if (this.presencaForm.invalid) {
-      console.error('Nome do aluno faltando.');
       this.presencaForm.markAllAsTouched();
       return;
     }
@@ -98,7 +96,6 @@ export class BuscaPresencaComponent implements OnInit {
     const alunoSelecionado = this.presencaForm.get('nomeAluno')?.value;
 
     if (!alunoSelecionado || !alunoSelecionado.idAluno || !alunoSelecionado.nomeAluno) {
-      console.error('Objeto aluno incompleto ou nulo.');
       return;
     }
 
@@ -107,8 +104,6 @@ export class BuscaPresencaComponent implements OnInit {
       idAluno: alunoSelecionado.idAluno,
       nomeAluno: alunoSelecionado.nomeAluno,
     };
-
-    console.log(form);
 
     this.dialogConfirmacao = false;
 
@@ -141,10 +136,6 @@ export class BuscaPresencaComponent implements OnInit {
     this.presencaService.buscarAlunosFaltantes(idEvento).subscribe({
       next: (dados: ListaPresencaDTO[]) => {
         this.alunos = dados;
-        console.log(this.alunos);
-      },
-      error: (err) => {
-        console.error('Erro ao buscar listas', err);
       }
     });
   }

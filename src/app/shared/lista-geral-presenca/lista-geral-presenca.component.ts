@@ -161,11 +161,6 @@ export class ListaGeralPresencaComponent implements OnInit {
 
     const toast = new Toast(this.liveToastGenericRef.nativeElement);
 
-    if (!this.idEvento) {
-      console.error('ID do evento não encontrado!');
-      return;
-    }
-
     const dadosAlterados = {
       ...this.dadosEvento,
       local: this.chamadaForm.get('local')?.value,
@@ -180,24 +175,17 @@ export class ListaGeralPresencaComponent implements OnInit {
         this.toastClass = 'text-bg-success';
         this.carregarListasDeChamada(this.idEvento);
         this.dialogEditarChamada = false;
-        console.log('Chamada editada com sucesso!');
       },
       error: (err) => {
         this.mensagemToast = 'Não foi possível editar a chamada. Verifique os dados';
         this.toastClass = 'text-bg-danger';
         toast.show();
-        console.error('Erro ao finalizar chamada:', err);
       }
     });
   }
 
   public finalizarChamada(): void {
     const toast = new Toast(this.liveToastGenericRef.nativeElement);
-
-    if (!this.idEvento) {
-      console.error('ID do evento não encontrado!');
-      return;
-    }
 
     this.listaGeralService.finalizarChamada(this.idEvento).subscribe({
       next: () => {
@@ -210,7 +198,6 @@ export class ListaGeralPresencaComponent implements OnInit {
         this.mensagemToast = 'Não foi possível finalizar a chamada. Verifique os dados';
         this.toastClass = 'text-bg-danger';
         toast.show();
-        console.error('Erro ao finalizar chamada:', err);
       }
     });
   }
@@ -272,9 +259,6 @@ export class ListaGeralPresencaComponent implements OnInit {
       next: (dados: FuncionariosAtivosDTO[]) => {
         this.funcionarios = dados;
         this.opcoesAtuacao = this.funcionarios;
-      },
-      error: (err) => {
-        console.error('Erro ao buscar funcionários', err);
       }
     });
   }
@@ -283,10 +267,6 @@ export class ListaGeralPresencaComponent implements OnInit {
     this.listaGeralService.buscarAlunos(idEvento).subscribe({
       next: (dados: ListaPresencaDTO[]) => {
         this.alunos = dados;
-        console.log(this.alunos);
-      },
-      error: (err) => {
-        console.error('Erro ao buscar listas', err);
       }
     });
   }
@@ -295,10 +275,6 @@ export class ListaGeralPresencaComponent implements OnInit {
     this.listaGeralService.buscarChamada(idEvento).subscribe({
       next: (dados: BuscarEventosCadastradoDTO) => {
         this.dadosEvento = dados;
-        console.log(this.dadosEvento);
-      },
-      error: (err) => {
-        console.error('Erro ao buscar listas', err);
       }
     });
   }
@@ -309,14 +285,9 @@ export class ListaGeralPresencaComponent implements OnInit {
     if (funcionarioString) {
       try {
         this.funcionarioLogado = JSON.parse(funcionarioString);
-        console.log('Dados do Funcionário Logado:', this.funcionarioLogado);
-
       } catch (e) {
-        console.error("Erro ao analisar dados do funcionário no localStorage:", e);
         localStorage.removeItem("funcionario");
       }
-    } else {
-      console.warn("Nenhuma informação de funcionário encontrada no localStorage.");
     }
   }
 
