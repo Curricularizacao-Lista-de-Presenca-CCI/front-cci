@@ -6,7 +6,6 @@ import { CommonModule } from '@angular/common';
 import Toast from 'bootstrap/js/dist/toast';
 import Modal from 'bootstrap/js/dist/modal';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { ListaGeralPresencaService } from '../lista-geral-presenca/service/lista-geral-presenca.service';
 import { ListaPresencaDTO } from '../models/lista-presenca-dto';
 import { SelectModule } from 'primeng/select';
 import { DropdownModule } from 'primeng/dropdown';
@@ -23,12 +22,13 @@ export class BuscaPresencaComponent implements OnInit {
   public idAluno!: number;
   alunos: ListaPresencaDTO[] = [];
   presencaForm: FormGroup;
-  mensagemSucesso: string = 'Presença registrada com sucesso!';
-  mensagemErro: string = 'Erro ao registrar Presença, confira os dados digitados!';
-
-  @ViewChild('liveToastSuccess') liveToastRefSuccess!: ElementRef;
-  @ViewChild('liveToastError') liveToastRefError!: ElementRef;
+  mensagemToast: string = '';
+  toastClass: string = '';
+  
   @ViewChild('dialogConfirmarPresenca') dialogConfirmarPresencaEl!: ElementRef;
+  @ViewChild('liveToastGeneric') liveToastGenericRef!: ElementRef;
+  toast!: Toast;
+  
 
   private modalConfirmacao: Modal | undefined;
   private _dialogConfirmacao: boolean = false;
@@ -57,6 +57,10 @@ export class BuscaPresencaComponent implements OnInit {
   ngAfterViewInit(): void {
     if (this.dialogConfirmarPresencaEl) {
       this.modalConfirmacao = new Modal(this.dialogConfirmarPresencaEl.nativeElement);
+    }
+
+    if (this.liveToastGenericRef) {
+      this.toast = new Toast(this.liveToastGenericRef.nativeElement);
     }
   }
 
@@ -105,19 +109,18 @@ export class BuscaPresencaComponent implements OnInit {
 
     this.dialogConfirmacao = false;
 
-    const toastSucesso = new Toast(this.liveToastRefSuccess.nativeElement);
-    const toastErro = new Toast(this.liveToastRefError.nativeElement);
-
     this.presencaService.registrarPresenca(form).subscribe({
       next: () => {
-        console.log('Presença registrada com sucesso!');
         this.carregarAlunos(this.idEvento);
         this.presencaForm.reset();
-        toastSucesso.show();
+        this.toastClass = 'text-bg-success';
+        this.mensagemToast = 'Presença registrada com sucesso!';
+        this.toast.show();
       },
       error: (err) => {
-        console.error('Erro ao registrar presença', err);
-        toastErro.show();
+        this.toastClass = 'text-bg-success';
+        this.mensagemToast = err.error?.message || 'Erro ao registrar presença.';
+        this.toast.show();
       }
     });
   }

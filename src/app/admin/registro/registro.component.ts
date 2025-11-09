@@ -22,9 +22,11 @@ export class RegistroComponent implements OnInit {
 
   @ViewChild('dialogConfirmacaoRef') modalConfirmacaoEl!: ElementRef;
   @ViewChild('dialogSucessoRef') modalSucessoEl!: ElementRef;
-  @ViewChild('liveToast') liveToastRef!: ElementRef;
+  @ViewChild('liveToastGeneric') liveToastGenericRef!: ElementRef;
 
-  mensagemErro: string = 'Ocorreu um erro inesperado. Tente novamente.';
+  mensagemToast: string = '';
+  toastClass: string = '';
+  toast!: Toast;
   cadastroForm!: FormGroup;
   cadastrou: boolean = false;
 
@@ -58,6 +60,10 @@ export class RegistroComponent implements OnInit {
     }
     if (this.modalSucessoEl) {
       this.modalSucesso = new Modal(this.modalSucessoEl.nativeElement);
+    }
+
+    if (this.liveToastGenericRef) {
+      this.toast = new Toast(this.liveToastGenericRef.nativeElement);
     }
   }
 
@@ -114,16 +120,9 @@ cadastrar() {
       this.dialogSucesso = true;
       this.cadastroForm.reset();
     },
-    error: (erro) => {
-      if (erro.error && erro.error.message) {
-          this.mensagemErro = erro.error.message;
-        } else {
-          this.mensagemErro = 'Ocorreu um erro ao processar sua solicitação.';
-        }
-
-        const toastElement = this.liveToastRef.nativeElement;
-        const toast = new Toast(toastElement);
-        toast.show();
+    error: (err) => {
+        this.mensagemToast = err.error?.message || 'Erro ao registrar presença.';
+        this.toast.show();
     }
   });
 } 

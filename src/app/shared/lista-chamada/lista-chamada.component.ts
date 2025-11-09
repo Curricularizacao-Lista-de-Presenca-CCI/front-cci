@@ -18,15 +18,14 @@ import { ListaGeralPresencaService } from '../lista-geral-presenca/service/lista
 })
 export class ListaChamadaComponent {
 
-  mensagemErro: string = 'Não foi possível baixar o relatório.';
-  mensagemSucesso: string = 'Relatório Baixado com sucesso!';
-
-  @ViewChild('liveToastError') liveToastRefError!: ElementRef;
-  @ViewChild('liveToastSuccess') liveToastRefSuccess!: ElementRef;
+  mensagemToast: string = '';
+  toastClass: string = '';
+  
   @ViewChild('dialogImporteChamada') modalImporteChamadaEl!: ElementRef;
   @ViewChild('dialogDeletarChamadaRef') modalDeletarChamadaEl!: ElementRef;
   @ViewChild('fileInputRef') fileInputRef!: ElementRef;
-
+  @ViewChild('liveToastGeneric') liveToastGenericRef!: ElementRef;
+  toast!: Toast;
 
   constructor(
     private listaChamadaService: ListaChamadaService,
@@ -57,6 +56,10 @@ export class ListaChamadaComponent {
 
     if (this.modalDeletarChamadaEl) {
       this.modalDeletarChamada = new Modal(this.modalDeletarChamadaEl.nativeElement);
+    }
+
+    if (this.liveToastGenericRef) {
+      this.toast = new Toast(this.liveToastGenericRef.nativeElement);
     }
   }
 
@@ -163,9 +166,7 @@ export class ListaChamadaComponent {
       } else {
         this.nomeArquivo = 'Arquivo inválido! (Requer .xlsx)';
         this.removerArquivo();
-
-        const toast = new Toast(this.liveToastRefError.nativeElement);
-        toast.show();
+        this.toast.show();
       }
     } else {
       this.nomeArquivo = null;
@@ -182,12 +183,9 @@ export class ListaChamadaComponent {
   }
 
   enviarArquivo() {
-    const toastError = new Toast(this.liveToastRefError.nativeElement);
-    const toastSuccess = new Toast(this.liveToastRefSuccess.nativeElement);
-
     if (this.chamadaForm.invalid) {
-      this.mensagemErro = 'Preencha todos os campos obrigatórios.';
-      toastError.show();
+      this.mensagemToast = 'Preencha todos os campos obrigatórios.';
+      this.toast.show();
       return;
     }
 
@@ -199,45 +197,42 @@ export class ListaChamadaComponent {
 
     this.listaChamadaService.importarChamada(formData).subscribe({
       next: () => {
-        console.log('Arquivo enviado com sucesso!');
-        toastSuccess.show();
-        this.dialogImporteChamada = false;
         this.removerArquivo();
+        this.toastClass = 'text-bg-success';
+        this.mensagemToast = 'Relatório Baixado com sucesso!';
+        this.toast.show();
+        this.dialogImporteChamada = false;
       },
       error: (err) => {
-        console.error('Erro ao enviar arquivo', err);
-        this.mensagemErro = err.error?.message || 'Erro ao enviar arquivo.';
-        toastError.show();
+        this.toastClass = 'text-bg-danger';
+        this.mensagemToast = err.error?.message || 'Erro ao enviar arquivo.';
+        this.toast.show();
       }
     });
   }
 
 
   public baixarRelatorio(idEvento: number): void {
-
-    const toastSucess = new Toast(this.liveToastRefSuccess.nativeElement);
-    const toastError = new Toast(this.liveToastRefError.nativeElement);
-
-
     this.listaChamadaService.buscarPDF(idEvento).subscribe({
       next: (blob: Blob) => {
         const url = window.URL.createObjectURL(blob);
 
         const link = document.createElement('a');
+
         link.href = url;
-
         link.setAttribute('download', `Relatorio_Evento_${idEvento}.pdf`);
-
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-
         window.URL.revokeObjectURL(url);
-        toastSucess.show();
+
+        this.mensagemToast = 'Relatório baixado com sucesso!';
+        this.toastClass = 'text-bg-success';
+        this.toast.show();
       },
       error: (err) => {
-        console.error('Erro ao baixar o relatório:', err);
-        toastError.show();
+        this.mensagemToast = err.error?.message || 'Erro ao baixar relatório.';
+        this.toast.show();
       }
     });
   }
@@ -255,10 +250,6 @@ export class ListaChamadaComponent {
   }
 
   public deletarChamada(): void {
-
-    const toastSucess = new Toast(this.liveToastRefSuccess.nativeElement);
-    const toastError = new Toast(this.liveToastRefError.nativeElement);
-
     if (!this.idEvento) {
       console.error('ID do evento não encontrado!');
       return;
@@ -267,15 +258,15 @@ export class ListaChamadaComponent {
     this.listaChamadaService.deletarChamada(this.idEvento).subscribe({
       next: () => {
         this.dialogDeletarChamada = false;
-        toastSucess.show();
+        this.mensagemToast = 'Chamada deletada com sucesso!';
+        this.toastClass = 'text-bg-success';
+        this.toast.show();
         this.carregarListas(this.funcionarioLogado.id);
-        this.mensagemSucesso = 'Chamada deletada com sucesso!';
-        console.log('Chamada deletada com sucesso!');
       },
       error: (err) => {
-        toastError.show();
-        this.mensagemErro = 'Não foi possível deletar a chamada. Verifique os dados';
-        console.error('Erro ao finalizar chamada:', err);
+        this.toastClass = 'text-bg-danger';
+        this.mensagemToast = err.error?.message || 'Erro ao deletar chamada.';
+        this.toast.show();
       }
     });
   }

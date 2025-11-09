@@ -137,19 +137,19 @@
   </div>
 </div>
 
-
-<!-- Toast de Erro -->
+<!-- Toast -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
-  <div id="liveToast" #liveToast class="toast text-bg-danger border-0" role="alert" aria-live="assertive"
-    aria-atomic="true">
+  <div id="liveToast" #liveToastGeneric class="toast border-0" role="alert" aria-live="assertive" aria-atomic="true"
+    [class]="toastClass">
 
-    <div class="toast-header text-bg-danger border-0">
-      <strong class="me-auto">Erro ao tentar cadastrar</strong>
+    <div class="toast-header border-0" [class]="toastClass">
+      <h1 class="modal-title fs-5">{{ mensagemToast }}</h1>
+
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
 
     <div class="toast-body">
-      {{ mensagemErro }}
+      {{ mensagemToast }}
     </div>
   </div>
 </div>

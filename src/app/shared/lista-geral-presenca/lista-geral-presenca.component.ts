@@ -6,7 +6,6 @@ import Toast from 'bootstrap/js/dist/toast';
 import Modal from 'bootstrap/js/dist/modal';
 import { ListaPresencaDTO } from '../models/lista-presenca-dto';
 import { DatePipe, NgFor, NgForOf, NgIf } from '@angular/common';
-import { Evento } from '../models/evento';
 import { BuscarEventosCadastradoDTO } from '../models/buscar-eventos-cadastrado-dto';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FuncionariosAtivosDTO } from '../models/funcionarios-ativos-dto';
@@ -37,7 +36,7 @@ export class ListaGeralPresencaComponent implements OnInit {
   opcoesAtuacao: any;
 
   mensagemToast: string = '';
-  toastClass: string = 'text-bg-success';
+  toastClass: string = '';
 
   @ViewChild('dialogEdicaoChamadaRef') modalEdicaoChamadaEl!: ElementRef;
   @ViewChild('dialogFinalizarChamadaRef') modalFinalizarChamadaEl!: ElementRef;
@@ -228,6 +227,7 @@ export class ListaGeralPresencaComponent implements OnInit {
       next: () => {
         this.mensagemToast = 'Chamada editada com sucesso!';
         toast.show();
+        this.toastClass = 'text-bg-success';
         this.carregarListasDeChamada(this.idEvento);
         this.dialogEditarChamada = false;
         console.log('Chamada editada com sucesso!');
@@ -312,14 +312,12 @@ export class ListaGeralPresencaComponent implements OnInit {
 
   get alunosFiltrados(): ListaPresencaDTO[] {
     if (!this.termoBusca) {
-        return this.alunos; // Retorna a lista completa se não houver termo
+        return this.alunos;
     }
 
     const termoBuscaLower = this.termoBusca.toLowerCase();
 
-    // Filtra a lista de alunos pelo campo 'nomeAluno'
     return this.alunos.filter(aluno => {
-        // Assume que ListaPresencaDTO tem a propriedade 'nomeAluno'
         return aluno.nomeAluno.toLowerCase().includes(termoBuscaLower);
     });
 }

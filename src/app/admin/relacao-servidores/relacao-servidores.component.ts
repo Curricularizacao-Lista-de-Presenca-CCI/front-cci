@@ -19,11 +19,11 @@ import { InativarServidorForm } from '../../shared/models/inativar-servidor-form
 export class RelacaoServidoresComponent {
 
   @ViewChild('dialogaAlterarDados') modalAlterarDadosEl!: ElementRef;
-  @ViewChild('liveToastSuccess') liveToastRefSuccess!: ElementRef;
-  @ViewChild('liveToastError') liveToastRefError!: ElementRef;
+  @ViewChild('liveToastGeneric') liveToastGenericRef!: ElementRef;
 
-  mensagemSucesso: string = 'Edição realizada com sucesso!';
-  mensagemErro: string = 'Erro ao editar Servidor!';
+  mensagemToast: string = '';
+  toastClass: string = '';
+  toast!: Toast;
 
   listaFuncionarios: Funcionario[] = [];
   funcionarioSelecionado!: Funcionario;
@@ -67,6 +67,10 @@ export class RelacaoServidoresComponent {
   ngAfterViewInit(): void {
     if (this.modalAlterarDadosEl) {
       this.modalAlterarDados = new Modal(this.modalAlterarDadosEl.nativeElement);
+    }
+
+    if (this.liveToastGenericRef) {
+      this.toast = new Toast(this.liveToastGenericRef.nativeElement);
     }
   }
 
@@ -113,19 +117,18 @@ export class RelacaoServidoresComponent {
       statusServidor: true
     };
 
-    const toastSucesso = new Toast(this.liveToastRefSuccess.nativeElement);
-    const toastErro = new Toast(this.liveToastRefError.nativeElement);
-
     this.relacaoServidoresService.editarFuncionario(dadosAlterados, this.funcionarioSelecionado.id).subscribe({
-      next: (resposta) => {
-        console.log('Servidor alterado com sucesso:', resposta);
+      next: () => {
         this.dialogImporteChamada = false;
-        toastSucesso.show();
+        this.toastClass = 'text-bg-success';
+        this.mensagemToast = 'Servidor editado com sucesso!';
+        this.toast.show();
         this.carregarlistaFuncionarios();
       },
       error: (err) => {
-        toastErro.show();
-        console.error('Erro ao alterar servidor', err);
+        this.mensagemToast = err.error?.message || 'Erro ao editar servidor.';
+        this.toastClass = 'text-bg-danger';
+        this.toast.show();
       }
     });
   }
@@ -137,9 +140,6 @@ export class RelacaoServidoresComponent {
       return;
     }
 
-    const toastSucesso = new Toast(this.liveToastRefSuccess.nativeElement);
-    const toastErro = new Toast(this.liveToastRefError.nativeElement);
-
     const novoStatus = !this.funcionarioSelecionado.ativo;
 
     const dadosInativar: InativarServidorForm = {
@@ -147,22 +147,22 @@ export class RelacaoServidoresComponent {
       statusFuncionario: novoStatus,
     };
 
-    this.mensagemSucesso = novoStatus
-      ? 'Servidor ativado com sucesso!'
-      : 'Servidor inativado com sucesso!';
-
     this.relacaoServidoresService.inativarFuncionario(dadosInativar).subscribe({
       next: (resposta) => {
         console.log(resposta);
-        toastSucesso.show();
+        this.mensagemToast = novoStatus
+          ? 'Servidor ativado com sucesso!'
+          : 'Servidor inativado com sucesso!';
+        this.toastClass = 'text-bg-success';
+        this.toast.show();
         this.carregarlistaFuncionarios();
       },
-      error: (err) => {
-        this.mensagemErro = novoStatus
+      error: () => {
+        this.mensagemToast = novoStatus
           ? 'Erro ao ativar Servidor!'
           : 'Erro ao inativar Servidor!';
-        toastErro.show();
-        console.error('Erro ao alternar status do servidor', err);
+        this.toastClass = 'text-bg-danger';
+        this.toast.show();
       }
     });
   }
@@ -185,14 +185,13 @@ export class RelacaoServidoresComponent {
 
   get listaFuncionariosFiltrada(): Funcionario[] {
     if (!this.termoBusca) {
-        return this.listaFuncionarios; // Retorna a lista completa se não houver termo de busca
+      return this.listaFuncionarios;
     }
 
     const termoBuscaLower = this.termoBusca.toLowerCase();
 
     return this.listaFuncionarios.filter(funcionario => {
-        // Verifica se o nome do funcionário (em minúsculas) inclui o termo de busca (em minúsculas)
-        return funcionario.nome.toLowerCase().includes(termoBuscaLower);
+      return funcionario.nome.toLowerCase().includes(termoBuscaLower);
     });
-}
+  }
 }
