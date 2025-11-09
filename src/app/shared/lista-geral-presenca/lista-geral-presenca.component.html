@@ -2,8 +2,6 @@
   <div class="d-flex min-vh-100">
     <app-navbar></app-navbar>
 
-  <div class="d-flex min-vh-100">
-
     <app-navbar></app-navbar>
 
     <div class="flex-fill p-5" style="overflow-y: visible; min-height: 100vh;">
@@ -14,24 +12,36 @@
         <div class="caixa-lista shadow p-4 rounded">
           <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
             <div>
-              <h5 class="titulo-lista mb-2">Lista de Alunos</h5>
+              <h5 class="titulo-lista mb-2">Evento {{ dadosEvento?.titulo }} - Lista de Alunos</h5>
 
               <div class="infos-lista d-flex gap-3">
-                <span>Local:</span>
-                <span>Servidor:</span>
+                <span>Local: {{ dadosEvento?.local }}</span>
+                <span>Servidor: {{ dadosEvento?.funcionario }}</span>
               </div>
             </div>
             <div class="acao-botoes d-flex align-items-center gap-4">
-              
+
               <div class="input-group busca me-2 flex-nowrap">
                 <span class="input-group-text bg-white border-end-0">
                   <i class="bi bi-search text-muted"></i>
                 </span>
-                <input type="text" class="form-control border-start-0" placeholder="Buscar" />
+                <input type="text" class="form-control border-start-0" placeholder="Buscar" [(ngModel)]="termoBusca" />
               </div>
 
-              <button class="btn btn-primary px-3 py-2" (click)="abrirModalEditarChamada()" *ngIf="funcionarioLogado?.atuacao === 'C'">Editar chamada</button>
-              <button class="btn btn-success px-3 py-2" (click)="abrirModalChamada()" *ngIf="funcionarioLogado?.atuacao === 'C'">Finalizar chamada</button>
+              <button class="btn btn-primary px-3 py-2 fs-6" (click)="abrirModalEditarChamada()"
+                *ngIf="funcionarioLogado?.atuacao === 'C' && dadosEvento?.finalizado == false">Editar Evento
+              </button>
+              <div class="acao-botoes d-flex align-items-center gap-4">
+                <button class="btn btn-primary px-3 py-2 fs-6" (click)="modoEdicaoPresenca = true"
+                  *ngIf="funcionarioLogado?.atuacao === 'C' && dadosEvento?.finalizado == false && !modoEdicaoPresenca">
+                  Editar Chamada
+                </button>
+
+              </div>
+              <button class="btn btn-success px-3 py-2 fs-6" (click)="abrirModalChamada()"
+                *ngIf="funcionarioLogado?.atuacao === 'C' && dadosEvento?.finalizado == false">Finalizar
+                chamada
+              </button>
             </div>
           </div>
 
@@ -39,24 +49,49 @@
             <table class="table tabela-membros">
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <th class="d-flex justify-content-center">ID</th>
                   <th>Nome</th>
-                  <th>Data do Evento</th>
-                  <th>Presença</th>
+                  <th class="d-flex justify-content-center">Data do Evento</th>
+                  <th class="d-flex justify-content-center">Presença</th>
                 </tr>
               </thead>
 
               <tbody>
-
-                <tr *ngFor="let aluno of alunos">
-                  <td data-label="ID">{{ aluno.idAluno }}</td>
+                <tr *ngFor="let aluno of alunosFiltrados">
+                  <td data-label="ID" class="d-flex justify-content-center">{{ aluno.idAluno }}</td>
                   <td data-label="Nome">{{ aluno.nomeAluno }}</td>
-                  <td data-label="Inscrição">{{ aluno.data }}</td>
-                  <td data-label="Status"><span class="badge status {{ aluno.status == 'Sim' ? 'ativo' : 'inativo' }}">
+                  <td data-label="Inscrição" class="d-flex justify-content-center">{{ aluno.data }}</td>
+
+                  <td data-label="Status" class="d-flex justify-content-center align-items-center">
+                    <span *ngIf="!modoEdicaoPresenca"
+                      class="badge status {{ aluno.status == 'Sim' ? 'ativo' : 'inativo' }}">
                       {{ aluno.status }}
-                    </span></td>
+                    </span>
+
+                    <ng-container *ngIf="modoEdicaoPresenca">
+                      <input class="form-check-input fs-5" type="checkbox" [id]="'checkbox-' + aluno.idAluno"
+                        [checked]="aluno.status === 'Sim'" (change)="atualizarStatusPresenca(aluno, $event)">
+
+                      <label class="form-check-label visually-hidden" [for]="'checkbox-' + aluno.idAluno">
+                        Presença
+                      </label>
+                    </ng-container>
+                  </td>
+                </tr>
               </tbody>
 
+              <ng-container *ngIf="modoEdicaoPresenca">
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                  <button class="btn btn-success px-3 py-2 fs-6" (click)="salvarPresencasEditadas()">
+                    Salvar Presenças
+                  </button>
+                  <button class="btn btn-danger px-3 py-2 fs-6"
+                    (click)="modoEdicaoPresenca = false; carregarAlunosOriginal()">
+                    Cancelar
+                  </button>
+                </div>
+
+              </ng-container>
             </table>
           </div>
         </div>
@@ -72,66 +107,54 @@
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Evento</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Evento {{ dadosEvento?.titulo }}</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
 
-        <!-- <form [formGroup]="chamadaForm" (ngSubmit)="enviarArquivo()"> -->
+        <form [formGroup]="chamadaForm" (ngSubmit)="EditarChamada()">
 
-          <!-- <form>
+          <div class="mb-3">
+            <label for="descricao" class="form-label">Nome do Evento</label>
+            <input type="text" class="form-control" [value]="dadosEvento?.titulo" formControlName="titulo"
+              id="descricao" placeholder="Informe o Nome do Evento">
+          </div>
 
           <div class="mb-3">
             <label for="descricao" class="form-label">Local do Evento</label>
-            <input type="text" class="form-control" formControlName="local" id="descricao"
+            <input type="text" class="form-control" [value]="dadosEvento?.local" formControlName="local" id="descricao"
               placeholder="Informe o Local do Evento">
           </div>
 
           <div class="mb-3">
-            <label for="servidor" class="form-label">Adicionar Servidor</label>
-            <select class="form-select" id="servidor" formControlName="servidor">
-              <option [ngValue]="null" selected disabled>Selecione um Servidor</option>
+            <label for="servidor" class="form-label">Alterar Servidor</label>
+            <select class="form-select" id="servidor" formControlName="funcionario">
+              <option [value]="dadosEvento?.idFuncionario">{{ dadosEvento?.funcionario }}</option>
 
-              <option *ngFor="let func of funcionarios" [ngValue]="func.idFuncionario">
+              <option *ngFor="let func of opcoesAtuacaoFiltrada" [ngValue]="func.idFuncionario">
                 {{ func.nome }}
               </option>
             </select>
           </div>
 
-          <div class="d-flex justify-content-between align-items-center gap-2 mb-4">
-            <div>
-              <label for="meuInputFile" class="btn btn-primary">
-                <i class="bi bi-upload"></i>
-                Importar
-              </label>
-
-              <input type="file" id="meuInputFile" class="d-none" (change)="onFileSelected($event)" #fileInputRef
-                accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-              <span class="text-muted ps-2">
-                {{ nomeArquivo || 'Nenhum arquivo selecionado' }}
-              </span>
-            </div>
-
-            <button class="btn btn-danger" (click)="removerArquivo()">
-              <i class="bi bi-x-circle"></i>
-            </button>
-          </div>
-
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="bi bi-x"></i>
-              Cancelar</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+              <i class="bi bi-x"></i>Cancelar
+            </button>
 
             <button type="submit" class="btn btn-success" [disabled]="chamadaForm.invalid">
               <i class="bi bi-check2"></i> Salvar
             </button>
           </div>
-        </form> -->
+        </form>
+
+
       </div>
     </div>
   </div>
 </div>
 
-<!-- Dialog de Confirmação de Registro -->
+<!-- Dialog de Finalizar Chamada -->
 <div class="modal fade" id="dialogFinalizarChamada" #dialogFinalizarChamadaRef tabindex="-1"
   aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -154,70 +177,19 @@
   </div>
 </div>
 
-<!-- Toast de Sucesso de Edição -->
+<!-- Toast -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
-  <div id="liveToast" #liveToastEdicaoSuccess class="toast text-bg-success border-0" role="alert" aria-live="assertive"
-    aria-atomic="true">
+  <div id="liveToast" #liveToastGeneric class="toast border-0" role="alert" aria-live="assertive" aria-atomic="true"
+    [class]="toastClass">
 
-    <div class="toast-header text-bg-success border-0">
-      <strong class="me-auto">Sucesso ao enviar Arquivo</strong>
+    <div class="toast-header border-0" [class]="toastClass">
+      <h1 class="modal-title fs-5">{{ mensagemToast }}</h1>
 
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
 
     <div class="toast-body">
-      {{ mensagemSucesso }}
-    </div>
-  </div>
-</div>
-
-<!-- Toast de Erro de Edição -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-  <div id="liveToast" #liveToastEdicaoError class="toast text-bg-danger border-0" role="alert" aria-live="assertive"
-    aria-atomic="true">
-
-    <div class="toast-header text-bg-danger border-0">
-      <strong class="me-auto">Erro ao enviar Arquivo</strong>
-
-      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-
-    <div class="toast-body">
-      {{ mensagemErro }}
-    </div>
-  </div>
-</div>
-
-<!-- Toast de Erro de Finalização -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-  <div id="liveToast" #liveToastError class="toast text-bg-danger border-0" role="alert" aria-live="assertive"
-    aria-atomic="true">
-
-    <div class="toast-header text-bg-danger border-0">
-      <strong class="me-auto">Erro ao finalizar chamada</strong>
-
-      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-
-    <div class="toast-body">
-      {{ mensagemErro }}
-    </div>
-  </div>
-</div>
-
-<!-- Toast de Sucesso de Finalização -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-  <div id="liveToast" #liveToastSuccess class="toast text-bg-success border-0" role="alert" aria-live="assertive"
-    aria-atomic="true">
-
-    <div class="toast-header text-bg-success border-0">
-      <strong class="me-auto">Chamada finalizada com sucesso</strong>
-
-      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-
-    <div class="toast-body">
-      {{ mensagemSucesso }}
+      {{ mensagemToast }}
     </div>
   </div>
 </div>
