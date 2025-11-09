@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Funcionario } from '../../../shared/models/funcionario';
+import { InativarServidorForm } from '../../../shared/models/inativar-servidor-form';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,9 @@ export class RelacaoServidoresService {
 
   public editarFuncionario(funcionario: Funcionario, idFuncionario: number): Observable<void> {
     return this.http.post<void>(`${this.baseApiUrl}/alterar-informacoes-servidor/${idFuncionario}`, funcionario);
+  }
+
+  public inativarFuncionario(inativarServidorForm: InativarServidorForm): Observable<void> {
+    return this.http.post<void>(`${this.baseApiUrl}/alterar-status-funcionario`, inativarServidorForm);
   }
 }

@@ -19,7 +19,7 @@
               <div class="input-group">
                 <span class="input-group-text" id="basic-addon1"><i class="bi bi-search text-muted"></i></span>
                 <input type="text" class="form-control" placeholder="Buscar Servidor" aria-label="Username"
-                  aria-describedby="basic-addon1">
+                  aria-describedby="basic-addon1" [(ngModel)]="termoBusca">
               </div>
             </div>
 
@@ -31,15 +31,18 @@
           <div class="d-flex flex-column gap-3">
 
             <div class="bg-white rounded shadow-sm p-3 d-flex justify-content-between align-items-center"
-              *ngFor="let funcionario of listaFuncionarios">
-              <div class="text-primary fw-semibold">{{ funcionario.nome }}</div>
+              *ngFor="let funcionario of listaFuncionariosFiltrada">
+              <div class="text-primary fw-semibold" [class.text-muted]="!funcionario.ativo">{{ funcionario.nome }}</div>
               <div class="d-flex gap-2">
-                <button class="btn btn-primary px-3" (click)="abrirModalAlterarFuncionario(funcionario)">
+                <button class="btn btn-primary px-3" *ngIf="funcionario.ativo" (click)="abrirModalAlterarFuncionario(funcionario)">
                   <i class="bi bi-pencil"></i> Editar
                 </button>
-                <button class="btn btn-danger px-3 mx-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                  (click)="abrirModalInativar(funcionario)">
-                  <i class="bi bi-x-lg"></i> Inativar
+
+                <button [class]="funcionario.ativo ? 'btn btn-danger px-3 mx-3' : 'btn btn-success px-3 mx-3'"
+                  data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="abrirModalInativar(funcionario)">
+                  <i [class]="funcionario.ativo ? 'bi bi-x-lg' : 'bi bi-check-lg'"></i>
+
+                  {{ funcionario.ativo ? 'Inativar' : 'Ativar' }}
                 </button>
               </div>
             </div>
@@ -57,15 +60,22 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Inativar Servidor</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+          {{ funcionarioSelecionado?.ativo ? 'Inativar' : 'Ativar' }} Servidor
+        </h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p>Deseja realmente inativar o(a) Servidor(a) {{ funcionarioSelecionado?.nome }}?</p>
+        <p>Deseja realmente {{ funcionarioSelecionado?.ativo ? 'inativar' : 'ativar' }} o(a) Servidor(a) {{
+          funcionarioSelecionado?.nome }}?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger">Inativar</button>
+
+        <button type="button" data-bs-dismiss="modal" (click)="inativarServidor()"
+          [class]="funcionarioSelecionado?.ativo ? 'btn btn-danger' : 'btn btn-success'">
+          {{ funcionarioSelecionado?.ativo ? 'Inativar' : 'Ativar' }}
+        </button>
       </div>
     </div>
   </div>
@@ -135,7 +145,7 @@
     aria-atomic="true">
 
     <div class="toast-header text-bg-success border-0">
-      <strong class="me-auto">Sucesso ao editar servidor</strong>
+      <strong class="me-auto">{{ mensagemSucesso }}</strong>
 
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
@@ -152,7 +162,7 @@
     aria-atomic="true">
 
     <div class="toast-header text-bg-danger border-0">
-      <strong class="me-auto">Erro ao realizar edição</strong>
+      <strong class="me-auto">{{ mensagemErro }}</strong>
 
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
