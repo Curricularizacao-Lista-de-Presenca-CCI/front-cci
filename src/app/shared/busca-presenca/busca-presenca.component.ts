@@ -18,17 +18,18 @@ import { DropdownModule } from 'primeng/dropdown';
 })
 export class BuscaPresencaComponent implements OnInit {
 
+  /*----------- Definições das Variáveis -----------*/
   public idEvento!: number;
   public idAluno!: number;
   alunos: ListaPresencaDTO[] = [];
   presencaForm: FormGroup;
   mensagemToast: string = '';
   toastClass: string = '';
-  
+
   @ViewChild('dialogConfirmarPresenca') dialogConfirmarPresencaEl!: ElementRef;
   @ViewChild('liveToastGeneric') liveToastGenericRef!: ElementRef;
   toast!: Toast;
-  
+
 
   private modalConfirmacao: Modal | undefined;
   private _dialogConfirmacao: boolean = false;
@@ -54,6 +55,7 @@ export class BuscaPresencaComponent implements OnInit {
     console.log(this.idEvento);
   }
 
+  /*----------- Configurações dos Dialogs -----------*/
   ngAfterViewInit(): void {
     if (this.dialogConfirmarPresencaEl) {
       this.modalConfirmacao = new Modal(this.dialogConfirmarPresencaEl.nativeElement);
@@ -85,6 +87,7 @@ export class BuscaPresencaComponent implements OnInit {
     this.dialogConfirmacao = true;
   }
 
+  /*----------- Função de Confirmar Presença -----------*/
   confirmarPresenca() {
     if (this.presencaForm.invalid) {
       console.error('Nome do aluno faltando.');
@@ -93,16 +96,16 @@ export class BuscaPresencaComponent implements OnInit {
     }
 
     const alunoSelecionado = this.presencaForm.get('nomeAluno')?.value;
-    
+
     if (!alunoSelecionado || !alunoSelecionado.idAluno || !alunoSelecionado.nomeAluno) {
       console.error('Objeto aluno incompleto ou nulo.');
       return;
     }
-    
+
     const form: ColocarPresenca = {
-        idEvento: this.idEvento,
-        idAluno: alunoSelecionado.idAluno, 
-        nomeAluno: alunoSelecionado.nomeAluno, 
+      idEvento: this.idEvento,
+      idAluno: alunoSelecionado.idAluno,
+      nomeAluno: alunoSelecionado.nomeAluno,
     };
 
     console.log(form);
@@ -133,6 +136,7 @@ export class BuscaPresencaComponent implements OnInit {
     return this.presencaForm.get('idEvento');
   }
 
+  /*----------- Funções de carregar dados -----------*/
   carregarAlunos(idEvento: number) {
     this.presencaService.buscarAlunosFaltantes(idEvento).subscribe({
       next: (dados: ListaPresencaDTO[]) => {
@@ -144,5 +148,4 @@ export class BuscaPresencaComponent implements OnInit {
       }
     });
   }
-
 }

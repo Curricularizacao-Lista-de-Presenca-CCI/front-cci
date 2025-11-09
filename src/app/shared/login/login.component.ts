@@ -13,6 +13,7 @@ import Toast from 'bootstrap/js/dist/toast';
 })
 export class LoginComponent {
 
+  /*----------- Definições das Variáveis -----------*/
   formLogin!: FormGroup;
   enviado: boolean = false;
   mensagemErro: string = 'Ocorreu um erro inesperado. Tente novamente.';
@@ -34,6 +35,8 @@ export class LoginComponent {
     });
   }
 
+
+  /*----------- Função de Login -----------*/
   login() {
 
     this.enviado = true;

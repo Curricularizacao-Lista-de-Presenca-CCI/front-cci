@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   height: 100%;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -53,7 +54,7 @@ html, body {
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
   width: 97%;
 }
 
@@ -97,7 +98,7 @@ html, body {
 .menu-overlay.active {
   opacity: 1;
   visibility: visible;
-  pointer-events: auto; 
+  pointer-events: auto;
 }
 
 
@@ -106,7 +107,7 @@ html, body {
   body {
     margin-left: 0;
   }
-  
+
   .content-wrapper {
     margin-top: 4rem;
     padding-left: 0;
@@ -160,31 +161,31 @@ html, body {
 
 @media (max-width: 576px) {
 
-    .div-inicio {
+  .div-inicio {
     align-items: center !important;
   }
 
-  .d-flex.justify-content-between.w-100.row > .col-6 {
-    width: 100%; 
+  .d-flex.justify-content-between.w-100.row>.col-6 {
+    width: 100%;
     justify-content: center;
   }
-  
 
-  .btn-custom, 
+
+  .btn-custom,
   .input-group {
     width: 100%;
-    max-width: 500px; 
+    max-width: 500px;
   }
-  
+
   .div-inicio .col-6 {
-      display: flex !important; 
-      justify-content: center !important;
+    display: flex !important;
+    justify-content: center !important;
   }
 
   body {
     margin-left: 0;
   }
-  
+
   .btn-custom {
     display: block;
     width: 100%;

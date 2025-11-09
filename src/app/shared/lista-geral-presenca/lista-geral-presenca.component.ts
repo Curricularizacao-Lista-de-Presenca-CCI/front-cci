@@ -21,6 +21,7 @@ import { ColocarPresenca } from '../models/colocar-presenca';
 })
 export class ListaGeralPresencaComponent implements OnInit {
 
+  /*----------- Definições das Variáveis -----------*/
   modoEdicaoPresenca: boolean = false;
   termoBusca: string = '';
   alunosOriginais: any[] = [];
@@ -83,6 +84,7 @@ export class ListaGeralPresencaComponent implements OnInit {
     this.carregarFuncionarios();
   }
 
+  /*----------- Configurações dos Dialogs -----------*/
   ngAfterViewInit(): void {
     if (this.modalFinalizarChamadaEl) {
       this.modalFinalizarChamada = new Modal(this.modalFinalizarChamadaEl.nativeElement);
@@ -154,59 +156,7 @@ export class ListaGeralPresencaComponent implements OnInit {
     this.dialogFinalizarChamada = true;
   }
 
-  carregarFuncionarios() {
-    this.listaChamadaService.buscarFuncionariosAtivos().subscribe({
-      next: (dados: FuncionariosAtivosDTO[]) => {
-        this.funcionarios = dados;
-        this.opcoesAtuacao = this.funcionarios;
-      },
-      error: (err) => {
-        console.error('Erro ao buscar funcionários', err);
-      }
-    });
-  }
-
-  carregarAlunos(idEvento: number) {
-    this.listaGeralService.buscarAlunos(idEvento).subscribe({
-      next: (dados: ListaPresencaDTO[]) => {
-        this.alunos = dados;
-        console.log(this.alunos);
-      },
-      error: (err) => {
-        console.error('Erro ao buscar listas', err);
-      }
-    });
-  }
-
-  carregarListasDeChamada(idEvento: number) {
-    this.listaGeralService.buscarChamada(idEvento).subscribe({
-      next: (dados: BuscarEventosCadastradoDTO) => {
-        this.dadosEvento = dados;
-        console.log(this.dadosEvento);
-      },
-      error: (err) => {
-        console.error('Erro ao buscar listas', err);
-      }
-    });
-  }
-
-  carregarDadosLogin() {
-    const funcionarioString = localStorage.getItem("funcionario");
-
-    if (funcionarioString) {
-      try {
-        this.funcionarioLogado = JSON.parse(funcionarioString);
-        console.log('Dados do Funcionário Logado:', this.funcionarioLogado);
-
-      } catch (e) {
-        console.error("Erro ao analisar dados do funcionário no localStorage:", e);
-        localStorage.removeItem("funcionario");
-      }
-    } else {
-      console.warn("Nenhuma informação de funcionário encontrada no localStorage.");
-    }
-  }
-
+  /*----------- Funções de Editar evento, editar e finalizar Chamada -----------*/
   public EditarChamada(): void {
 
     const toast = new Toast(this.liveToastGenericRef.nativeElement);
@@ -265,7 +215,6 @@ export class ListaGeralPresencaComponent implements OnInit {
     });
   }
 
-
   prepararEdicao() {
     this.alunosOriginais = JSON.parse(JSON.stringify(this.alunos));
     this.modoEdicaoPresenca = true;
@@ -305,21 +254,75 @@ export class ListaGeralPresencaComponent implements OnInit {
     this.modoEdicaoPresenca = false;
   }
 
-  carregarAlunosOriginal() {
-    this.modoEdicaoPresenca = false;
-    this.carregarAlunos(this.idEvento);
-  }
-
   get alunosFiltrados(): ListaPresencaDTO[] {
     if (!this.termoBusca) {
-        return this.alunos;
+      return this.alunos;
     }
 
     const termoBuscaLower = this.termoBusca.toLowerCase();
 
     return this.alunos.filter(aluno => {
-        return aluno.nomeAluno.toLowerCase().includes(termoBuscaLower);
+      return aluno.nomeAluno.toLowerCase().includes(termoBuscaLower);
     });
-}
+  }
+
+  /*----------- Funções de carregar dados -----------*/
+  carregarFuncionarios() {
+    this.listaChamadaService.buscarFuncionariosAtivos().subscribe({
+      next: (dados: FuncionariosAtivosDTO[]) => {
+        this.funcionarios = dados;
+        this.opcoesAtuacao = this.funcionarios;
+      },
+      error: (err) => {
+        console.error('Erro ao buscar funcionários', err);
+      }
+    });
+  }
+
+  carregarAlunos(idEvento: number) {
+    this.listaGeralService.buscarAlunos(idEvento).subscribe({
+      next: (dados: ListaPresencaDTO[]) => {
+        this.alunos = dados;
+        console.log(this.alunos);
+      },
+      error: (err) => {
+        console.error('Erro ao buscar listas', err);
+      }
+    });
+  }
+
+  carregarListasDeChamada(idEvento: number) {
+    this.listaGeralService.buscarChamada(idEvento).subscribe({
+      next: (dados: BuscarEventosCadastradoDTO) => {
+        this.dadosEvento = dados;
+        console.log(this.dadosEvento);
+      },
+      error: (err) => {
+        console.error('Erro ao buscar listas', err);
+      }
+    });
+  }
+
+  carregarDadosLogin() {
+    const funcionarioString = localStorage.getItem("funcionario");
+
+    if (funcionarioString) {
+      try {
+        this.funcionarioLogado = JSON.parse(funcionarioString);
+        console.log('Dados do Funcionário Logado:', this.funcionarioLogado);
+
+      } catch (e) {
+        console.error("Erro ao analisar dados do funcionário no localStorage:", e);
+        localStorage.removeItem("funcionario");
+      }
+    } else {
+      console.warn("Nenhuma informação de funcionário encontrada no localStorage.");
+    }
+  }
+
+  carregarAlunosOriginal() {
+    this.modoEdicaoPresenca = false;
+    this.carregarAlunos(this.idEvento);
+  }
 
 }

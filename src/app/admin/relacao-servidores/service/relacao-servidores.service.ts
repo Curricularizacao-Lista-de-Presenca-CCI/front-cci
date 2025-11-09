@@ -9,7 +9,7 @@ import { InativarServidorForm } from '../../../shared/models/inativar-servidor-f
 })
 export class RelacaoServidoresService {
 
-    public baseApiUrl = "http://localhost:8080/funcionario";
+  public baseApiUrl = "http://localhost:8080/funcionario";
 
   constructor(
     private http: HttpClient

@@ -32,10 +32,12 @@
             *ngFor="let lista of listasFiltradas">
             <div class="card-nome">{{ lista.titulo }}</div>
             <div class="d-flex gap-4">
-              <button [routerLink]="['/busca-presenca', lista.idEvento]" class="btn btn-primary" *ngIf="lista?.finalizado === false">
+              <button [routerLink]="['/busca-presenca', lista.idEvento]" class="btn btn-primary"
+                *ngIf="lista?.finalizado === false">
                 <i class="bi bi-journal-check"></i> Realizar Chamada
               </button>
-              <button [routerLink]="['/lista-geral', lista.idEvento]" class="btn btn-primary" *ngIf="lista?.finalizado === false">
+              <button [routerLink]="['/lista-geral', lista.idEvento]" class="btn btn-primary"
+                *ngIf="lista?.finalizado === false">
                 <i class="bi bi-search"></i> Consultar
               </button>
               <button class="btn btn-primary" (click)="baixarRelatorio(lista.idEvento)"
@@ -132,8 +134,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger"
-          (click)="deletarChamada()">Deletar</button>
+        <button type="button" class="btn btn-danger" (click)="deletarChamada()">Deletar</button>
       </div>
     </div>
   </div>

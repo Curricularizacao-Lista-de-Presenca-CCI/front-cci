@@ -18,6 +18,6 @@ export class RegistroServiceService {
   public cadastrarFuncionario(funcionario: Funcionario): Observable<void> {
     return this.http.post<void>(`${this.baseApiUrl}/cadastrar`, funcionario);
   }
-  
+
 }
 

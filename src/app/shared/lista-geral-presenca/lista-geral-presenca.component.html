@@ -27,7 +27,8 @@
                 </div>
 
                 <button class="btn btn-primary px-3 py-2 fs-6" (click)="abrirModalEditarChamada()"
-                  *ngIf="funcionarioLogado?.atuacao === 'C' && dadosEvento?.finalizado == false && !modoEdicaoPresenca">Editar Evento
+                  *ngIf="funcionarioLogado?.atuacao === 'C' && dadosEvento?.finalizado == false && !modoEdicaoPresenca">Editar
+                  Evento
                 </button>
                 <div class="acao-botoes d-flex align-items-center gap-4">
                   <button class="btn btn-primary px-3 py-2 fs-6" (click)="modoEdicaoPresenca = true"
@@ -37,7 +38,7 @@
 
                 </div>
                 <button class="btn btn-success px-3 py-2 fs-6" (click)="abrirModalChamada()"
-                  *ngIf="funcionarioLogado?.atuacao === 'C' && dadosEvento?.finalizado == false && !modoEdicaoPresenca" >Finalizar
+                  *ngIf="funcionarioLogado?.atuacao === 'C' && dadosEvento?.finalizado == false && !modoEdicaoPresenca">Finalizar
                   chamada
                 </button>
               </div>

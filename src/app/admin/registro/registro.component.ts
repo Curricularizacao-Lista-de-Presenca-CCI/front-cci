@@ -20,6 +20,7 @@ import Toast from 'bootstrap/js/dist/toast';
 })
 export class RegistroComponent implements OnInit {
 
+  /*----------- Definições das Variáveis -----------*/
   @ViewChild('dialogConfirmacaoRef') modalConfirmacaoEl!: ElementRef;
   @ViewChild('dialogSucessoRef') modalSucessoEl!: ElementRef;
   @ViewChild('liveToastGeneric') liveToastGenericRef!: ElementRef;
@@ -37,7 +38,7 @@ export class RegistroComponent implements OnInit {
   private _dialogSucesso: boolean = false;
   public opcoesAtuacao = [
     { label: 'Coordenador', value: Atuacao.C },
-    { label: 'Professor',   value: Atuacao.P }
+    { label: 'Professor', value: Atuacao.P }
   ];
 
   constructor(
@@ -54,6 +55,8 @@ export class RegistroComponent implements OnInit {
     });
   }
 
+
+  /*----------- Configurações dos Dialogs -----------*/
   ngAfterViewInit(): void {
     if (this.modalConfirmacaoEl) {
       this.modalConfirmacao = new Modal(this.modalConfirmacaoEl.nativeElement);
@@ -99,33 +102,33 @@ export class RegistroComponent implements OnInit {
     this.dialogConfirmacao = true;
   }
 
+  /*----------- Função Cadastrar -----------*/
+  cadastrar() {
+    if (this.cadastroForm.invalid) {
+      console.error("Formulário inválido. Preencha todos os campos obrigatórios.");
+      this.cadastroForm.markAllAsTouched();
+      return;
+    }
 
-cadastrar() {
-  if (this.cadastroForm.invalid) {
-    console.error("Formulário inválido. Preencha todos os campos obrigatórios.");
-    this.cadastroForm.markAllAsTouched();
-    return;
-  }
+    const funcionarioParaEnviar: Funcionario = new FuncionarioForm();
+    funcionarioParaEnviar.nome = this.cadastroForm.get("nome")?.value;
+    funcionarioParaEnviar.email = this.cadastroForm.get("email")?.value;
+    funcionarioParaEnviar.senha = this.cadastroForm.get("senha")?.value;
+    funcionarioParaEnviar.atuacao = this.cadastroForm.get("areaAtuacao")?.value;;
 
-  const funcionarioParaEnviar: Funcionario = new FuncionarioForm();
-  funcionarioParaEnviar.nome = this.cadastroForm.get("nome")?.value;
-  funcionarioParaEnviar.email = this.cadastroForm.get("email")?.value;
-  funcionarioParaEnviar.senha = this.cadastroForm.get("senha")?.value;
-  funcionarioParaEnviar.atuacao = this.cadastroForm.get("areaAtuacao")?.value;;
+    this.dialogConfirmacao = false;
 
-  this.dialogConfirmacao = false;
-
-  this.registro.cadastrarFuncionario(funcionarioParaEnviar).subscribe({
-    next: () => {
-      this.dialogSucesso = true;
-      this.cadastroForm.reset();
-    },
-    error: (err) => {
+    this.registro.cadastrarFuncionario(funcionarioParaEnviar).subscribe({
+      next: () => {
+        this.dialogSucesso = true;
+        this.cadastroForm.reset();
+      },
+      error: (err) => {
         this.mensagemToast = err.error?.message || 'Erro ao registrar presença.';
         this.toast.show();
-    }
-  });
-} 
+      }
+    });
+  }
 
   get nome() {
     return this.cadastroForm.get('nome');

@@ -21,7 +21,7 @@ export class LoginService {
     return this.http.post<any>(`${this.baseApiUrl}/login`, dadosLogin)
       .pipe(
         tap(response => {
-          const token = response.token; 
+          const token = response.token;
 
           if (token) {
             localStorage.setItem("token", token);

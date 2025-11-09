@@ -94,7 +94,7 @@
 .overlay.active {
   background-color: rgba(0, 0, 0, 0.4);
   opacity: 1;
-  pointer-events: all; 
+  pointer-events: all;
 }
 
 @media (max-width: 991px) {

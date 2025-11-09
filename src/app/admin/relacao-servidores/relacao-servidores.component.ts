@@ -3,7 +3,7 @@ import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { RelacaoServidoresService } from './service/relacao-servidores.service';
 import { Funcionario } from '../../shared/models/funcionario';
-import { NgFor, NgForOf, NgIf } from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
 import Modal from 'bootstrap/js/dist/modal';
 import { Atuacao } from '../../shared/models/atuacao';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -18,6 +18,7 @@ import { InativarServidorForm } from '../../shared/models/inativar-servidor-form
 })
 export class RelacaoServidoresComponent {
 
+  /*----------- Definições das Variáveis -----------*/
   @ViewChild('dialogaAlterarDados') modalAlterarDadosEl!: ElementRef;
   @ViewChild('liveToastGeneric') liveToastGenericRef!: ElementRef;
 
@@ -64,6 +65,7 @@ export class RelacaoServidoresComponent {
     });
   }
 
+  /*----------- Configurações dos Dialogs -----------*/
   ngAfterViewInit(): void {
     if (this.modalAlterarDadosEl) {
       this.modalAlterarDados = new Modal(this.modalAlterarDadosEl.nativeElement);
@@ -103,6 +105,23 @@ export class RelacaoServidoresComponent {
     );
   }
 
+  abrirModalInativar(funcionario: Funcionario) {
+    this.funcionarioSelecionado = funcionario;
+  }
+
+  get listaFuncionariosFiltrada(): Funcionario[] {
+    if (!this.termoBusca) {
+      return this.listaFuncionarios;
+    }
+
+    const termoBuscaLower = this.termoBusca.toLowerCase();
+
+    return this.listaFuncionarios.filter(funcionario => {
+      return funcionario.nome.toLowerCase().includes(termoBuscaLower);
+    });
+  }
+
+  /*----------- Funções de Enviar Arquivo e Inativar Servidor -----------*/
   enviarAlteracoes() {
     if (this.alteracaoForm.invalid || !this.funcionarioSelecionado) {
       console.error('Formulário inválido ou funcionário não selecionado.');
@@ -134,14 +153,12 @@ export class RelacaoServidoresComponent {
   }
 
   inativarServidor() {
-
     if (!this.funcionarioSelecionado) {
       console.error('Nenhum funcionário selecionado para inativar/ativar.');
       return;
     }
 
     const novoStatus = !this.funcionarioSelecionado.ativo;
-
     const dadosInativar: InativarServidorForm = {
       idFuncionario: this.funcionarioSelecionado.id,
       statusFuncionario: novoStatus,
@@ -167,6 +184,7 @@ export class RelacaoServidoresComponent {
     });
   }
 
+  /*----------- Funções de carregar dados -----------*/
   carregarlistaFuncionarios() {
     this.relacaoServidoresService.buscarListaFuncionarios().subscribe({
       next: (dados: Funcionario[]) => {
@@ -176,22 +194,6 @@ export class RelacaoServidoresComponent {
       error: (err) => {
         console.error('Erro ao buscar funcionários', err);
       }
-    });
-  }
-
-  abrirModalInativar(funcionario: Funcionario) {
-    this.funcionarioSelecionado = funcionario;
-  }
-
-  get listaFuncionariosFiltrada(): Funcionario[] {
-    if (!this.termoBusca) {
-      return this.listaFuncionarios;
-    }
-
-    const termoBuscaLower = this.termoBusca.toLowerCase();
-
-    return this.listaFuncionarios.filter(funcionario => {
-      return funcionario.nome.toLowerCase().includes(termoBuscaLower);
     });
   }
 }

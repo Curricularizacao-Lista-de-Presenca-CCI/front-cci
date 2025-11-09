@@ -18,9 +18,10 @@ import { ListaGeralPresencaService } from '../lista-geral-presenca/service/lista
 })
 export class ListaChamadaComponent {
 
+  /*----------- Definições das Variáveis -----------*/
   mensagemToast: string = '';
   toastClass: string = '';
-  
+
   @ViewChild('dialogImporteChamada') modalImporteChamadaEl!: ElementRef;
   @ViewChild('dialogDeletarChamadaRef') modalDeletarChamadaEl!: ElementRef;
   @ViewChild('fileInputRef') fileInputRef!: ElementRef;
@@ -49,6 +50,19 @@ export class ListaChamadaComponent {
   private modalImporteChamada: Modal | undefined;
   private _dialogImporteChamada: boolean = false;
 
+  ngOnInit() {
+    this.chamadaForm = this.formBuilder.group({
+      arquivo: [null, [Validators.required]],
+      local: ['', [Validators.required]],
+      servidor: [null, [Validators.required]],
+    });
+    this.carregarFuncionarios();
+    this.carregarDadosLogin();
+    this.carregarListas(this.funcionarioLogado.id);
+    this.carregarListasDeChamada(this.idEvento);
+  }
+
+  /*----------- Configurações dos Dialogs -----------*/
   ngAfterViewInit(): void {
     if (this.modalImporteChamadaEl) {
       this.modalImporteChamada = new Modal(this.modalImporteChamadaEl.nativeElement);
@@ -80,18 +94,6 @@ export class ListaChamadaComponent {
     this.dialogImporteChamada = true;
   }
 
-  ngOnInit() {
-    this.chamadaForm = this.formBuilder.group({
-      arquivo: [null, [Validators.required]],
-      local: ['', [Validators.required]],
-      servidor: [null, [Validators.required]],
-    });
-    this.carregarFuncionarios();
-    this.carregarDadosLogin();
-    this.carregarListas(this.funcionarioLogado.id);
-    this.carregarListasDeChamada(this.idEvento);
-  }
-
   set dialogDeletarChamada(value: boolean) {
     this._dialogDeletarChamada = value;
     if (value) {
@@ -112,46 +114,7 @@ export class ListaChamadaComponent {
 
   }
 
-  carregarDadosLogin() {
-    const funcionarioString = localStorage.getItem("funcionario");
-
-    if (funcionarioString) {
-      try {
-        this.funcionarioLogado = JSON.parse(funcionarioString);
-        console.log('Dados do Funcionário Logado:', this.funcionarioLogado);
-
-      } catch (e) {
-        console.error("Erro ao analisar dados do funcionário no localStorage:", e);
-        localStorage.removeItem("funcionario");
-      }
-    } else {
-      console.warn("Nenhuma informação de funcionário encontrada no localStorage.");
-    }
-  }
-
-  carregarListasDeChamada(idEvento: number) {
-    this.listaGeralService.buscarChamada(idEvento).subscribe({
-      next: (dados: BuscarEventosCadastradoDTO) => {
-        this.dadosEvento = dados;
-        console.log(this.dadosEvento);
-      },
-      error: (err) => {
-        console.error('Erro ao buscar listas', err);
-      }
-    });
-  }
-
-  carregarFuncionarios() {
-    this.listaChamadaService.buscarFuncionariosAtivos().subscribe({
-      next: (dados: FuncionariosAtivosDTO[]) => {
-        this.funcionarios = dados;
-      },
-      error: (err) => {
-        console.error('Erro ao buscar funcionários', err);
-      }
-    });
-  }
-
+  /*----------- Funções de carregar os arquivos, baixar relatório e deletar chamada -----------*/
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
@@ -211,7 +174,6 @@ export class ListaChamadaComponent {
     });
   }
 
-
   public baixarRelatorio(idEvento: number): void {
     this.listaChamadaService.buscarPDF(idEvento).subscribe({
       next: (blob: Blob) => {
@@ -233,18 +195,6 @@ export class ListaChamadaComponent {
       error: (err) => {
         this.mensagemToast = err.error?.message || 'Erro ao baixar relatório.';
         this.toast.show();
-      }
-    });
-  }
-
-  carregarListas(idFuncionario: number) {
-    this.listaChamadaService.buscarListasDeChamada(idFuncionario).subscribe({
-      next: (dados: BuscarEventosCadastradoDTO[]) => {
-        this.listas = dados;
-        console.log(dados);
-      },
-      error: (err) => {
-        console.error('Erro ao buscar listas', err);
       }
     });
   }
@@ -273,12 +223,65 @@ export class ListaChamadaComponent {
 
   get listasFiltradas(): BuscarEventosCadastradoDTO[] {
     if (!this.termoBusca) {
-        return this.listas;
+      return this.listas;
     }
     const termoBuscaLower = this.termoBusca.toLowerCase();
     return this.listas.filter(lista => {
-        return lista.titulo.toLowerCase().includes(termoBuscaLower);
+      return lista.titulo.toLowerCase().includes(termoBuscaLower);
     });
-}
+  }
+
+  /*----------- Funções de carregar dados -----------*/
+  carregarDadosLogin() {
+    const funcionarioString = localStorage.getItem("funcionario");
+
+    if (funcionarioString) {
+      try {
+        this.funcionarioLogado = JSON.parse(funcionarioString);
+        console.log('Dados do Funcionário Logado:', this.funcionarioLogado);
+
+      } catch (e) {
+        console.error("Erro ao analisar dados do funcionário no localStorage:", e);
+        localStorage.removeItem("funcionario");
+      }
+    } else {
+      console.warn("Nenhuma informação de funcionário encontrada no localStorage.");
+    }
+  }
+
+  carregarListasDeChamada(idEvento: number) {
+    this.listaGeralService.buscarChamada(idEvento).subscribe({
+      next: (dados: BuscarEventosCadastradoDTO) => {
+        this.dadosEvento = dados;
+        console.log(this.dadosEvento);
+      },
+      error: (err) => {
+        console.error('Erro ao buscar listas', err);
+      }
+    });
+  }
+
+  carregarFuncionarios() {
+    this.listaChamadaService.buscarFuncionariosAtivos().subscribe({
+      next: (dados: FuncionariosAtivosDTO[]) => {
+        this.funcionarios = dados;
+      },
+      error: (err) => {
+        console.error('Erro ao buscar funcionários', err);
+      }
+    });
+  }
+
+  carregarListas(idFuncionario: number) {
+    this.listaChamadaService.buscarListasDeChamada(idFuncionario).subscribe({
+      next: (dados: BuscarEventosCadastradoDTO[]) => {
+        this.listas = dados;
+        console.log(dados);
+      },
+      error: (err) => {
+        console.error('Erro ao buscar listas', err);
+      }
+    });
+  }
 
 }

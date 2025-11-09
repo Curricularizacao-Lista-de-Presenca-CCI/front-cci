@@ -34,7 +34,8 @@
               *ngFor="let funcionario of listaFuncionariosFiltrada">
               <div class="text-primary fw-semibold" [class.text-muted]="!funcionario.ativo">{{ funcionario.nome }}</div>
               <div class="d-flex gap-2">
-                <button class="btn btn-primary px-3" *ngIf="funcionario.ativo" (click)="abrirModalAlterarFuncionario(funcionario)">
+                <button class="btn btn-primary px-3" *ngIf="funcionario.ativo"
+                  (click)="abrirModalAlterarFuncionario(funcionario)">
                   <i class="bi bi-pencil"></i> Editar
                 </button>
 

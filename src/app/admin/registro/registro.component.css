@@ -175,12 +175,12 @@ html {
     overflow-y: auto;
     height: auto;
     min-height: 100vh;
-    padding-top: 60px; 
+    padding-top: 60px;
   }
 
   .page-title {
     font-size: 2rem;
-    margin-top: 40px; 
+    margin-top: 40px;
     text-align: center;
   }
 
