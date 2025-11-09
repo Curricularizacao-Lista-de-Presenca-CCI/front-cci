@@ -1,6 +1,9 @@
 export interface BuscarEventosCadastradoDTO {
     idEvento: number;
-    nomeEvento: string;
+    titulo: string;
     dataEvento: string;
     finalizado: boolean;
+    local : string;
+    funcionario : string;
+    idFuncionario: number;
 }
