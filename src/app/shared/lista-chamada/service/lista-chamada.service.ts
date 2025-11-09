@@ -29,6 +29,10 @@ export class ListaChamadaService {
     return this.http.get<BuscarEventosCadastradoDTO[]>(`${this.baseApiUrlEvento}/buscar-lista-chamadas/${idFuncionario}`);
   }
 
+  public deletarChamada(idEvento: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseApiUrlEvento}/remover-lista-chamada/${idEvento}`);
+  }
+
   public buscarPDF(idEvento: number): Observable<Blob> {
     return this.http.get(`${this.baseApiUrl}/buscar-pdf/${idEvento}`, {
       responseType: 'blob'

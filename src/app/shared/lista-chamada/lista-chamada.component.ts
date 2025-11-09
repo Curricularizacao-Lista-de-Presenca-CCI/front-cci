@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } 
 import { FuncionariosAtivosDTO } from '../models/funcionarios-ativos-dto';
 import { NgFor, NgIf } from '@angular/common';
 import { BuscarEventosCadastradoDTO } from '../models/buscar-eventos-cadastrado-dto';
+import { ListaGeralPresencaService } from '../lista-geral-presenca/service/lista-geral-presenca.service';
 
 @Component({
   selector: 'app-lista-chamada',
@@ -23,20 +24,28 @@ export class ListaChamadaComponent {
   @ViewChild('liveToastError') liveToastRefError!: ElementRef;
   @ViewChild('liveToastSuccess') liveToastRefSuccess!: ElementRef;
   @ViewChild('dialogImporteChamada') modalImporteChamadaEl!: ElementRef;
+  @ViewChild('dialogDeletarChamadaRef') modalDeletarChamadaEl!: ElementRef;
   @ViewChild('fileInputRef') fileInputRef!: ElementRef;
 
 
   constructor(
     private listaChamadaService: ListaChamadaService,
     private formBuilder: FormBuilder,
+    private listaGeralService: ListaGeralPresencaService,
   ) { }
 
   funcionarioLogado: any;
+  idEvento!: number;
+  eventoSelecionado!: BuscarEventosCadastradoDTO;
   chamadaForm!: FormGroup;
   nomeArquivo: string | null = null;
+  private modalDeletarChamada: Modal | undefined;
+  private _dialogDeletarChamada: boolean = false;
+  public dadosEvento!: BuscarEventosCadastradoDTO;
 
   funcionarios: FuncionariosAtivosDTO[] = [];
   listas: BuscarEventosCadastradoDTO[] = [];
+  termoBusca: string = '';
 
   private modalImporteChamada: Modal | undefined;
   private _dialogImporteChamada: boolean = false;
@@ -44,6 +53,10 @@ export class ListaChamadaComponent {
   ngAfterViewInit(): void {
     if (this.modalImporteChamadaEl) {
       this.modalImporteChamada = new Modal(this.modalImporteChamadaEl.nativeElement);
+    }
+
+    if (this.modalDeletarChamadaEl) {
+      this.modalDeletarChamada = new Modal(this.modalDeletarChamadaEl.nativeElement);
     }
   }
 
@@ -73,16 +86,37 @@ export class ListaChamadaComponent {
     this.carregarFuncionarios();
     this.carregarDadosLogin();
     this.carregarListas(this.funcionarioLogado.id);
+    this.carregarListasDeChamada(this.idEvento);
+  }
+
+  set dialogDeletarChamada(value: boolean) {
+    this._dialogDeletarChamada = value;
+    if (value) {
+      this.modalDeletarChamada?.show();
+    } else {
+      this.modalDeletarChamada?.hide();
+    }
+  }
+
+  get dialogDeletarChamada(): boolean {
+    return this._dialogDeletarChamada;
+  }
+
+  abrirModalDeletarChamada(evento: BuscarEventosCadastradoDTO) {
+    this.dialogDeletarChamada = true;
+    this.eventoSelecionado = evento;
+    this.idEvento = evento.idEvento;
+
   }
 
   carregarDadosLogin() {
     const funcionarioString = localStorage.getItem("funcionario");
-    
+
     if (funcionarioString) {
       try {
         this.funcionarioLogado = JSON.parse(funcionarioString);
         console.log('Dados do Funcionário Logado:', this.funcionarioLogado);
-        
+
       } catch (e) {
         console.error("Erro ao analisar dados do funcionário no localStorage:", e);
         localStorage.removeItem("funcionario");
@@ -90,6 +124,18 @@ export class ListaChamadaComponent {
     } else {
       console.warn("Nenhuma informação de funcionário encontrada no localStorage.");
     }
+  }
+
+  carregarListasDeChamada(idEvento: number) {
+    this.listaGeralService.buscarChamada(idEvento).subscribe({
+      next: (dados: BuscarEventosCadastradoDTO) => {
+        this.dadosEvento = dados;
+        console.log(this.dadosEvento);
+      },
+      error: (err) => {
+        console.error('Erro ao buscar listas', err);
+      }
+    });
   }
 
   carregarFuncionarios() {
@@ -207,5 +253,41 @@ export class ListaChamadaComponent {
       }
     });
   }
+
+  public deletarChamada(): void {
+
+    const toastSucess = new Toast(this.liveToastRefSuccess.nativeElement);
+    const toastError = new Toast(this.liveToastRefError.nativeElement);
+
+    if (!this.idEvento) {
+      console.error('ID do evento não encontrado!');
+      return;
+    }
+
+    this.listaChamadaService.deletarChamada(this.idEvento).subscribe({
+      next: () => {
+        this.dialogDeletarChamada = false;
+        toastSucess.show();
+        this.carregarListas(this.funcionarioLogado.id);
+        this.mensagemSucesso = 'Chamada deletada com sucesso!';
+        console.log('Chamada deletada com sucesso!');
+      },
+      error: (err) => {
+        toastError.show();
+        this.mensagemErro = 'Não foi possível deletar a chamada. Verifique os dados';
+        console.error('Erro ao finalizar chamada:', err);
+      }
+    });
+  }
+
+  get listasFiltradas(): BuscarEventosCadastradoDTO[] {
+    if (!this.termoBusca) {
+        return this.listas;
+    }
+    const termoBuscaLower = this.termoBusca.toLowerCase();
+    return this.listas.filter(lista => {
+        return lista.titulo.toLowerCase().includes(termoBuscaLower);
+    });
+}
 
 }

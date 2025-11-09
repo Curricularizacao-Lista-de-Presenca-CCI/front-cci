@@ -71,7 +71,6 @@ html, body {
 }
 
 .card-lista .btn {
-  background-color: #0d6efd;
   color: white;
   font-weight: 500;
   border: none;
@@ -79,10 +78,6 @@ html, body {
   padding: 0.5rem 1.1rem;
   font-size: 0.95rem;
   transition: background-color 0.2s ease;
-}
-
-.card-lista .btn:hover {
-  background-color: #147BE3;
 }
 
 .menu-overlay {
